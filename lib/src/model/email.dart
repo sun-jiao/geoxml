@@ -4,24 +4,20 @@ class Email {
   String id;
   String domain;
 
-  Email({this.id = "", this.domain = ""});
+  Email({this.id = '', this.domain = ''});
 
   @override
-  bool operator ==(other) {
+  bool operator ==(other) { // ignore: type_annotate_public_apis
     if (other is Email) {
-      return other.id == this.id && other.domain == this.domain;
+      return other.id == id && other.domain == domain;
     }
 
     return false;
   }
 
   @override
-  String toString() {
-    return "Email[${[id, domain].join(",")}]";
-  }
+  String toString() => "Email[${[id, domain].join(",")}]";
 
   @override
-  int get hashCode {
-    return hashObjects([id, domain]);
-  }
+  int get hashCode => hashObjects([id, domain]);
 }

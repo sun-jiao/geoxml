@@ -11,21 +11,17 @@ class Person {
   Person({this.name, this.email, this.link});
 
   @override
-  bool operator ==(other) {
+  bool operator ==(other) { // ignore: type_annotate_public_apis
     if (other is Person) {
-      return other.name == this.name && other.email == this.email && other.link == this.link;
+      return other.name == name && other.email == email && other.link == link;
     }
 
     return false;
   }
 
   @override
-  String toString() {
-    return "Metadata[${[name, email, link].join(",")}]";
-  }
+  String toString() => "Metadata[${[name, email, link].join(",")}]";
 
   @override
-  int get hashCode {
-    return hashObjects([name, email, link]);
-  }
+  int get hashCode => hashObjects([name, email, link]);
 }

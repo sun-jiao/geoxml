@@ -20,28 +20,24 @@ class Trk {
         trksegs = trksegs ?? [];
 
   @override
-  bool operator ==(other) {
+  bool operator ==(other) { // ignore: type_annotate_public_apis
     if (other is Trk) {
-      return other.name == this.name &&
-          other.cmt == this.cmt &&
-          other.desc == this.desc &&
-          other.src == this.src &&
-          ListEquality().equals(other.links, this.links) &&
-          other.number == this.number &&
-          other.type == this.type &&
-          ListEquality().equals(other.trksegs, this.trksegs);
+      return other.name == name &&
+          other.cmt == cmt &&
+          other.desc == desc &&
+          other.src == src &&
+          const ListEquality().equals(other.links, links) &&
+          other.number == number &&
+          other.type == type &&
+          const ListEquality().equals(other.trksegs, trksegs);
     }
 
     return false;
   }
 
   @override
-  String toString() {
-    return "Trk[${[name, type, trksegs].join(",")}]";
-  }
+  String toString() => "Trk[${[name, type, trksegs].join(",")}]";
 
   @override
-  int get hashCode {
-    return hashObjects([name, cmt, desc, src, links, number, type, trksegs]);
-  }
+  int get hashCode => hashObjects([name, cmt, desc, src, links, number, type, trksegs]);
 }

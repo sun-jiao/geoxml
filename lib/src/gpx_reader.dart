@@ -20,24 +20,25 @@ class GpxReader {
 //  }
 
   Gpx fromString(String xml) {
-    var parserIt = parseEvents(xml).iterator;
+    final parserIt = parseEvents(xml).iterator;
 
     while (parserIt.moveNext()) {
-      var val = parserIt.current;
+      final val = parserIt.current;
 
       if (val is XmlStartElementEvent && val.name == GpxTagV11.gpx) {
         break;
       }
     }
 
-    var gpxTag = parserIt.current as XmlStartElementEvent;
-    var gpx = Gpx();
+    // ignore: avoid_as
+    final gpxTag = parserIt.current as XmlStartElementEvent;
+    final gpx = Gpx();
 
     gpx.version = gpxTag.attributes.firstWhere((attr) => attr.name == GpxTagV11.version).value;
     gpx.creator = gpxTag.attributes.firstWhere((attr) => attr.name == GpxTagV11.creator).value;
 
     while (parserIt.moveNext()) {
-      var val = parserIt.current;
+      final val = parserIt.current;
       if (val is XmlEndElementEvent && val.name == GpxTagV11.gpx) {
         break;
       }
@@ -68,11 +69,12 @@ class GpxReader {
   }
 
   Metadata _parseMetadata(Iterator<XmlEvent> iterator) {
-    var metadata = Metadata();
+    final metadata = Metadata();
+    final elm = iterator.current;
 
-    if (!(iterator.current as XmlStartElementEvent).isSelfClosing) {
+    if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
       while (iterator.moveNext()) {
-        var val = iterator.current;
+        final val = iterator.current;
 
         if (val is XmlStartElementEvent) {
           switch (val.name) {
@@ -115,11 +117,12 @@ class GpxReader {
   }
 
   Rte _parseRoute(Iterator<XmlEvent> iterator) {
-    var rte = Rte();
+    final rte = Rte();
+    final elm = iterator.current;
 
-    if (!(iterator.current as XmlStartElementEvent).isSelfClosing) {
+    if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
       while (iterator.moveNext()) {
-        var val = iterator.current;
+        final val = iterator.current;
 
         if (val is XmlStartElementEvent) {
           switch (val.name) {
@@ -163,11 +166,12 @@ class GpxReader {
   }
 
   Trk _parseTrack(Iterator<XmlEvent> iterator) {
-    var trk = Trk();
+    final trk = Trk();
+    final elm = iterator.current;
 
-    if (!(iterator.current as XmlStartElementEvent).isSelfClosing) {
+    if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
       while (iterator.moveNext()) {
-        var val = iterator.current;
+        final val = iterator.current;
 
         if (val is XmlStartElementEvent) {
           switch (val.name) {
@@ -211,24 +215,21 @@ class GpxReader {
   }
 
   Wpt _readPoint(Iterator<XmlEvent> iterator, String tagName) {
-    var wpt = Wpt();
+    final wpt = Wpt();
+    final elm = iterator.current;
 
-    wpt.lat = double.parse((iterator.current as XmlStartElementEvent)
-        .attributes
-        .firstWhere((attr) => attr.name == GpxTagV11.latitude)
-        .value);
-    wpt.lon = double.parse((iterator.current as XmlStartElementEvent)
-        .attributes
-        .firstWhere((attr) => attr.name == GpxTagV11.longitude)
-        .value);
+    if (elm is XmlStartElementEvent) {
+      wpt.lat = double.parse(elm.attributes.firstWhere((attr) => attr.name == GpxTagV11.latitude).value);
+      wpt.lon = double.parse(elm.attributes.firstWhere((attr) => attr.name == GpxTagV11.longitude).value);
+    }
 
-    if (!(iterator.current as XmlStartElementEvent).isSelfClosing) {
+    if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
       while (iterator.moveNext()) {
-        var val = iterator.current;
+        final val = iterator.current;
 
         if (val is XmlStartElementEvent) {
           switch (val.name) {
-            // TODO add tags
+            // TODO(kb00): add tags
             // wpt.ageofdgpsdata
             // wpt.geoidheight
             // wpt.dgpsid
@@ -290,22 +291,21 @@ class GpxReader {
   }
 
   String _readString(Iterator<XmlEvent> iterator, String tagName) {
-    if (!(iterator.current is XmlStartElementEvent && (iterator.current as XmlStartElementEvent).name == tagName)) {
+    final elm = iterator.current;
+    if (!(elm is XmlStartElementEvent && elm.name == tagName && !elm.isSelfClosing)) {
       return null;
     }
 
-    var string = "";
-    if (!(iterator.current as XmlStartElementEvent).isSelfClosing) {
-      while (iterator.moveNext()) {
-        var val = iterator.current;
+    var string = '';
+    while (iterator.moveNext()) {
+      final val = iterator.current;
 
-        if (val is XmlTextEvent) {
-          string += val.text;
-        }
+      if (val is XmlTextEvent) {
+        string += val.text;
+      }
 
-        if (val is XmlEndElementEvent && val.name == tagName) {
-          break;
-        }
+      if (val is XmlEndElementEvent && val.name == tagName) {
+        break;
       }
     }
 
@@ -313,11 +313,12 @@ class GpxReader {
   }
 
   Trkseg _readSegment(Iterator<XmlEvent> iterator) {
-    Trkseg trkseg = Trkseg();
+    final trkseg = Trkseg();
+    final elm = iterator.current;
 
-    if (!(iterator.current as XmlStartElementEvent).isSelfClosing) {
+    if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
       while (iterator.moveNext()) {
-        var val = iterator.current;
+        final val = iterator.current;
 
         if (val is XmlStartElementEvent) {
           switch (val.name) {
@@ -337,14 +338,16 @@ class GpxReader {
   }
 
   Link _readLink(Iterator<XmlEvent> iterator) {
-    Link link = Link();
+    final link = Link();
+    final elm = iterator.current;
 
-    link.href =
-        (iterator.current as XmlStartElementEvent).attributes.firstWhere((attr) => attr.name == GpxTagV11.href).value;
+    if (elm is XmlStartElementEvent) {
+      link.href = elm.attributes.firstWhere((attr) => attr.name == GpxTagV11.href).value;
+    }
 
-    if (!(iterator.current as XmlStartElementEvent).isSelfClosing) {
+    if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
       while (iterator.moveNext()) {
-        var val = iterator.current;
+        final val = iterator.current;
 
         if (val is XmlStartElementEvent) {
           switch (val.name) {
@@ -367,11 +370,12 @@ class GpxReader {
   }
 
   Person _readPerson(Iterator<XmlEvent> iterator) {
-    Person person = Person();
+    final person = Person();
+    final elm = iterator.current;
 
-    if (!(iterator.current as XmlStartElementEvent).isSelfClosing) {
+    if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
       while (iterator.moveNext()) {
-        var val = iterator.current;
+        final val = iterator.current;
 
         if (val is XmlStartElementEvent) {
           switch (val.name) {
@@ -397,28 +401,30 @@ class GpxReader {
   }
 
   Copyright _readCopyright(Iterator<XmlEvent> iterator) {
-    Copyright copyright = Copyright();
+    final copyright = Copyright();
+    final elm = iterator.current;
 
-    copyright.author =
-        (iterator.current as XmlStartElementEvent).attributes.firstWhere((attr) => attr.name == GpxTagV11.author).value;
+    if (elm is XmlStartElementEvent) {
+      copyright.author = elm.attributes.firstWhere((attr) => attr.name == GpxTagV11.author).value;
 
-    if (!(iterator.current as XmlStartElementEvent).isSelfClosing) {
-      while (iterator.moveNext()) {
-        var val = iterator.current;
+      if (!elm.isSelfClosing) {
+        while (iterator.moveNext()) {
+          final val = iterator.current;
 
-        if (val is XmlStartElementEvent) {
-          switch (val.name) {
-            case GpxTagV11.year:
-              copyright.year = int.parse(_readString(iterator, GpxTagV11.year));
-              break;
-            case GpxTagV11.license:
-              copyright.license = _readString(iterator, GpxTagV11.license);
-              break;
+          if (val is XmlStartElementEvent) {
+            switch (val.name) {
+              case GpxTagV11.year:
+                copyright.year = int.parse(_readString(iterator, GpxTagV11.year));
+                break;
+              case GpxTagV11.license:
+                copyright.license = _readString(iterator, GpxTagV11.license);
+                break;
+            }
           }
-        }
 
-        if (val is XmlEndElementEvent && val.name == GpxTagV11.copyright) {
-          break;
+          if (val is XmlEndElementEvent && val.name == GpxTagV11.copyright) {
+            break;
+          }
         }
       }
     }
@@ -427,31 +433,22 @@ class GpxReader {
   }
 
   Bounds _readBounds(Iterator<XmlEvent> iterator) {
-    Bounds bounds = Bounds();
+    final bounds = Bounds();
+    final elm = iterator.current;
 
-    bounds.minlat = double.parse((iterator.current as XmlStartElementEvent)
-        .attributes
-        .firstWhere((attr) => attr.name == GpxTagV11.minLatitude)
-        .value);
-    bounds.minlon = double.parse((iterator.current as XmlStartElementEvent)
-        .attributes
-        .firstWhere((attr) => attr.name == GpxTagV11.minLongitude)
-        .value);
-    bounds.maxlat = double.parse((iterator.current as XmlStartElementEvent)
-        .attributes
-        .firstWhere((attr) => attr.name == GpxTagV11.maxLatitude)
-        .value);
-    bounds.maxlon = double.parse((iterator.current as XmlStartElementEvent)
-        .attributes
-        .firstWhere((attr) => attr.name == GpxTagV11.maxLongitude)
-        .value);
+    if (elm is XmlStartElementEvent) {
+      bounds.minlat = double.parse(elm.attributes.firstWhere((attr) => attr.name == GpxTagV11.minLatitude).value);
+      bounds.minlon = double.parse(elm.attributes.firstWhere((attr) => attr.name == GpxTagV11.minLongitude).value);
+      bounds.maxlat = double.parse(elm.attributes.firstWhere((attr) => attr.name == GpxTagV11.maxLatitude).value);
+      bounds.maxlon = double.parse(elm.attributes.firstWhere((attr) => attr.name == GpxTagV11.maxLongitude).value);
 
-    if (!(iterator.current as XmlStartElementEvent).isSelfClosing) {
-      while (iterator.moveNext()) {
-        var val = iterator.current;
+      if (!elm.isSelfClosing) {
+        while (iterator.moveNext()) {
+          final val = iterator.current;
 
-        if (val is XmlEndElementEvent && val.name == GpxTagV11.bounds) {
-          break;
+          if (val is XmlEndElementEvent && val.name == GpxTagV11.bounds) {
+            break;
+          }
         }
       }
     }
@@ -460,19 +457,20 @@ class GpxReader {
   }
 
   Email _readEmail(Iterator<XmlEvent> iterator) {
-    Email email = Email();
+    final email = Email();
+    final elm = iterator.current;
 
-    email.id =
-        (iterator.current as XmlStartElementEvent).attributes.firstWhere((attr) => attr.name == GpxTagV11.id).value;
-    email.domain =
-        (iterator.current as XmlStartElementEvent).attributes.firstWhere((attr) => attr.name == GpxTagV11.domain).value;
+    if (elm is XmlStartElementEvent) {
+      email.id = elm.attributes.firstWhere((attr) => attr.name == GpxTagV11.id).value;
+      email.domain = elm.attributes.firstWhere((attr) => attr.name == GpxTagV11.domain).value;
 
-    if (!(iterator.current as XmlStartElementEvent).isSelfClosing) {
-      while (iterator.moveNext()) {
-        var val = iterator.current;
+      if (!elm.isSelfClosing) {
+        while (iterator.moveNext()) {
+          final val = iterator.current;
 
-        if (val is XmlEndElementEvent && val.name == GpxTagV11.email) {
-          break;
+          if (val is XmlEndElementEvent && val.name == GpxTagV11.email) {
+            break;
+          }
         }
       }
     }

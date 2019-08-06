@@ -7,19 +7,19 @@ import 'package:test/test.dart';
 
 void main() {
   test('compare gpx objects with empty lists', () async {
-    var gpx1 = Gpx();
-    var gpx2 = Gpx();
+    final gpx1 = Gpx();
+    final gpx2 = Gpx();
 
     expect(gpx1, gpx2);
 
-    gpx1.version = "1";
-    gpx2.version = "2";
+    gpx1.version = '1';
+    gpx2.version = '2';
     expect(gpx1, isNot(gpx2));
   });
 
   test('compare gpx objects with wpts', () async {
-    var gpx1 = Gpx();
-    var gpx2 = Gpx();
+    final gpx1 = Gpx();
+    final gpx2 = Gpx();
 
     gpx1.wpts = [];
     gpx2.wpts = [];
@@ -63,8 +63,8 @@ void main() {
   });
 
   test('compare wpt objects', () async {
-    var wpt1 = Wpt();
-    var wpt2 = Wpt();
+    final wpt1 = Wpt();
+    final wpt2 = Wpt();
     expect(wpt1, wpt2);
 
     wpt1.lat = 1.0;
@@ -81,8 +81,8 @@ void main() {
   });
 
   test('compare metadata objects', () async {
-    var mt1 = Metadata();
-    var mt2 = Metadata();
+    final mt1 = Metadata();
+    final mt2 = Metadata();
     expect(mt1, mt2);
 
     mt1.copyright = Copyright(year: 1);

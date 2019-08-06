@@ -21,28 +21,24 @@ class Rte {
         rtepts = rtepts ?? [];
 
   @override
-  bool operator ==(other) {
+  bool operator ==(other) { // ignore: type_annotate_public_apis
     if (other is Rte) {
-      return other.name == this.name &&
-          other.cmt == this.cmt &&
-          other.desc == this.desc &&
-          other.src == this.src &&
-          ListEquality().equals(other.links, this.links) &&
-          other.number == this.number &&
-          other.type == this.type &&
-          ListEquality().equals(other.rtepts, this.rtepts);
+      return other.name == name &&
+          other.cmt == cmt &&
+          other.desc == desc &&
+          other.src == src &&
+          const ListEquality().equals(other.links, links) &&
+          other.number == number &&
+          other.type == type &&
+          const ListEquality().equals(other.rtepts, rtepts);
     }
 
     return false;
   }
 
   @override
-  String toString() {
-    return "Rte[${[name, type, rtepts].join(",")}]";
-  }
+  String toString() => "Rte[${[name, type, rtepts].join(",")}]";
 
   @override
-  int get hashCode {
-    return hashObjects([name, cmt, desc, src, links, number, type, rtepts]);
-  }
+  int get hashCode => hashObjects([name, cmt, desc, src, links, number, type, rtepts]);
 }

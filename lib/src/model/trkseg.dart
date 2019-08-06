@@ -10,21 +10,17 @@ class Trkseg {
   Trkseg({List<Wpt> trkpts}) : trkpts = trkpts ?? [];
 
   @override
-  bool operator ==(other) {
+  bool operator ==(other) { // ignore: type_annotate_public_apis
     if (other is Trkseg) {
-      return ListEquality().equals(other.trkpts, this.trkpts);
+      return const ListEquality().equals(other.trkpts, trkpts);
     }
 
     return false;
   }
 
   @override
-  String toString() {
-    return "Trkseg[${[trkpts].join(",")}]";
-  }
+  String toString() => "Trkseg[${[trkpts].join(",")}]";
 
   @override
-  int get hashCode {
-    return hashObjects([trkpts]);
-  }
+  int get hashCode => hashObjects([trkpts]);
 }

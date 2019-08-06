@@ -1,28 +1,24 @@
 import 'package:quiver/core.dart';
 
 class Copyright {
-  String author = "";
+  String author = '';
   int year;
   String license;
 
-  Copyright({this.author = "", this.year, this.license});
+  Copyright({this.author = '', this.year, this.license});
 
   @override
-  bool operator ==(other) {
+  bool operator ==(other) { // ignore: type_annotate_public_apis
     if (other is Copyright) {
-      return other.author == this.author && other.year == this.year && other.license == this.license;
+      return other.author == author && other.year == year && other.license == license;
     }
 
     return false;
   }
 
   @override
-  String toString() {
-    return "Copyright[${[author, year, license].join(",")}]";
-  }
+  String toString() => "Copyright[${[author, year, license].join(",")}]";
 
   @override
-  int get hashCode {
-    return hashObjects([author, year, license]);
-  }
+  int get hashCode => hashObjects([author, year, license]);
 }

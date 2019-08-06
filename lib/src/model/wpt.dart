@@ -52,41 +52,38 @@ class Wpt {
   }) : links = links ?? [];
 
   @override
-  bool operator ==(other) {
+  bool operator ==(other) { // ignore: type_annotate_public_apis
     if (other is Wpt) {
-      return other.lat == this.lat &&
-          other.lon == this.lon &&
-          other.ele == this.ele &&
-          other.time == this.time &&
-          other.magvar == this.magvar &&
-          other.geoidheight == this.geoidheight &&
-          other.name == this.name &&
-          other.cmt == this.cmt &&
-          other.desc == this.desc &&
-          other.src == this.src &&
-          ListEquality().equals(other.links, this.links) &&
-          other.sym == this.sym &&
-          other.type == this.type &&
-          other.fix == this.fix &&
-          other.sat == this.sat &&
-          other.hdop == this.hdop &&
-          other.vdop == this.vdop &&
-          other.pdop == this.pdop &&
-          other.ageofdgpsdata == this.ageofdgpsdata &&
-          other.dgpsid == this.dgpsid;
+      return other.lat == lat &&
+          other.lon == lon &&
+          other.ele == ele &&
+          other.time == time &&
+          other.magvar == magvar &&
+          other.geoidheight == geoidheight &&
+          other.name == name &&
+          other.cmt == cmt &&
+          other.desc == desc &&
+          other.src == src &&
+          const ListEquality().equals(other.links, links) &&
+          other.sym == sym &&
+          other.type == type &&
+          other.fix == fix &&
+          other.sat == sat &&
+          other.hdop == hdop &&
+          other.vdop == vdop &&
+          other.pdop == pdop &&
+          other.ageofdgpsdata == ageofdgpsdata &&
+          other.dgpsid == dgpsid;
     }
 
     return false;
   }
 
   @override
-  String toString() {
-    return "Wpt[${[lat, lon, ele, time, name, src].join(",")}]";
-  }
+  String toString() => "Wpt[${[lat, lon, ele, time, name, src].join(",")}]";
 
   @override
-  int get hashCode {
-    return hashObjects([
+  int get hashCode => hashObjects([
       lat,
       lon,
       ele,
@@ -108,5 +105,4 @@ class Wpt {
       ageofdgpsdata,
       dgpsid
     ]);
-  }
 }

@@ -9,16 +9,12 @@ import 'model/trk.dart';
 import 'model/wpt.dart';
 
 class GpxWriter {
-  String asString(Gpx gpx, {bool pretty = false}) {
-    return _build(gpx).toXmlString(pretty: pretty);
-  }
+  String asString(Gpx gpx, {bool pretty = false}) => _build(gpx).toXmlString(pretty: pretty);
 
-  XmlNode asXml(Gpx gpx) {
-    return _build(gpx);
-  }
+  XmlNode asXml(Gpx gpx) => _build(gpx);
 
   XmlNode _build(Gpx gpx) {
-    var builder = XmlBuilder();
+    final builder = XmlBuilder();
 
     builder.processing('xml', 'version="1.0" encoding="UTF-8"');
     builder.element(GpxTagV11.gpx, nest: () {
@@ -30,21 +26,21 @@ class GpxWriter {
       }
 
       if (gpx.wpts != null) {
-        gpx.wpts.forEach((wpt) {
+        for (final wpt in gpx.wpts) {
           _writePoint(builder, GpxTagV11.wayPoint, wpt);
-        });
+        }
       }
 
       if (gpx.rtes != null) {
-        gpx.rtes.forEach((rte) {
+        for (final rte in gpx.rtes) {
           _writeRoute(builder, rte);
-        });
+        }
       }
 
       if (gpx.trks != null) {
-        gpx.trks.forEach((trk) {
+        for (final trk in gpx.trks) {
           _writeTrack(builder, trk);
-        });
+        }
       }
     });
 
@@ -107,9 +103,9 @@ class GpxWriter {
       _writeElementWithText(builder, GpxTagV11.src, rte.src);
       _writeElementWithInt(builder, GpxTagV11.number, rte.number);
 
-      rte.rtepts.forEach((wpt) {
+      for (final wpt in rte.rtepts) {
         _writePoint(builder, GpxTagV11.routePoint, wpt);
-      });
+      }
 
       _writeLinks(builder, rte.links);
     });
@@ -125,13 +121,13 @@ class GpxWriter {
       _writeElementWithText(builder, GpxTagV11.src, trk.src);
       _writeElementWithInt(builder, GpxTagV11.number, trk.number);
 
-      trk.trksegs.forEach((trkseg) {
+      for (final trkseg in trk.trksegs) {
         builder.element(GpxTagV11.trackSegment, nest: () {
-          trkseg.trkpts.forEach((wpt) {
+          for (final wpt in trkseg.trkpts) {
             _writePoint(builder, GpxTagV11.trackPoint, wpt);
-          });
+          }
         });
-      });
+      }
 
       _writeLinks(builder, trk.links);
     });
@@ -171,14 +167,14 @@ class GpxWriter {
 
   void _writeLinks(XmlBuilder builder, List<Link> value) {
     if (value != null) {
-      value.where((link) => link != null).forEach((link) {
+      for (final link in value.where((link) => link != null)) {
         builder.element(GpxTagV11.link, nest: () {
           _writeAttribute(builder, GpxTagV11.href, link.href);
 
           _writeElementWithText(builder, GpxTagV11.name, link.text);
           _writeElementWithText(builder, GpxTagV11.type, link.type);
         });
-      });
+      }
     }
   }
 

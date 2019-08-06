@@ -8,41 +8,37 @@ import 'wpt.dart';
 
 // @TODO add extensions;
 class Gpx {
-  String version = "1.1";
-  String creator = "";
+  String version = '1.1';
+  String creator = '';
   Metadata metadata;
   List<Wpt> wpts = [];
   List<Rte> rtes = [];
   List<Trk> trks = [];
 
   @override
-  bool operator ==(other) {
+  bool operator ==(other) { // ignore: type_annotate_public_apis
     if (other is Gpx) {
-      return other.creator == this.creator &&
-          other.version == this.version &&
-          other.metadata == this.metadata &&
-          ListEquality().equals(other.wpts, this.wpts) &&
-          ListEquality().equals(other.rtes, this.rtes) &&
-          ListEquality().equals(other.trks, this.trks);
+      return other.creator == creator &&
+          other.version == version &&
+          other.metadata == metadata &&
+          const ListEquality().equals(other.wpts, wpts) &&
+          const ListEquality().equals(other.rtes, rtes) &&
+          const ListEquality().equals(other.trks, trks);
     }
 
     return false;
   }
 
   @override
-  String toString() {
-    return "Gpx[${[version, creator, metadata, wpts, rtes, trks].join(",")}]";
-  }
+  String toString() => "Gpx[${[version, creator, metadata, wpts, rtes, trks].join(",")}]";
 
   @override
-  int get hashCode {
-    return hashObjects([version, creator, metadata, wpts, rtes, trks]);
-  }
+  int get hashCode => hashObjects([version, creator, metadata, wpts, rtes, trks]);
 }
 
 class Pt {
-  double lat = 0.0;
-  double lon = 0.0;
+  double lat = 0;
+  double lon = 0;
   double ele;
   DateTime time;
 }

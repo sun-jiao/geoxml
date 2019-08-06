@@ -5,24 +5,20 @@ class Link {
   String text;
   String type;
 
-  Link({this.href = "", this.text, this.type});
+  Link({this.href = '', this.text, this.type});
 
   @override
-  bool operator ==(other) {
+  bool operator ==(other) { // ignore: type_annotate_public_apis
     if (other is Link) {
-      return other.href == this.href && other.text == this.text && other.type == this.type;
+      return other.href == href && other.text == text && other.type == type;
     }
 
     return false;
   }
 
   @override
-  String toString() {
-    return "Link[${[href].join(",")}]";
-  }
+  String toString() => "Link[${[href].join(",")}]";
 
   @override
-  int get hashCode {
-    return hashObjects([href, text, type]);
-  }
+  int get hashCode => hashObjects([href, text, type]);
 }

@@ -9,24 +9,20 @@ class Bounds {
   Bounds({this.minlat = 0.0, this.minlon = 0.0, this.maxlat = 0.0, this.maxlon = 0.0});
 
   @override
-  bool operator ==(other) {
+  bool operator ==(other) { // ignore: type_annotate_public_apis
     if (other is Bounds) {
-      return other.minlat == this.minlat &&
-          other.minlon == this.minlon &&
-          other.maxlat == this.maxlat &&
-          other.maxlon == this.maxlon;
+      return other.minlat == minlat &&
+          other.minlon == minlon &&
+          other.maxlat == maxlat &&
+          other.maxlon == maxlon;
     }
 
     return false;
   }
 
   @override
-  String toString() {
-    return "Bounds[${[minlat, minlon, maxlat, maxlon].join(",")}]";
-  }
+  String toString() => "Bounds[${[minlat, minlon, maxlat, maxlon].join(",")}]";
 
   @override
-  int get hashCode {
-    return hashObjects([minlat, minlon, maxlat, maxlon]);
-  }
+  int get hashCode => hashObjects([minlat, minlon, maxlat, maxlon]);
 }

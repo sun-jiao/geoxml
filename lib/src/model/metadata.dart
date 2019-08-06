@@ -29,28 +29,24 @@ class Metadata {
   }) : links = links ?? [];
 
   @override
-  bool operator ==(other) {
+  bool operator ==(other) { // ignore: type_annotate_public_apis
     if (other is Metadata) {
-      return other.name == this.name &&
-          other.desc == this.desc &&
-          other.author == this.author &&
-          other.copyright == this.copyright &&
-          ListEquality().equals(other.links, this.links) &&
-          other.time == this.time &&
-          other.keywords == this.keywords &&
-          other.bounds == this.bounds;
+      return other.name == name &&
+          other.desc == desc &&
+          other.author == author &&
+          other.copyright == copyright &&
+          const ListEquality().equals(other.links, links) &&
+          other.time == time &&
+          other.keywords == keywords &&
+          other.bounds == bounds;
     }
 
     return false;
   }
 
   @override
-  String toString() {
-    return "Metadata[${[name, author, copyright, time, bounds].join(",")}]";
-  }
+  String toString() => "Metadata[${[name, author, copyright, time, bounds].join(",")}]";
 
   @override
-  int get hashCode {
-    return hashObjects([name, desc, author, copyright, links, time, keywords, bounds]);
-  }
+  int get hashCode => hashObjects([name, desc, author, copyright, links, time, keywords, bounds]);
 }
