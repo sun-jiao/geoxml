@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="dart-gpx library">
+  <metadata>
+    <name>routes</name>
+    <time>2010-01-02T03:04:05.000Z</time>
+  </metadata>
+  <trk>
+    <name>route from London to Paris</name>
+    <trkseg>
+      <trkpt lat="51.5" lon="-0.1167">
+        <name>London</name>
+      </trkpt>
+      <trkpt lat="48.8667" lon="2.3333">
+        <name>Paris</name>
+      </trkpt>
+    </trkseg>
+  </trk>
+  <trk>
+    <name>route from Paris to Londan</name>
+    <trkseg>
+      <trkpt lat="51.5" lon="-0.1167">
+        <name>London</name>
+      </trkpt>
+      <trkpt lat="48.8667" lon="2.3333">
+        <name>Paris</name>
+      </trkpt>
+    </trkseg>
+  </trk>
+</gpx>
