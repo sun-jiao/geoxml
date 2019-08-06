@@ -6,12 +6,12 @@
     <time>2010-01-02T03:04:05.000Z</time>
   </metadata>
   <wpt lat="-25.7996" lon="-62.8666">
-    <ele>10.0</ele>
+    <ele>10.2</ele>
     <name>Monte Quemado</name>
     <desc>Argentina</desc>
   </wpt>
   <wpt lat="36.62" lon="101.77">
-    <ele>10.0</ele>
+    <ele>10.2</ele>
     <name>Xining</name>
     <desc>China</desc>
   </wpt>
