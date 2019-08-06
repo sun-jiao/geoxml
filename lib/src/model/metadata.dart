@@ -29,7 +29,8 @@ class Metadata {
   }) : links = links ?? [];
 
   @override
-  bool operator ==(other) { // ignore: type_annotate_public_apis
+  bool operator ==(other) {
+    // ignore: type_annotate_public_apis
     if (other is Metadata) {
       return other.name == name &&
           other.desc == desc &&

@@ -52,7 +52,8 @@ class Wpt {
   }) : links = links ?? [];
 
   @override
-  bool operator ==(other) { // ignore: type_annotate_public_apis
+  bool operator ==(other) {
+    // ignore: type_annotate_public_apis
     if (other is Wpt) {
       return other.lat == lat &&
           other.lon == lon &&
@@ -84,25 +85,25 @@ class Wpt {
 
   @override
   int get hashCode => hashObjects([
-      lat,
-      lon,
-      ele,
-      time,
-      magvar,
-      geoidheight,
-      name,
-      cmt,
-      desc,
-      src,
-      links,
-      sym,
-      type,
-      fix,
-      sat,
-      hdop,
-      vdop,
-      pdop,
-      ageofdgpsdata,
-      dgpsid
-    ]);
+        lat,
+        lon,
+        ele,
+        time,
+        magvar,
+        geoidheight,
+        name,
+        cmt,
+        desc,
+        src,
+        links,
+        sym,
+        type,
+        fix,
+        sat,
+        hdop,
+        vdop,
+        pdop,
+        ageofdgpsdata,
+        dgpsid
+      ]);
 }

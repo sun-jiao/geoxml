@@ -8,7 +8,8 @@ class Link {
   Link({this.href = '', this.text, this.type});
 
   @override
-  bool operator ==(other) { // ignore: type_annotate_public_apis
+  bool operator ==(other) {
+    // ignore: type_annotate_public_apis
     if (other is Link) {
       return other.href == href && other.text == text && other.type == type;
     }

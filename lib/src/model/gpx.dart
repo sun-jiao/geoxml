@@ -16,7 +16,8 @@ class Gpx {
   List<Trk> trks = [];
 
   @override
-  bool operator ==(other) { // ignore: type_annotate_public_apis
+  bool operator ==(other) {
+    // ignore: type_annotate_public_apis
     if (other is Gpx) {
       return other.creator == creator &&
           other.version == version &&

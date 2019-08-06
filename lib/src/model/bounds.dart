@@ -9,12 +9,10 @@ class Bounds {
   Bounds({this.minlat = 0.0, this.minlon = 0.0, this.maxlat = 0.0, this.maxlon = 0.0});
 
   @override
-  bool operator ==(other) { // ignore: type_annotate_public_apis
+  bool operator ==(other) {
+    // ignore: type_annotate_public_apis
     if (other is Bounds) {
-      return other.minlat == minlat &&
-          other.minlon == minlon &&
-          other.maxlat == maxlat &&
-          other.maxlon == maxlon;
+      return other.minlat == minlat && other.minlon == minlon && other.maxlat == maxlat && other.maxlon == maxlon;
     }
 
     return false;

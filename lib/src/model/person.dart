@@ -11,7 +11,8 @@ class Person {
   Person({this.name, this.email, this.link});
 
   @override
-  bool operator ==(other) { // ignore: type_annotate_public_apis
+  bool operator ==(other) {
+    // ignore: type_annotate_public_apis
     if (other is Person) {
       return other.name == name && other.email == email && other.link == link;
     }

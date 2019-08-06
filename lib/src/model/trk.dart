@@ -20,7 +20,8 @@ class Trk {
         trksegs = trksegs ?? [];
 
   @override
-  bool operator ==(other) { // ignore: type_annotate_public_apis
+  bool operator ==(other) {
+    // ignore: type_annotate_public_apis
     if (other is Trk) {
       return other.name == name &&
           other.cmt == cmt &&

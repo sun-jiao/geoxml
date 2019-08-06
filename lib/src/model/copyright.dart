@@ -8,7 +8,8 @@ class Copyright {
   Copyright({this.author = '', this.year, this.license});
 
   @override
-  bool operator ==(other) { // ignore: type_annotate_public_apis
+  bool operator ==(other) {
+    // ignore: type_annotate_public_apis
     if (other is Copyright) {
       return other.author == author && other.year == year && other.license == license;
     }
