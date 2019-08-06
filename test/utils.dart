@@ -93,7 +93,6 @@ Gpx createComplexGPX() {
   return gpx;
 }
 
-
 expectXml(String xml1, String xml2) {
   final regexp = RegExp(r"^\s+|\s+$|^\t+");
   return expect(xml1.replaceAll(regexp, ""), xml2.replaceAll(regexp, "") /*, reason: xml1 */);
