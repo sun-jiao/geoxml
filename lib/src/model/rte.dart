@@ -16,7 +16,15 @@ class Rte {
 
   List<Wpt> rtepts;
 
-  Rte({this.name, this.cmt, this.desc, this.src, List<Link> links, this.number, this.type, List<Wpt> rtepts})
+  Rte(
+      {this.name,
+      this.cmt,
+      this.desc,
+      this.src,
+      List<Link> links,
+      this.number,
+      this.type,
+      List<Wpt> rtepts})
       : links = links ?? [],
         rtepts = rtepts ?? [];
 
@@ -41,5 +49,6 @@ class Rte {
   String toString() => "Rte[${[name, type, rtepts].join(",")}]";
 
   @override
-  int get hashCode => hashObjects([name, cmt, desc, src, links, number, type, rtepts]);
+  int get hashCode =>
+      hashObjects([name, cmt, desc, src, links, number, type, rtepts]);
 }

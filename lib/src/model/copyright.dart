@@ -11,7 +11,9 @@ class Copyright {
   bool operator ==(other) {
     // ignore: type_annotate_public_apis
     if (other is Copyright) {
-      return other.author == author && other.year == year && other.license == license;
+      return other.author == author &&
+          other.year == year &&
+          other.license == license;
     }
 
     return false;

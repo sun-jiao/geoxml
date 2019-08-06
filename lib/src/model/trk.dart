@@ -15,7 +15,15 @@ class Trk {
   String type;
   List<Trkseg> trksegs;
 
-  Trk({this.name, this.cmt, this.desc, this.src, List<Link> links, this.number, this.type, List<Trkseg> trksegs})
+  Trk(
+      {this.name,
+      this.cmt,
+      this.desc,
+      this.src,
+      List<Link> links,
+      this.number,
+      this.type,
+      List<Trkseg> trksegs})
       : links = links ?? [],
         trksegs = trksegs ?? [];
 
@@ -40,5 +48,6 @@ class Trk {
   String toString() => "Trk[${[name, type, trksegs].join(",")}]";
 
   @override
-  int get hashCode => hashObjects([name, cmt, desc, src, links, number, type, trksegs]);
+  int get hashCode =>
+      hashObjects([name, cmt, desc, src, links, number, type, trksegs]);
 }

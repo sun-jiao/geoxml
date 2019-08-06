@@ -9,7 +9,8 @@ import 'model/trk.dart';
 import 'model/wpt.dart';
 
 class GpxWriter {
-  String asString(Gpx gpx, {bool pretty = false}) => _build(gpx).toXmlString(pretty: pretty);
+  String asString(Gpx gpx, {bool pretty = false}) =>
+      _build(gpx).toXmlString(pretty: pretty);
 
   XmlNode asXml(Gpx gpx) => _build(gpx);
 
@@ -61,7 +62,8 @@ class GpxWriter {
           if (metadata.author.email != null) {
             builder.element(GpxTagV11.email, nest: () {
               _writeAttribute(builder, GpxTagV11.id, metadata.author.email.id);
-              _writeAttribute(builder, GpxTagV11.domain, metadata.author.email.domain);
+              _writeAttribute(
+                  builder, GpxTagV11.domain, metadata.author.email.domain);
             });
           }
 
@@ -73,8 +75,10 @@ class GpxWriter {
         builder.element(GpxTagV11.copyright, nest: () {
           _writeAttribute(builder, GpxTagV11.author, metadata.copyright.author);
 
-          _writeElementWithInt(builder, GpxTagV11.year, metadata.copyright.year);
-          _writeElementWithText(builder, GpxTagV11.license, metadata.copyright.license);
+          _writeElementWithInt(
+              builder, GpxTagV11.year, metadata.copyright.year);
+          _writeElementWithText(
+              builder, GpxTagV11.license, metadata.copyright.license);
         });
       }
 
@@ -84,10 +88,14 @@ class GpxWriter {
 
       if (metadata.bounds != null) {
         builder.element(GpxTagV11.bounds, nest: () {
-          _writeAttributeWithDouble(builder, GpxTagV11.minLatitude, metadata.bounds.minlat);
-          _writeAttributeWithDouble(builder, GpxTagV11.minLongitude, metadata.bounds.minlon);
-          _writeAttributeWithDouble(builder, GpxTagV11.maxLatitude, metadata.bounds.maxlat);
-          _writeAttributeWithDouble(builder, GpxTagV11.maxLongitude, metadata.bounds.maxlon);
+          _writeAttributeWithDouble(
+              builder, GpxTagV11.minLatitude, metadata.bounds.minlat);
+          _writeAttributeWithDouble(
+              builder, GpxTagV11.minLongitude, metadata.bounds.minlon);
+          _writeAttributeWithDouble(
+              builder, GpxTagV11.maxLatitude, metadata.bounds.maxlat);
+          _writeAttributeWithDouble(
+              builder, GpxTagV11.maxLongitude, metadata.bounds.maxlon);
         });
       }
     });
@@ -151,8 +159,10 @@ class GpxWriter {
         _writeElementWithDouble(builder, GpxTagV11.vDOP, wpt.vdop);
         _writeElementWithDouble(builder, GpxTagV11.pDOP, wpt.pdop);
 
-        _writeElementWithDouble(builder, GpxTagV11.geoidHeight, wpt.geoidheight);
-        _writeElementWithDouble(builder, GpxTagV11.ageOfData, wpt.ageofdgpsdata);
+        _writeElementWithDouble(
+            builder, GpxTagV11.geoidHeight, wpt.geoidheight);
+        _writeElementWithDouble(
+            builder, GpxTagV11.ageOfData, wpt.ageofdgpsdata);
         _writeElementWithInt(builder, GpxTagV11.dGPSId, wpt.dgpsid);
 
         _writeElementWithText(builder, GpxTagV11.name, wpt.name);
@@ -184,7 +194,8 @@ class GpxWriter {
     }
   }
 
-  void _writeElementWithTime(XmlBuilder builder, String tagName, DateTime value) {
+  void _writeElementWithTime(
+      XmlBuilder builder, String tagName, DateTime value) {
     if (value != null) {
       builder.element(tagName, nest: value.toUtc().toIso8601String());
     }
@@ -196,7 +207,8 @@ class GpxWriter {
     }
   }
 
-  void _writeElementWithDouble(XmlBuilder builder, String tagName, double value) {
+  void _writeElementWithDouble(
+      XmlBuilder builder, String tagName, double value) {
     if (value != null) {
       builder.element(tagName, nest: value);
     }
@@ -208,7 +220,8 @@ class GpxWriter {
     }
   }
 
-  void _writeAttributeWithDouble(XmlBuilder builder, String tagName, double value) {
+  void _writeAttributeWithDouble(
+      XmlBuilder builder, String tagName, double value) {
     if (value != null) {
       builder.attribute(tagName, value);
     }

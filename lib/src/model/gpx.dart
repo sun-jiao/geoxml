@@ -31,10 +31,12 @@ class Gpx {
   }
 
   @override
-  String toString() => "Gpx[${[version, creator, metadata, wpts, rtes, trks].join(",")}]";
+  String toString() =>
+      "Gpx[${[version, creator, metadata, wpts, rtes, trks].join(",")}]";
 
   @override
-  int get hashCode => hashObjects([version, creator, metadata, wpts, rtes, trks]);
+  int get hashCode =>
+      hashObjects([version, creator, metadata, wpts, rtes, trks]);
 }
 
 class Pt {

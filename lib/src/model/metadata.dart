@@ -46,8 +46,10 @@ class Metadata {
   }
 
   @override
-  String toString() => "Metadata[${[name, author, copyright, time, bounds].join(",")}]";
+  String toString() =>
+      "Metadata[${[name, author, copyright, time, bounds].join(",")}]";
 
   @override
-  int get hashCode => hashObjects([name, desc, author, copyright, links, time, keywords, bounds]);
+  int get hashCode => hashObjects(
+      [name, desc, author, copyright, links, time, keywords, bounds]);
 }

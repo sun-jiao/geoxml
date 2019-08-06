@@ -10,7 +10,12 @@ void main() {
   gpx.metadata.desc = 'location of some of world cities';
   gpx.metadata.time = DateTime.utc(2010, 1, 2, 3, 4, 5);
   gpx.wpts = [
-    Wpt(lat: -25.7996, lon: -62.8666, ele: 10.1, name: 'Monte Quemado', desc: 'Argentina'),
+    Wpt(
+        lat: -25.7996,
+        lon: -62.8666,
+        ele: 10.1,
+        name: 'Monte Quemado',
+        desc: 'Argentina'),
     Wpt(lat: 36.62, lon: 101.77, ele: 10.1, name: 'Xining', desc: 'China'),
   ];
 

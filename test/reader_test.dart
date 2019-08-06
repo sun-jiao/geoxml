@@ -9,35 +9,40 @@ import 'utils.dart';
 
 void main() {
   test('read gpx with multiply points', () async {
-    final gpx = GpxReader().fromString(await File('test/assets/wpt.gpx').readAsString());
+    final gpx = GpxReader()
+        .fromString(await File('test/assets/wpt.gpx').readAsString());
     final src = createGPXWithWpt();
 
     expect(gpx, src);
   });
 
   test('read gpx with multiply points', () async {
-    final gpx = GpxReader().fromString(await File('test/assets/wpt.gpx').readAsString());
+    final gpx = GpxReader()
+        .fromString(await File('test/assets/wpt.gpx').readAsString());
     final src = createGPXWithWpt();
 
     expect(gpx, src);
   });
 
   test('read gpx with multiply routes', () async {
-    final gpx = GpxReader().fromString(await File('test/assets/rte.gpx').readAsString());
+    final gpx = GpxReader()
+        .fromString(await File('test/assets/rte.gpx').readAsString());
     final src = createGPXWithRte();
 
     expect(gpx, src);
   });
 
   test('read gpx with multiply tracks', () async {
-    final gpx = GpxReader().fromString(await File('test/assets/trk.gpx').readAsString());
+    final gpx = GpxReader()
+        .fromString(await File('test/assets/trk.gpx').readAsString());
     final src = createGPXWithTrk();
 
     expect(gpx, src);
   });
 
   test('read complex gps', () async {
-    final gpx = GpxReader().fromString(await File('test/assets/complex.gpx').readAsString());
+    final gpx = GpxReader()
+        .fromString(await File('test/assets/complex.gpx').readAsString());
     final src = createComplexGPX();
 
     expect(gpx, src);
@@ -95,6 +100,7 @@ void main() {
     expect(gpx.trks.first.trksegs.first.trkpts.last.vdop, 0.8);
     expect(gpx.trks.first.trksegs.first.trkpts.last.pdop, 1.1);
     expect(gpx.trks.first.trksegs.first.trkpts.last.src, 'gps');
-    expect(gpx.trks.first.trksegs.first.trkpts.last.time, DateTime.utc(2016, 8, 21, 12, 24, 31));
+    expect(gpx.trks.first.trksegs.first.trkpts.last.time,
+        DateTime.utc(2016, 8, 21, 12, 24, 31));
   });
 }

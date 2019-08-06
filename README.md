@@ -4,7 +4,6 @@ gpx
 [![Pub Package](https://img.shields.io/pub/v/gpx.svg)](https://pub.dartlang.org/packages/gpx)
 [![Build Status](https://travis-ci.org/kb0/dart-gpx.svg?branch=master)](https://travis-ci.org/kb0/dart-gpx)
 [![Coverage Status](https://coveralls.io/repos/github/kb0/dart-gpx/badge.svg?branch=master)](https://coveralls.io/github/kb0/dart-gpx?branch=master)
-
 [![GitHub Issues](https://img.shields.io/github/issues/kb0/dart-gpx.svg?branch=master)](https://github.com/kb0/dart-gpx/issues)
 [![GitHub Forks](https://img.shields.io/github/forks/kb0/dart-gpx.svg?branch=master)](https://github.com/kb0/dart-gpx/network)
 [![GitHub Stars](https://img.shields.io/github/stars/kb0/dart-gpx.svg?branch=master)](https://github.com/kb0/dart-gpx/stargazers)
