@@ -1,4 +1,4 @@
-library gpx.test.reader_test;
+library gpx.test.gpx_reader_test;
 
 import 'dart:io';
 
@@ -40,12 +40,21 @@ void main() {
     expect(gpx, src);
   });
 
-  test('read complex gps', () async {
+  test('read complex gpx', () async {
     final gpx = GpxReader()
         .fromString(await File('test/assets/complex.gpx').readAsString());
     final src = createComplexGPX();
 
     expect(gpx, src);
+  });
+
+  test('read large', () async {
+    final gpx = GpxReader()
+        .fromString(await File('test/assets/large.gpx').readAsString());
+
+    expect(gpx.trks.length, 1);
+    expect(gpx.trks.first.trksegs.length, 1);
+    expect(gpx.trks.first.trksegs.first.trkpts.length, 8139);
   });
 
   test('read simple gpx', () {

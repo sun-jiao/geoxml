@@ -50,14 +50,14 @@ class GpxWriter {
 
   void _writeMetadata(XmlBuilder builder, Metadata metadata) {
     builder.element(GpxTagV11.metadata, nest: () {
-      _writeElementWithText(builder, GpxTagV11.name, metadata.name);
-      _writeElementWithText(builder, GpxTagV11.desc, metadata.desc);
+      _writeElement(builder, GpxTagV11.name, metadata.name);
+      _writeElement(builder, GpxTagV11.desc, metadata.desc);
 
-      _writeElementWithText(builder, GpxTagV11.keywords, metadata.keywords);
+      _writeElement(builder, GpxTagV11.keywords, metadata.keywords);
 
       if (metadata.author != null) {
         builder.element(GpxTagV11.author, nest: () {
-          _writeElementWithText(builder, GpxTagV11.name, metadata.author.name);
+          _writeElement(builder, GpxTagV11.name, metadata.author.name);
 
           if (metadata.author.email != null) {
             builder.element(GpxTagV11.email, nest: () {
@@ -75,10 +75,8 @@ class GpxWriter {
         builder.element(GpxTagV11.copyright, nest: () {
           _writeAttribute(builder, GpxTagV11.author, metadata.copyright.author);
 
-          _writeElementWithInt(
-              builder, GpxTagV11.year, metadata.copyright.year);
-          _writeElementWithText(
-              builder, GpxTagV11.license, metadata.copyright.license);
+          _writeElement(builder, GpxTagV11.year, metadata.copyright.year);
+          _writeElement(builder, GpxTagV11.license, metadata.copyright.license);
         });
       }
 
@@ -88,13 +86,13 @@ class GpxWriter {
 
       if (metadata.bounds != null) {
         builder.element(GpxTagV11.bounds, nest: () {
-          _writeAttributeWithDouble(
+          _writeAttribute(
               builder, GpxTagV11.minLatitude, metadata.bounds.minlat);
-          _writeAttributeWithDouble(
+          _writeAttribute(
               builder, GpxTagV11.minLongitude, metadata.bounds.minlon);
-          _writeAttributeWithDouble(
+          _writeAttribute(
               builder, GpxTagV11.maxLatitude, metadata.bounds.maxlat);
-          _writeAttributeWithDouble(
+          _writeAttribute(
               builder, GpxTagV11.maxLongitude, metadata.bounds.maxlon);
         });
       }
@@ -103,13 +101,13 @@ class GpxWriter {
 
   void _writeRoute(XmlBuilder builder, Rte rte) {
     builder.element(GpxTagV11.route, nest: () {
-      _writeElementWithText(builder, GpxTagV11.name, rte.name);
-      _writeElementWithText(builder, GpxTagV11.desc, rte.desc);
-      _writeElementWithText(builder, GpxTagV11.comment, rte.cmt);
-      _writeElementWithText(builder, GpxTagV11.type, rte.type);
+      _writeElement(builder, GpxTagV11.name, rte.name);
+      _writeElement(builder, GpxTagV11.desc, rte.desc);
+      _writeElement(builder, GpxTagV11.comment, rte.cmt);
+      _writeElement(builder, GpxTagV11.type, rte.type);
 
-      _writeElementWithText(builder, GpxTagV11.src, rte.src);
-      _writeElementWithInt(builder, GpxTagV11.number, rte.number);
+      _writeElement(builder, GpxTagV11.src, rte.src);
+      _writeElement(builder, GpxTagV11.number, rte.number);
 
       for (final wpt in rte.rtepts) {
         _writePoint(builder, GpxTagV11.routePoint, wpt);
@@ -121,13 +119,13 @@ class GpxWriter {
 
   void _writeTrack(XmlBuilder builder, Trk trk) {
     builder.element(GpxTagV11.track, nest: () {
-      _writeElementWithText(builder, GpxTagV11.name, trk.name);
-      _writeElementWithText(builder, GpxTagV11.desc, trk.desc);
-      _writeElementWithText(builder, GpxTagV11.comment, trk.cmt);
-      _writeElementWithText(builder, GpxTagV11.type, trk.type);
+      _writeElement(builder, GpxTagV11.name, trk.name);
+      _writeElement(builder, GpxTagV11.desc, trk.desc);
+      _writeElement(builder, GpxTagV11.comment, trk.cmt);
+      _writeElement(builder, GpxTagV11.type, trk.type);
 
-      _writeElementWithText(builder, GpxTagV11.src, trk.src);
-      _writeElementWithInt(builder, GpxTagV11.number, trk.number);
+      _writeElement(builder, GpxTagV11.src, trk.src);
+      _writeElement(builder, GpxTagV11.number, trk.number);
 
       for (final trkseg in trk.trksegs) {
         builder.element(GpxTagV11.trackSegment, nest: () {
@@ -144,31 +142,29 @@ class GpxWriter {
   void _writePoint(XmlBuilder builder, String tagName, Wpt wpt) {
     if (wpt != null) {
       builder.element(tagName, nest: () {
-        _writeAttributeWithDouble(builder, GpxTagV11.latitude, wpt.lat);
-        _writeAttributeWithDouble(builder, GpxTagV11.longitude, wpt.lon);
+        _writeAttribute(builder, GpxTagV11.latitude, wpt.lat);
+        _writeAttribute(builder, GpxTagV11.longitude, wpt.lon);
 
         _writeElementWithTime(builder, GpxTagV11.time, wpt.time);
 
-        _writeElementWithDouble(builder, GpxTagV11.elevation, wpt.ele);
-        _writeElementWithDouble(builder, GpxTagV11.magVar, wpt.magvar);
+        _writeElement(builder, GpxTagV11.elevation, wpt.ele);
+        _writeElement(builder, GpxTagV11.magVar, wpt.magvar);
 
-        _writeElementWithInt(builder, GpxTagV11.sat, wpt.sat);
-        _writeElementWithText(builder, GpxTagV11.src, wpt.src);
+        _writeElement(builder, GpxTagV11.sat, wpt.sat);
+        _writeElement(builder, GpxTagV11.src, wpt.src);
 
-        _writeElementWithDouble(builder, GpxTagV11.hDOP, wpt.hdop);
-        _writeElementWithDouble(builder, GpxTagV11.vDOP, wpt.vdop);
-        _writeElementWithDouble(builder, GpxTagV11.pDOP, wpt.pdop);
+        _writeElement(builder, GpxTagV11.hDOP, wpt.hdop);
+        _writeElement(builder, GpxTagV11.vDOP, wpt.vdop);
+        _writeElement(builder, GpxTagV11.pDOP, wpt.pdop);
 
-        _writeElementWithDouble(
-            builder, GpxTagV11.geoidHeight, wpt.geoidheight);
-        _writeElementWithDouble(
-            builder, GpxTagV11.ageOfData, wpt.ageofdgpsdata);
-        _writeElementWithInt(builder, GpxTagV11.dGPSId, wpt.dgpsid);
+        _writeElement(builder, GpxTagV11.geoidHeight, wpt.geoidheight);
+        _writeElement(builder, GpxTagV11.ageOfData, wpt.ageofdgpsdata);
+        _writeElement(builder, GpxTagV11.dGPSId, wpt.dgpsid);
 
-        _writeElementWithText(builder, GpxTagV11.name, wpt.name);
-        _writeElementWithText(builder, GpxTagV11.desc, wpt.desc);
-        _writeElementWithText(builder, GpxTagV11.comment, wpt.cmt);
-        _writeElementWithText(builder, GpxTagV11.type, wpt.type);
+        _writeElement(builder, GpxTagV11.name, wpt.name);
+        _writeElement(builder, GpxTagV11.desc, wpt.desc);
+        _writeElement(builder, GpxTagV11.comment, wpt.cmt);
+        _writeElement(builder, GpxTagV11.type, wpt.type);
 
         _writeLinks(builder, wpt.links);
       });
@@ -181,16 +177,22 @@ class GpxWriter {
         builder.element(GpxTagV11.link, nest: () {
           _writeAttribute(builder, GpxTagV11.href, link.href);
 
-          _writeElementWithText(builder, GpxTagV11.name, link.text);
-          _writeElementWithText(builder, GpxTagV11.type, link.type);
+          _writeElement(builder, GpxTagV11.name, link.text);
+          _writeElement(builder, GpxTagV11.type, link.type);
         });
       }
     }
   }
 
-  void _writeElementWithText(XmlBuilder builder, String tagName, String value) {
+  void _writeElement(XmlBuilder builder, String tagName, value) {
     if (value != null) {
       builder.element(tagName, nest: value);
+    }
+  }
+
+  void _writeAttribute(XmlBuilder builder, String tagName, value) {
+    if (value != null) {
+      builder.attribute(tagName, value);
     }
   }
 
@@ -198,32 +200,6 @@ class GpxWriter {
       XmlBuilder builder, String tagName, DateTime value) {
     if (value != null) {
       builder.element(tagName, nest: value.toUtc().toIso8601String());
-    }
-  }
-
-  void _writeElementWithInt(XmlBuilder builder, String tagName, int value) {
-    if (value != null) {
-      builder.element(tagName, nest: value);
-    }
-  }
-
-  void _writeElementWithDouble(
-      XmlBuilder builder, String tagName, double value) {
-    if (value != null) {
-      builder.element(tagName, nest: value);
-    }
-  }
-
-  void _writeAttribute(XmlBuilder builder, String tagName, String value) {
-    if (value != null) {
-      builder.attribute(tagName, value);
-    }
-  }
-
-  void _writeAttributeWithDouble(
-      XmlBuilder builder, String tagName, double value) {
-    if (value != null) {
-      builder.attribute(tagName, value);
     }
   }
 }

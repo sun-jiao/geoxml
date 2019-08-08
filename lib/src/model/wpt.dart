@@ -52,8 +52,8 @@ class Wpt {
   }) : links = links ?? [];
 
   @override
+  // ignore: type_annotate_public_apis
   bool operator ==(other) {
-    // ignore: type_annotate_public_apis
     if (other is Wpt) {
       return other.lat == lat &&
           other.lon == lon &&

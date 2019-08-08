@@ -10,8 +10,8 @@ class Trkseg {
   Trkseg({List<Wpt> trkpts}) : trkpts = trkpts ?? [];
 
   @override
+  // ignore: type_annotate_public_apis
   bool operator ==(other) {
-    // ignore: type_annotate_public_apis
     if (other is Trkseg) {
       return const ListEquality().equals(other.trkpts, trkpts);
     }

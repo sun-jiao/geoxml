@@ -121,7 +121,7 @@ Gpx createComplexGPX() {
 }
 
 void expectXml(String xml1, String xml2) {
-  final regexp = RegExp(r'^\s+|\s+$|^\t+');
-  expect(xml1.replaceAll(regexp, ''),
-      xml2.replaceAll(regexp, '') /*, reason: xml1 */);
+  final regexp = RegExp(r'\s+|\t+');
+  expect(xml1.replaceAll(regexp, '').replaceAll(RegExp(r'\r\n'), '\n'),
+      xml2.replaceAll(regexp, '').replaceAll(RegExp(r'\r\n'), '\n'), reason: xml1);
 }

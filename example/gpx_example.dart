@@ -19,8 +19,13 @@ void main() {
     Wpt(lat: 36.62, lon: 101.77, ele: 10.1, name: 'Xining', desc: 'China'),
   ];
 
+  // get GPX string
   final gpxString = GpxWriter().asString(gpx, pretty: true);
   print(gpxString);
+
+  // export gpx object into kml
+  final kmlString = KmlWriter().asString(gpx, pretty: true);
+  print(kmlString);
 
   // read gpx from gpx-xml string
   final xmlGpx = GpxReader().fromString('<?xml version="1.0" encoding="UTF-8"?>'

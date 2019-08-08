@@ -13,7 +13,9 @@ gpx
 A library for or load, manipulate, and save GPS data in GPX format (https://www.topografix.com/gpx.asp, a light-weight XML data format for the interchange of GPS data - waypoints, routes, and tracks).
 View the official GPX 1.1 Schema at https://www.topografix.com/GPX/1/1/gpx.xsd.
 
-This library currently 
+Also support export from Gpx into:
+- KML (a file format used to display geographic data in an Earth browser such as Google Earth, https://developers.google.com/kml/)
+- CSV (*not implemented yet*)
 
 ## Getting Started
 
@@ -62,6 +64,27 @@ main() {
   // generate xml string
   var gpxString = GpxWriter().asString(gpx, pretty: true);
   print(gpxString);
+}
+```
+
+### Export to KML
+
+To export object to KML use the KmlWriter object and function `String asString(Gpx gpx, {bool pretty = false})`:
+
+```dart
+import 'package:gpx/gpx.dart';
+
+main() {
+  // create gpx object
+  var gpx = Gpx();
+  gpx.creator = "dart-gpx library";
+  gpx.wpts = [
+    Wpt(lat: 36.62, lon: 101.77, ele: 10.0, name: 'Xining', desc: 'China'),
+  ];
+
+  // generate xml string
+  var kmlString = KmlWriter().asString(gpx, pretty: true);
+  print(kmlString);
 }
 ```
 

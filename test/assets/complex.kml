@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>routes</name>
+    <ExtendedData>
+      <Data name="time">
+        <value>2010-01-02T03:04:05.000Z</value>
+      </Data>
+      <Data name="copyright">
+        <value>lib, 2019</value>
+      </Data>
+    </ExtendedData>
+    <Placemark>
+      <name>Monte Quemado</name>
+      <description>Argentina</description>
+      <ExtendedData/>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>-62.8666,-25.7996,10.2</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Xining</name>
+      <description>China</description>
+      <ExtendedData/>
+      <Point>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>101.77,36.62,10.2</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>route from London to Paris</name>
+      <ExtendedData/>
+      <LineString>
+        <extrude>1</extrude>
+        <tessellate>1</tessellate>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>-0.1167,51.5,0.0
+          2.3333,48.8667,0.0</coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name>route from Paris to Londan</name>
+      <ExtendedData/>
+      <LineString>
+        <extrude>1</extrude>
+        <tessellate>1</tessellate>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>2.3333,48.8667,0.0
+          -0.1167,51.5,0.0</coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name>route from London to Paris</name>
+      <ExtendedData/>
+      <LineString>
+        <extrude>1</extrude>
+        <tessellate>1</tessellate>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>-0.1167,51.5,0.0
+          2.3333,48.8667,0.0</coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name>route from Paris to Londan</name>
+      <ExtendedData/>
+      <LineString>
+        <extrude>1</extrude>
+        <tessellate>1</tessellate>
+        <altitudeMode>absolute</altitudeMode>
+        <coordinates>-0.1167,51.5,0.0
+          2.3333,48.8667,0.0</coordinates>
+      </LineString>
+    </Placemark>
+  </Document>
+</kml>

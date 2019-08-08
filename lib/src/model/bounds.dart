@@ -13,8 +13,8 @@ class Bounds {
       this.maxlon = 0.0});
 
   @override
+  // ignore: type_annotate_public_apis
   bool operator ==(other) {
-    // ignore: type_annotate_public_apis
     if (other is Bounds) {
       return other.minlat == minlat &&
           other.minlon == minlon &&

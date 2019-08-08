@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+    <Document>
+        <name>world cities</name>
+        <description>location of some of world cities</description>
+        <ExtendedData>
+            <Data name="time">
+                <value>2010-01-02T03:04:05.000Z</value>
+            </Data>
+        </ExtendedData>
+        <Placemark>
+            <name>Monte Quemado</name>
+            <description>Argentina</description>
+            <ExtendedData/>
+            <Point>
+                <altitudeMode>absolute</altitudeMode>
+                <coordinates>-62.8666,-25.7996,10.2</coordinates>
+            </Point>
+        </Placemark>
+        <Placemark>
+            <name>Xining</name>
+            <description>China</description>
+            <ExtendedData/>
+            <Point>
+                <altitudeMode>absolute</altitudeMode>
+                <coordinates>101.77,36.62,10.2</coordinates>
+            </Point>
+        </Placemark>
+    </Document>
+</kml>
