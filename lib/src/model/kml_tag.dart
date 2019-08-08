@@ -25,6 +25,4 @@ class KmlTagV22 {
 
   // <altitudeMode>absolute</altitudeMode>
 
-
-
 }

@@ -14,7 +14,7 @@ class Gpx {
   List<Wpt> wpts = [];
   List<Rte> rtes = [];
   List<Trk> trks = [];
-  
+
   Map<String, String> extensions = {};
 
   @override
