@@ -40,7 +40,7 @@ void main() {
       '<name>world cities</name>'
       '<time>2010-01-02T03:04:05.000Z</time>'
       '</metadata>'
-      '<wpt lat="-25.7996" lon="-62.8666"><ele>10.0</ele><name>Monte Quemado</name><desc>Argentina</desc></wpt>'
+      '<wpt lat="-25.7996" lon="-62.8666"><ele>10.0</ele><name>Monte Quemado</name><desc>Argentina</desc><extensions><test2>test_value_2</test2><test>test_value</test></extensions></wpt>'
       '</gpx>');
   print(xmlGpx);
 }

@@ -289,6 +289,9 @@ class GpxReader {
             case GpxTagV11.type:
               wpt.type = _readString(iterator, GpxTagV11.type);
               break;
+            case GpxTagV11.extensions:
+              wpt.extensions = _readExtensions(iterator);
+              break;
           }
         }
 
@@ -348,6 +351,33 @@ class GpxReader {
     }
 
     return trkseg;
+  }
+
+  Map<String, String> _readExtensions(Iterator<XmlEvent> iterator) {
+    final exts = <String, String>{};
+    final elm = iterator.current;
+
+    /*if (elm is XmlStartElementEvent) {
+      link.href = elm.attributes
+          .firstWhere((attr) => attr.name == GpxTagV11.href)
+          .value;
+    }*/
+
+    if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
+      while (iterator.moveNext()) {
+        final val = iterator.current;
+
+        if (val is XmlStartElementEvent) {
+          exts[val.name] = _readString(iterator, val.name);
+        }
+
+        if (val is XmlEndElementEvent && val.name == GpxTagV11.extensions) {
+          break;
+        }
+      }
+    }
+
+    return exts;
   }
 
   Link _readLink(Iterator<XmlEvent> iterator) {

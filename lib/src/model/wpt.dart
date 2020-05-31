@@ -86,7 +86,8 @@ class Wpt {
   }
 
   @override
-  String toString() => "Wpt[${[lat, lon, ele, time, name, src].join(",")}]";
+  String toString() =>
+      "Wpt[${[lat, lon, ele, time, name, src, extensions].join(",")}]";
 
   @override
   int get hashCode => hashObjects([
