@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:collection/collection.dart';
 import 'package:quiver/core.dart';
 
@@ -27,29 +29,31 @@ class Wpt {
   double pdop;
   double ageofdgpsdata;
   int dgpsid;
+  Map<String, String> extensions;
 
-  Wpt({
-    this.lat = 0.0,
-    this.lon = 0.0,
-    this.ele,
-    this.time,
-    this.magvar,
-    this.geoidheight,
-    this.name,
-    this.cmt,
-    this.desc,
-    this.src,
-    List<Link> links,
-    this.sym,
-    this.type,
-    this.fix,
-    this.sat,
-    this.hdop,
-    this.vdop,
-    this.pdop,
-    this.ageofdgpsdata,
-    this.dgpsid,
-  }) : links = links ?? [];
+  Wpt(
+      {this.lat = 0.0,
+      this.lon = 0.0,
+      this.ele,
+      this.time,
+      this.magvar,
+      this.geoidheight,
+      this.name,
+      this.cmt,
+      this.desc,
+      this.src,
+      List<Link> links,
+      this.sym,
+      this.type,
+      this.fix,
+      this.sat,
+      this.hdop,
+      this.vdop,
+      this.pdop,
+      this.ageofdgpsdata,
+      this.dgpsid,
+      this.extensions})
+      : links = links ?? [];
 
   @override
   // ignore: type_annotate_public_apis
@@ -74,7 +78,8 @@ class Wpt {
           other.vdop == vdop &&
           other.pdop == pdop &&
           other.ageofdgpsdata == ageofdgpsdata &&
-          other.dgpsid == dgpsid;
+          other.dgpsid == dgpsid &&
+          other.extensions == extensions;
     }
 
     return false;
@@ -104,6 +109,7 @@ class Wpt {
         vdop,
         pdop,
         ageofdgpsdata,
-        dgpsid
+        dgpsid,
+        extensions
       ]);
 }

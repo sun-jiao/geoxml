@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:xml/xml.dart';
 
 import 'model/gpx.dart';
@@ -165,8 +167,18 @@ class GpxWriter {
         _writeElement(builder, GpxTagV11.desc, wpt.desc);
         _writeElement(builder, GpxTagV11.comment, wpt.cmt);
         _writeElement(builder, GpxTagV11.type, wpt.type);
-
+        _writeExtensions(builder, wpt.extensions);
         _writeLinks(builder, wpt.links);
+      });
+    }
+  }
+
+  void _writeExtensions(XmlBuilder builder, Map<String, String> value) {
+    if (value != null) {
+      builder.element(GpxTagV11.extensions, nest: () {
+        value.forEach((k, v) {
+          _writeElement(builder, k, v);
+        });
       });
     }
   }

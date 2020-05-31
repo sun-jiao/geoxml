@@ -16,7 +16,13 @@ void main() {
         ele: 10.1,
         name: 'Monte Quemado',
         desc: 'Argentina'),
-    Wpt(lat: 36.62, lon: 101.77, ele: 10.1, name: 'Xining', desc: 'China'),
+    Wpt(
+        lat: 36.62,
+        lon: 101.77,
+        ele: 10.1,
+        name: 'Xining',
+        desc: 'China',
+        extensions: {'test_key': 'test_value', 'test_key_2': 'test_value_2'}),
   ];
 
   // get GPX string
