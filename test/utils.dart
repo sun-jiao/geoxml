@@ -22,11 +22,7 @@ Gpx createGPXWithWpt() {
         ele: 10.2,
         name: 'Monte Quemado',
         desc: 'Argentina'),
-    Wpt(lat: 36.62,
-        lon: 101.77,
-        ele: 10.2,
-        name: 'Xining',
-        desc: 'China'),
+    Wpt(lat: 36.62, lon: 101.77, ele: 10.2, name: 'Xining', desc: 'China'),
   ];
 
   return gpx;
@@ -96,11 +92,7 @@ Gpx createComplexGPX() {
         name: 'Monte Quemado',
         desc: 'Argentina',
         extensions: {'k1': 'v1', 'k2': 'v2'}),
-    Wpt(lat: 36.62,
-        lon: 101.77,
-        ele: 10.2,
-        name: 'Xining',
-        desc: 'China'),
+    Wpt(lat: 36.62, lon: 101.77, ele: 10.2, name: 'Xining', desc: 'China'),
   ];
   gpx.rtes = [
     Rte(name: 'route from London to Paris', rtepts: [
@@ -140,10 +132,7 @@ Gpx createComplexGPX() {
     ])
   ];
 
-  gpx.extensions = {
-    'g1': 'v1',
-    'g2': 'v2'
-  };
+  gpx.extensions = {'g1': 'v1', 'g2': 'v2'};
 
   return gpx;
 }

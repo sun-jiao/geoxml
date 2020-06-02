@@ -1,6 +1,6 @@
 name: gpx
 description: Package for load, manipulate, and save GPS data in GPX format (a light-weight XML data format for the interchange of GPS data - waypoints, routes, and tracks).
-version: 0.0.4
+version: 1.0.0
 homepage: https://github.com/kb0/dart-gpx/
 
 environment:
