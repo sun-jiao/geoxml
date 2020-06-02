@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="">
+  <metadata>
+    <name>routes</name>
+    <desc>desc</desc>
+    <keywords>k1,k2,k3</keywords>
+    <author>
+      <name>name</name>
+      <email id="mail" domain="mail.com" />
+      <link href="http://google.com/">
+        <text>LINK</text>
+        <type>TYPE</type>
+      </link>
+    </author>
+    <copyright author="lib">
+      <year>2019</year>
+      <license>UNKNOWN</license>
+    </copyright>
+    <link href="http://metadata.com/">
+      <text>LINK</text>
+      <type>TYPE</type>
+    </link>
+    <time>2010-01-02T03:04:05.000Z</time>
+    <bounds minlat="0.0" minlon="1.0" maxlat="2.0" maxlon="3.0" />
+    <extensions>
+      <m1>v1</m1>
+      <m2>v2</m2>
+    </extensions>
+  </metadata>
+</gpx>

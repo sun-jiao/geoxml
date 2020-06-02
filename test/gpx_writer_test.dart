@@ -35,4 +35,11 @@ void main() {
 
     expectXml(GpxWriter().asString(gpx, pretty: true), xml);
   });
+
+  test('write metadata gpx', () async {
+    final gpx = createMetadataGPX();
+    final xml = await File('test/assets/metadata.gpx').readAsString();
+
+    expectXml(GpxWriter().asString(gpx, pretty: true), xml);
+  });
 }

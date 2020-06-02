@@ -21,7 +21,7 @@ class Person {
   }
 
   @override
-  String toString() => "Metadata[${[name, email, link].join(",")}]";
+  String toString() => "Person[${[name, email, link].join(",")}]";
 
   @override
   int get hashCode => hashObjects([name, email, link]);

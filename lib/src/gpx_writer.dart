@@ -199,7 +199,7 @@ class GpxWriter {
         builder.element(GpxTagV11.link, nest: () {
           _writeAttribute(builder, GpxTagV11.href, link.href);
 
-          _writeElement(builder, GpxTagV11.name, link.text);
+          _writeElement(builder, GpxTagV11.text, link.text);
           _writeElement(builder, GpxTagV11.type, link.type);
         });
       }

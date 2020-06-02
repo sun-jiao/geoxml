@@ -52,6 +52,15 @@ void main() {
     expect(gpx, src);
   });
 
+  test('read metadata gpx', () async {
+    final gpx = GpxReader()
+        .fromString(await File('test/assets/metadata.gpx').readAsString());
+    final src = createMetadataGPX();
+
+    expect(gpx.metadata, src.metadata);
+    expect(gpx, src);
+  });
+
   test('read large', () async {
     final gpx = GpxReader()
         .fromString(await File('test/assets/large.gpx').readAsString());
