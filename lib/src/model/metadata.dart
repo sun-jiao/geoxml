@@ -6,7 +6,6 @@ import 'copyright.dart';
 import 'link.dart';
 import 'person.dart';
 
-// @TODO add extensions;
 class Metadata {
   String name;
   String desc;
@@ -17,16 +16,20 @@ class Metadata {
   String keywords;
   Bounds bounds;
 
-  Metadata({
-    this.name,
-    this.desc,
-    this.author,
-    this.copyright,
-    List<Link> links,
-    this.time,
-    this.keywords,
-    this.bounds,
-  }) : links = links ?? [];
+  Map<String, String> extensions = {};
+
+  Metadata(
+      {this.name,
+      this.desc,
+      this.author,
+      this.copyright,
+      List<Link> links,
+      this.time,
+      this.keywords,
+      this.bounds,
+      Map<String, String> extensions})
+      : links = links ?? [],
+        extensions = extensions ?? <String, String>{};
 
   @override
   // ignore: type_annotate_public_apis
@@ -39,17 +42,33 @@ class Metadata {
           const ListEquality().equals(other.links, links) &&
           other.time == time &&
           other.keywords == keywords &&
-          other.bounds == bounds;
+          other.bounds == bounds &&
+          const MapEquality().equals(other.extensions, extensions);
     }
 
     return false;
   }
 
   @override
-  String toString() =>
-      "Metadata[${[name, author, copyright, time, bounds].join(",")}]";
+  String toString() => "Metadata[${[
+        name,
+        author,
+        copyright,
+        time,
+        bounds,
+        extensions
+      ].join(",")}]";
 
   @override
-  int get hashCode => hashObjects(
-      [name, desc, author, copyright, links, time, keywords, bounds]);
+  int get hashCode => hashObjects([
+        name,
+        desc,
+        author,
+        copyright,
+        links,
+        time,
+        keywords,
+        bounds,
+        extensions
+      ]);
 }

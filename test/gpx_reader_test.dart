@@ -45,10 +45,11 @@ void main() {
         .fromString(await File('test/assets/complex.gpx').readAsString());
     final src = createComplexGPX();
 
-    // some issues with compare as objects (maps not equals)
-    // expect(gpx, src);
-
-    expect(gpx.toString(), src.toString());
+    expect(gpx.metadata, src.metadata);
+    expect(gpx.extensions, src.extensions);
+    expect(gpx.trks, src.trks);
+    expect(gpx.rtes, src.rtes);
+    expect(gpx, src);
   });
 
   test('read large', () async {

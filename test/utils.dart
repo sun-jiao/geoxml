@@ -22,7 +22,11 @@ Gpx createGPXWithWpt() {
         ele: 10.2,
         name: 'Monte Quemado',
         desc: 'Argentina'),
-    Wpt(lat: 36.62, lon: 101.77, ele: 10.2, name: 'Xining', desc: 'China'),
+    Wpt(lat: 36.62,
+        lon: 101.77,
+        ele: 10.2,
+        name: 'Xining',
+        desc: 'China'),
   ];
 
   return gpx;
@@ -83,6 +87,7 @@ Gpx createComplexGPX() {
   gpx.metadata.time = DateTime.utc(2010, 1, 2, 3, 4, 5);
   gpx.metadata.copyright =
       Copyright(author: 'lib', year: 2019, license: 'UNKNOWN');
+  gpx.metadata.extensions = {'m1': 'v1', 'm2': 'v2'};
   gpx.wpts = [
     Wpt(
         lat: -25.7996,
@@ -91,13 +96,20 @@ Gpx createComplexGPX() {
         name: 'Monte Quemado',
         desc: 'Argentina',
         extensions: {'k1': 'v1', 'k2': 'v2'}),
-    Wpt(lat: 36.62, lon: 101.77, ele: 10.2, name: 'Xining', desc: 'China'),
+    Wpt(lat: 36.62,
+        lon: 101.77,
+        ele: 10.2,
+        name: 'Xining',
+        desc: 'China'),
   ];
   gpx.rtes = [
     Rte(name: 'route from London to Paris', rtepts: [
       Wpt(lat: 51.5, lon: -0.1167, name: 'London'),
       Wpt(lat: 48.8667, lon: 2.3333, name: 'Paris')
-    ]),
+    ], extensions: {
+      'r1': 'v1',
+      'r2': 'v2'
+    }),
     Rte(name: 'route from Paris to Londan', rtepts: [
       Wpt(lat: 48.8667, lon: 2.3333, name: 'Paris'),
       Wpt(lat: 51.5, lon: -0.1167, name: 'London')
@@ -109,7 +121,10 @@ Gpx createComplexGPX() {
         Wpt(lat: 51.5, lon: -0.1167, name: 'London'),
         Wpt(lat: 48.8667, lon: 2.3333, name: 'Paris')
       ])
-    ]),
+    ], extensions: {
+      't1': 'v1',
+      't2': 'v2'
+    }),
     Trk(name: 'route from Paris to Londan', trksegs: [
       Trkseg(trkpts: [
         Wpt(lat: 51.5, lon: -0.1167, name: 'London'),
@@ -118,9 +133,17 @@ Gpx createComplexGPX() {
             lon: 2.3333,
             name: 'Paris',
             extensions: {'k1': 'v1', 'k2': 'v2'})
-      ])
+      ], extensions: {
+        's1': 'v1',
+        's2': 'v2'
+      })
     ])
   ];
+
+  gpx.extensions = {
+    'g1': 'v1',
+    'g2': 'v2'
+  };
 
   return gpx;
 }

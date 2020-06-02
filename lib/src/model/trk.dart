@@ -4,7 +4,6 @@ import 'package:quiver/core.dart';
 import 'link.dart';
 import 'trkseg.dart';
 
-// @TODO add extensions;
 class Trk {
   String name;
   String cmt;
@@ -13,6 +12,9 @@ class Trk {
   List<Link> links;
   int number;
   String type;
+
+  Map<String, String> extensions;
+
   List<Trkseg> trksegs;
 
   Trk(
@@ -23,8 +25,10 @@ class Trk {
       List<Link> links,
       this.number,
       this.type,
+      Map<String, String> extensions,
       List<Trkseg> trksegs})
       : links = links ?? [],
+        extensions = extensions ?? <String, String>{},
         trksegs = trksegs ?? [];
 
   @override
@@ -38,6 +42,7 @@ class Trk {
           const ListEquality().equals(other.links, links) &&
           other.number == number &&
           other.type == type &&
+          const MapEquality().equals(other.extensions, extensions) &&
           const ListEquality().equals(other.trksegs, trksegs);
     }
 
@@ -45,9 +50,9 @@ class Trk {
   }
 
   @override
-  String toString() => "Trk[${[name, type, trksegs].join(",")}]";
+  String toString() => "Trk[${[name, type, extensions, trksegs].join(",")}]";
 
   @override
-  int get hashCode =>
-      hashObjects([name, cmt, desc, src, links, number, type, trksegs]);
+  int get hashCode => hashObjects(
+      [name, cmt, desc, src, links, number, type, extensions, trksegs]);
 }

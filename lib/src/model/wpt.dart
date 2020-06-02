@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:collection/collection.dart';
 import 'package:quiver/core.dart';
 
@@ -7,7 +5,6 @@ import 'link.dart';
 
 enum FixType { fix_2d, fix_3d, dgps, none, pps }
 
-// @TODO add extensions;
 class Wpt {
   double lat;
   double lon;
@@ -29,6 +26,7 @@ class Wpt {
   double pdop;
   double ageofdgpsdata;
   int dgpsid;
+
   Map<String, String> extensions;
 
   Wpt(
@@ -52,8 +50,9 @@ class Wpt {
       this.pdop,
       this.ageofdgpsdata,
       this.dgpsid,
-      this.extensions})
-      : links = links ?? [];
+      Map<String, String> extensions})
+      : links = links ?? [],
+        extensions = extensions ?? <String, String>{};
 
   @override
   // ignore: type_annotate_public_apis
@@ -79,7 +78,7 @@ class Wpt {
           other.pdop == pdop &&
           other.ageofdgpsdata == ageofdgpsdata &&
           other.dgpsid == dgpsid &&
-          other.extensions == extensions;
+          const MapEquality().equals(other.extensions, extensions);
     }
 
     return false;

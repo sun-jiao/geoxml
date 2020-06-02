@@ -20,10 +20,10 @@ class GpxReader {
 //  }
 
   Gpx fromString(String xml) {
-    final parserIt = parseEvents(xml).iterator;
+    final iterator = parseEvents(xml).iterator;
 
-    while (parserIt.moveNext()) {
-      final val = parserIt.current;
+    while (iterator.moveNext()) {
+      final val = iterator.current;
 
       if (val is XmlStartElementEvent && val.name == GpxTagV11.gpx) {
         break;
@@ -31,7 +31,7 @@ class GpxReader {
     }
 
     // ignore: avoid_as
-    final gpxTag = parserIt.current as XmlStartElementEvent;
+    final gpxTag = iterator.current as XmlStartElementEvent;
     final gpx = Gpx();
 
     gpx.version = gpxTag.attributes
@@ -41,8 +41,8 @@ class GpxReader {
         .firstWhere((attr) => attr.name == GpxTagV11.creator)
         .value;
 
-    while (parserIt.moveNext()) {
-      final val = parserIt.current;
+    while (iterator.moveNext()) {
+      final val = iterator.current;
       if (val is XmlEndElementEvent && val.name == GpxTagV11.gpx) {
         break;
       }
@@ -50,20 +50,20 @@ class GpxReader {
       if (val is XmlStartElementEvent) {
         switch (val.name) {
           case GpxTagV11.metadata:
-            gpx.metadata = _parseMetadata(parserIt);
+            gpx.metadata = _parseMetadata(iterator);
             break;
           case GpxTagV11.wayPoint:
-            gpx.wpts.add(_readPoint(parserIt, GpxTagV11.wayPoint));
+            gpx.wpts.add(_readPoint(iterator, GpxTagV11.wayPoint));
             break;
           case GpxTagV11.route:
-            gpx.rtes.add(_parseRoute(parserIt));
+            gpx.rtes.add(_parseRoute(iterator));
             break;
           case GpxTagV11.track:
-            gpx.trks.add(_parseTrack(parserIt));
+            gpx.trks.add(_parseTrack(iterator));
             break;
 
           case GpxTagV11.extensions:
-            // @TODO implement gpx extensions
+            gpx.extensions = _readExtensions(iterator);
             break;
         }
       }
@@ -108,6 +108,7 @@ class GpxReader {
               metadata.bounds = _readBounds(iterator);
               break;
             case GpxTagV11.extensions:
+              metadata.extensions = _readExtensions(iterator);
               break;
           }
         }
@@ -158,6 +159,10 @@ class GpxReader {
             case GpxTagV11.type:
               rte.type = _readString(iterator, GpxTagV11.type);
               break;
+
+            case GpxTagV11.extensions:
+              rte.extensions = _readExtensions(iterator);
+              break;
           }
         }
 
@@ -207,6 +212,10 @@ class GpxReader {
             case GpxTagV11.type:
               trk.type = _readString(iterator, GpxTagV11.type);
               break;
+
+            case GpxTagV11.extensions:
+              trk.extensions = _readExtensions(iterator);
+              break;
           }
         }
 
@@ -238,12 +247,18 @@ class GpxReader {
 
         if (val is XmlStartElementEvent) {
           switch (val.name) {
-            // TODO(kb00): add tags
-            // wpt.ageofdgpsdata
-            // wpt.geoidheight
-            // wpt.dgpsid
-            // wpt.fix
-            // wpt.sym
+            case GpxTagV11.sym:
+              wpt.sym = _readString(iterator, GpxTagV11.sym);
+              break;
+
+            case GpxTagV11.fix:
+              wpt.fix = FixType.values.firstWhere(
+                  (e) => e.toString() == _readString(iterator, GpxTagV11.fix));
+              break;
+
+            case GpxTagV11.dGPSId:
+              wpt.dgpsid = int.parse(_readString(iterator, GpxTagV11.dGPSId));
+              break;
 
             case GpxTagV11.name:
               wpt.name = _readString(iterator, GpxTagV11.name);
@@ -269,10 +284,18 @@ class GpxReader {
             case GpxTagV11.pDOP:
               wpt.pdop = double.parse(_readString(iterator, GpxTagV11.pDOP));
               break;
+            case GpxTagV11.ageOfData:
+              wpt.ageofdgpsdata =
+                  double.parse(_readString(iterator, GpxTagV11.ageOfData));
+              break;
 
             case GpxTagV11.magVar:
               wpt.magvar =
                   double.parse(_readString(iterator, GpxTagV11.magVar));
+              break;
+            case GpxTagV11.geoidHeight:
+              wpt.geoidheight =
+                  double.parse(_readString(iterator, GpxTagV11.geoidHeight));
               break;
 
             case GpxTagV11.sat:
@@ -340,6 +363,9 @@ class GpxReader {
           switch (val.name) {
             case GpxTagV11.trackPoint:
               trkseg.trkpts.add(_readPoint(iterator, GpxTagV11.trackPoint));
+              break;
+            case GpxTagV11.extensions:
+              trkseg.extensions = _readExtensions(iterator);
               break;
           }
         }

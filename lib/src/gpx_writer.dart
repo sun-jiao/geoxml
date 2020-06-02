@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:xml/xml.dart';
 
 import 'model/gpx.dart';
@@ -27,6 +25,8 @@ class GpxWriter {
       if (gpx.metadata != null) {
         _writeMetadata(builder, gpx.metadata);
       }
+
+      _writeExtensions(builder, gpx.extensions);
 
       if (gpx.wpts != null) {
         for (final wpt in gpx.wpts) {
@@ -98,6 +98,8 @@ class GpxWriter {
               builder, GpxTagV11.maxLongitude, metadata.bounds.maxlon);
         });
       }
+
+      _writeExtensions(builder, metadata.extensions);
     });
   }
 
@@ -110,6 +112,8 @@ class GpxWriter {
 
       _writeElement(builder, GpxTagV11.src, rte.src);
       _writeElement(builder, GpxTagV11.number, rte.number);
+
+      _writeExtensions(builder, rte.extensions);
 
       for (final wpt in rte.rtepts) {
         _writePoint(builder, GpxTagV11.routePoint, wpt);
@@ -129,11 +133,15 @@ class GpxWriter {
       _writeElement(builder, GpxTagV11.src, trk.src);
       _writeElement(builder, GpxTagV11.number, trk.number);
 
+      _writeExtensions(builder, trk.extensions);
+
       for (final trkseg in trk.trksegs) {
         builder.element(GpxTagV11.trackSegment, nest: () {
           for (final wpt in trkseg.trkpts) {
             _writePoint(builder, GpxTagV11.trackPoint, wpt);
           }
+
+          _writeExtensions(builder, trkseg.extensions);
         });
       }
 
@@ -167,14 +175,16 @@ class GpxWriter {
         _writeElement(builder, GpxTagV11.desc, wpt.desc);
         _writeElement(builder, GpxTagV11.comment, wpt.cmt);
         _writeElement(builder, GpxTagV11.type, wpt.type);
+
         _writeExtensions(builder, wpt.extensions);
+
         _writeLinks(builder, wpt.links);
       });
     }
   }
 
   void _writeExtensions(XmlBuilder builder, Map<String, String> value) {
-    if (value != null) {
+    if (value != null && value.isNotEmpty) {
       builder.element(GpxTagV11.extensions, nest: () {
         value.forEach((k, v) {
           _writeElement(builder, k, v);

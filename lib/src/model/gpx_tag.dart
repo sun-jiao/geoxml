@@ -18,8 +18,10 @@ class GpxTagV11 {
   static const comment = 'cmt';
   static const src = 'src';
   static const link = 'link';
+  static const sym = 'sym';
   static const number = 'number';
   static const type = 'type';
+  static const fix = 'fix';
   static const text = 'text';
   static const author = 'author';
   static const copyright = 'copyright';

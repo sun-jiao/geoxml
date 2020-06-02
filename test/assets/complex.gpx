@@ -7,7 +7,15 @@
       <license>UNKNOWN</license>
     </copyright>
     <time>2010-01-02T03:04:05.000Z</time>
+    <extensions>
+      <m1>v1</m1>
+      <m2>v2</m2>
+    </extensions>
   </metadata>
+  <extensions>
+    <g1>v1</g1>
+    <g2>v2</g2>
+  </extensions>
   <wpt lat="-25.7996" lon="-62.8666">
     <ele>10.2</ele>
     <name>Monte Quemado</name>
@@ -24,6 +32,10 @@
   </wpt>
   <rte>
     <name>route from London to Paris</name>
+    <extensions>
+      <r1>v1</r1>
+      <r2>v2</r2>
+    </extensions>
     <rtept lat="51.5" lon="-0.1167">
       <name>London</name>
     </rtept>
@@ -42,6 +54,10 @@
   </rte>
   <trk>
     <name>route from London to Paris</name>
+    <extensions>
+      <t1>v1</t1>
+      <t2>v2</t2>
+    </extensions>
     <trkseg>
       <trkpt lat="51.5" lon="-0.1167">
         <name>London</name>
@@ -64,6 +80,10 @@
           <k2>v2</k2>
         </extensions>
       </trkpt>
+      <extensions>
+        <s1>v1</s1>
+        <s2>v2</s2>
+      </extensions>
     </trkseg>
   </trk>
 </gpx>

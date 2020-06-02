@@ -4,7 +4,6 @@ import 'package:quiver/core.dart';
 import 'link.dart';
 import 'wpt.dart';
 
-// @TODO add extensions;
 class Rte {
   String name;
   String cmt;
@@ -13,6 +12,8 @@ class Rte {
   List<Link> links;
   int number;
   String type;
+
+  Map<String, String> extensions;
 
   List<Wpt> rtepts;
 
@@ -24,8 +25,10 @@ class Rte {
       List<Link> links,
       this.number,
       this.type,
+      Map<String, String> extensions,
       List<Wpt> rtepts})
       : links = links ?? [],
+        extensions = extensions ?? <String, String>{},
         rtepts = rtepts ?? [];
 
   @override
@@ -39,6 +42,7 @@ class Rte {
           const ListEquality().equals(other.links, links) &&
           other.number == number &&
           other.type == type &&
+          const MapEquality().equals(other.extensions, extensions) &&
           const ListEquality().equals(other.rtepts, rtepts);
     }
 
@@ -46,9 +50,9 @@ class Rte {
   }
 
   @override
-  String toString() => "Rte[${[name, type, rtepts].join(",")}]";
+  String toString() => "Rte[${[name, type, extensions, rtepts].join(",")}]";
 
   @override
-  int get hashCode =>
-      hashObjects([name, cmt, desc, src, links, number, type, rtepts]);
+  int get hashCode => hashObjects(
+      [name, cmt, desc, src, links, number, type, extensions, rtepts]);
 }

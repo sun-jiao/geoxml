@@ -6,7 +6,6 @@ import 'rte.dart';
 import 'trk.dart';
 import 'wpt.dart';
 
-// @TODO add extensions;
 class Gpx {
   String version = '1.1';
   String creator = '';
@@ -26,19 +25,27 @@ class Gpx {
           other.metadata == metadata &&
           const ListEquality().equals(other.wpts, wpts) &&
           const ListEquality().equals(other.rtes, rtes) &&
-          const ListEquality().equals(other.trks, trks);
+          const ListEquality().equals(other.trks, trks) &&
+          const MapEquality().equals(other.extensions, extensions);
     }
 
     return false;
   }
 
   @override
-  String toString() =>
-      "Gpx[${[version, creator, metadata, wpts, rtes, trks].join(",")}]";
+  String toString() => "Gpx[${[
+        version,
+        creator,
+        metadata,
+        wpts,
+        rtes,
+        trks,
+        extensions
+      ].join(",")}]";
 
   @override
   int get hashCode =>
-      hashObjects([version, creator, metadata, wpts, rtes, trks]);
+      hashObjects([version, creator, metadata, wpts, rtes, trks, extensions]);
 }
 
 class Pt {
