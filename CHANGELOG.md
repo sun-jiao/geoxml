@@ -1,3 +1,7 @@
+## [0.0.4] 
+
+* add wpt.extensions support
+
 ## [0.0.3] 
 
 * fix lint issues

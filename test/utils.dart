@@ -89,7 +89,8 @@ Gpx createComplexGPX() {
         lon: -62.8666,
         ele: 10.2,
         name: 'Monte Quemado',
-        desc: 'Argentina'),
+        desc: 'Argentina',
+        extensions: {'k1': 'v1', 'k2': 'v2'}),
     Wpt(lat: 36.62, lon: 101.77, ele: 10.2, name: 'Xining', desc: 'China'),
   ];
   gpx.rtes = [
@@ -112,7 +113,11 @@ Gpx createComplexGPX() {
     Trk(name: 'route from Paris to Londan', trksegs: [
       Trkseg(trkpts: [
         Wpt(lat: 51.5, lon: -0.1167, name: 'London'),
-        Wpt(lat: 48.8667, lon: 2.3333, name: 'Paris')
+        Wpt(
+            lat: 48.8667,
+            lon: 2.3333,
+            name: 'Paris',
+            extensions: {'k1': 'v1', 'k2': 'v2'})
       ])
     ])
   ];

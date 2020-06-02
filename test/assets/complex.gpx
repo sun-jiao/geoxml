@@ -12,6 +12,10 @@
     <ele>10.2</ele>
     <name>Monte Quemado</name>
     <desc>Argentina</desc>
+    <extensions>
+      <k1>v1</k1>
+      <k2>v2</k2>
+    </extensions>
   </wpt>
   <wpt lat="36.62" lon="101.77">
     <ele>10.2</ele>
@@ -55,6 +59,10 @@
       </trkpt>
       <trkpt lat="48.8667" lon="2.3333">
         <name>Paris</name>
+        <extensions>
+          <k1>v1</k1>
+          <k2>v2</k2>
+        </extensions>
       </trkpt>
     </trkseg>
   </trk>

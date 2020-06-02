@@ -93,7 +93,7 @@ main() {
 
 This is just an initial version of the package. There are still some limitations:
 
-- No support for 'extension' tag.
+- No support for 'extension' tag (wpt.extensions support added).
 - No support for GPX 1.0.
 - Partly for some tags (wpt.ageofdgpsdata, wpt.geoidheight, wpt.dgpsid, wpt.fix, wpt.sym)
 - Read/write only from strings.
