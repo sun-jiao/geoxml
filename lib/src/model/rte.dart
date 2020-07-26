@@ -4,6 +4,8 @@ import 'package:quiver/core.dart';
 import 'link.dart';
 import 'wpt.dart';
 
+/// Rte represents route - an ordered list of waypoints representing a series of
+/// turn points leading to a destination.
 class Rte {
   String name;
   String cmt;
@@ -17,6 +19,7 @@ class Rte {
 
   List<Wpt> rtepts;
 
+  /// Construct a new [Rte] object.
   Rte(
       {this.name,
       this.cmt,

@@ -1,3 +1,4 @@
+/// GPX tags names.
 class GpxTagV11 {
   static const gpx = 'gpx';
   static const version = 'version';

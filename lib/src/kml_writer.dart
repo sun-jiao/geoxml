@@ -10,9 +10,11 @@ import 'model/trk.dart';
 import 'model/wpt.dart';
 
 class KmlWriter {
+  /// Convert Gpx into KML as String
   String asString(Gpx gpx, {bool pretty = false}) =>
       _build(gpx).toXmlString(pretty: pretty);
 
+  /// Convert Gpx into KML as XmlNode
   XmlNode asXml(Gpx gpx) => _build(gpx);
 
   XmlNode _build(Gpx gpx) {

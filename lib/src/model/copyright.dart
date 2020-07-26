@@ -1,10 +1,14 @@
 import 'package:quiver/core.dart';
 
+/// Information about the copyright holder and any license governing use of this
+/// file. By linking to an appropriate license, you may place your data into the
+/// public domain or grant additional usage rights.
 class Copyright {
   String author = '';
   int year;
   String license;
 
+  /// Construct a new [Copyright] with author, year and license.
   Copyright({this.author = '', this.year, this.license});
 
   @override

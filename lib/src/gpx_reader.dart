@@ -19,6 +19,7 @@ class GpxReader {
 //
 //  }
 
+  /// Parse xml string and create Gpx object
   Gpx fromString(String xml) {
     final iterator = parseEvents(xml).iterator;
 

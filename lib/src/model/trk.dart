@@ -4,6 +4,7 @@ import 'package:quiver/core.dart';
 import 'link.dart';
 import 'trkseg.dart';
 
+/// Trk represents a track - an ordered list of points describing a path.
 class Trk {
   String name;
   String cmt;
@@ -17,6 +18,7 @@ class Trk {
 
   List<Trkseg> trksegs;
 
+  /// Construct a new [Trk] object.
   Trk(
       {this.name,
       this.cmt,

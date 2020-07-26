@@ -6,6 +6,9 @@ import 'copyright.dart';
 import 'link.dart';
 import 'person.dart';
 
+/// Information about the GPX file, author, and copyright restrictions goes in
+/// the metadata section. Providing rich, meaningful information about your GPX
+/// files allows others to search for and use your GPS data.
 class Metadata {
   String name;
   String desc;
@@ -18,6 +21,7 @@ class Metadata {
 
   Map<String, String> extensions = {};
 
+  /// Construct a new [Metadata] object.
   Metadata(
       {this.name,
       this.desc,

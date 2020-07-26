@@ -1,3 +1,8 @@
+## [1.0.1+2] 
+
+* update Xml package to 4.3.0
+* add comments
+
 ## [1.0.1+1] 
 
 * fix formatting

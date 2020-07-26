@@ -6,6 +6,9 @@ import 'rte.dart';
 import 'trk.dart';
 import 'wpt.dart';
 
+/// GPX documents contain a metadata header, followed by waypoints, routes, and
+/// tracks. You can add your own elements to the extensions section of the GPX
+/// document.
 class Gpx {
   String version = '1.1';
   String creator = '';

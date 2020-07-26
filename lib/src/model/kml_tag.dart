@@ -1,3 +1,4 @@
+/// KML tags names.
 class KmlTagV22 {
   static const kml = 'kml';
 

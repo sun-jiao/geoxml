@@ -5,6 +5,7 @@ import 'link.dart';
 
 enum FixType { fix_2d, fix_3d, dgps, none, pps }
 
+/// Wpt represents a waypoint, point of interest, or named feature on a map.
 class Wpt {
   double lat;
   double lon;
@@ -29,6 +30,7 @@ class Wpt {
 
   Map<String, String> extensions;
 
+  /// Construct a new [Wpt] object.
   Wpt(
       {this.lat = 0.0,
       this.lon = 0.0,

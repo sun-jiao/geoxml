@@ -1,10 +1,13 @@
 import 'package:quiver/core.dart';
 
+/// A link to an external resource (Web page, digital photo, video clip, etc)
+/// with additional information.
 class Link {
   String href;
   String text;
   String type;
 
+  /// Construct a new [Link] object.
   Link({this.href = '', this.text, this.type});
 
   @override

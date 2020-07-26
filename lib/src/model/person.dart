@@ -3,11 +3,13 @@ import 'package:quiver/core.dart';
 import 'email.dart';
 import 'link.dart';
 
+/// A person or organization.
 class Person {
   String name;
   Email email;
   Link link;
 
+  /// Construct a new [Person] object.
   Person({this.name, this.email, this.link});
 
   @override
