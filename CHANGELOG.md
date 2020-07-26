@@ -1,3 +1,7 @@
+## [1.0.1+1] 
+
+* fix formatting
+
 ## [1.0.1] 
 
 * fix kml writer for empty metadata

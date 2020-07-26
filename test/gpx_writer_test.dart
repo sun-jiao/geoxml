@@ -17,7 +17,8 @@ void main() {
 
   test('write empty gpx with metadata', () async {
     final gpx = createMinimalMetadataGPX();
-    final xml = await File('test/assets/minimal_with_metadata.gpx').readAsString();
+    final xml =
+        await File('test/assets/minimal_with_metadata.gpx').readAsString();
 
     expectXml(GpxWriter().asString(gpx, pretty: true), xml);
   });

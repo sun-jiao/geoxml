@@ -18,7 +18,8 @@ void main() {
 
   test('write empty kml with metadata', () async {
     final gpx = createMinimalMetadataGPX();
-    final xml = await File('test/assets/minimal_with_metadata.kml').readAsString();
+    final xml =
+        await File('test/assets/minimal_with_metadata.kml').readAsString();
 
     expectXml(KmlWriter().asString(gpx, pretty: true), xml);
   });
