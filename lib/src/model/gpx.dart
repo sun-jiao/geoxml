@@ -9,7 +9,7 @@ import 'wpt.dart';
 class Gpx {
   String version = '1.1';
   String creator = '';
-  Metadata metadata;
+  Metadata metadata = new Metadata();
   List<Wpt> wpts = [];
   List<Rte> rtes = [];
   List<Trk> trks = [];
