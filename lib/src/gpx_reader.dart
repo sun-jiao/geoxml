@@ -13,6 +13,7 @@ import 'model/trk.dart';
 import 'model/trkseg.dart';
 import 'model/wpt.dart';
 
+/// Read Gpx from string
 class GpxReader {
 //  // @TODO
 //  Gpx fromStream(Stream<int> stream) {

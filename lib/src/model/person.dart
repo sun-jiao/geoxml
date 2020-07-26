@@ -5,8 +5,13 @@ import 'link.dart';
 
 /// A person or organization.
 class Person {
+  /// Name of person or organization.
   String name;
+
+  /// Email address.
   Email email;
+
+  /// Link to Web site or other external information about person
   Link link;
 
   /// Construct a new [Person] object.

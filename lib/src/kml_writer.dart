@@ -9,6 +9,7 @@ import 'model/rte.dart';
 import 'model/trk.dart';
 import 'model/wpt.dart';
 
+/// Convert Gpx into KML
 class KmlWriter {
   /// Convert Gpx into KML as String
   String asString(Gpx gpx, {bool pretty = false}) =>

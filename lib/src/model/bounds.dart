@@ -2,9 +2,16 @@ import 'package:quiver/core.dart';
 
 /// Two lat/lon pairs defining the extent of an element.
 class Bounds {
+  /// The minimum latitude.
   double minlat;
+
+  /// The minimum longitude.
   double minlon;
+
+  /// The maximum latitude.
   double maxlat;
+
+  /// The maximum latitude.
   double maxlon;
 
   /// Construct a new [Bounds] with rect [minlat, minlon, maxlat, maxlon].

@@ -10,13 +10,28 @@ import 'wpt.dart';
 /// tracks. You can add your own elements to the extensions section of the GPX
 /// document.
 class Gpx {
+  /// Version number of your GPX document.
   String version = '1.1';
+
+  /// The name or URL of the software that created your GPX document. This
+  /// allows others to inform the creator of a GPX instance document that fails
+  /// to validate.
   String creator = '';
+
+  /// Metadata about the file.
   Metadata metadata;
+
+  /// A list of waypoints.
   List<Wpt> wpts = [];
+
+  /// A list of routes.
   List<Rte> rtes = [];
+
+  /// A list of tracks.
   List<Trk> trks = [];
 
+  /// You can add extend GPX by adding your own elements from another schema
+  /// here.
   Map<String, String> extensions = {};
 
   @override

@@ -3,7 +3,10 @@ import 'package:quiver/core.dart';
 /// An email address. Broken into two parts (id and domain) to help prevent
 /// email harvesting.
 class Email {
+  /// id half of email address
   String id;
+
+  /// domain half of email address
   String domain;
 
   /// Construct a new [Email] with id and domain.

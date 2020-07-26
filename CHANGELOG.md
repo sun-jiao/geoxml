@@ -1,3 +1,7 @@
+## [1.0.1+3] 
+
+* add comments for GPX fields
+
 ## [1.0.1+2] 
 
 * update Xml package to 4.3.0

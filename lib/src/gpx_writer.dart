@@ -8,6 +8,7 @@ import 'model/rte.dart';
 import 'model/trk.dart';
 import 'model/wpt.dart';
 
+/// Convert Gpx into GPX
 class GpxWriter {
   /// Convert Gpx into GPX XML (v1.1) as String
   String asString(Gpx gpx, {bool pretty = false}) =>

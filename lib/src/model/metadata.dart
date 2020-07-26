@@ -10,15 +10,34 @@ import 'person.dart';
 /// the metadata section. Providing rich, meaningful information about your GPX
 /// files allows others to search for and use your GPS data.
 class Metadata {
+  /// The name of the GPX file.
   String name;
+
+  /// A description of the contents of the GPX file.
   String desc;
+
+  /// The person or organization who created the GPX file.
   Person author;
+
+  /// Copyright and license information governing use of the file.
   Copyright copyright;
+
+  /// URLs associated with the location described in the file.
   List<Link> links;
+
+  /// The creation date of the file.
   DateTime time;
+
+  /// Keywords associated with the file. Search engines or databases can use
+  /// this information to classify the data.
   String keywords;
+
+  /// Minimum and maximum coordinates which describe the extent of the
+  /// coordinates in the file.
   Bounds bounds;
 
+  /// You can add extend GPX by adding your own elements from another schema
+  /// here.
   Map<String, String> extensions = {};
 
   /// Construct a new [Metadata] object.

@@ -3,8 +3,13 @@ import 'package:quiver/core.dart';
 /// A link to an external resource (Web page, digital photo, video clip, etc)
 /// with additional information.
 class Link {
+  /// URL of hyperlink.
   String href;
+
+  /// Text of hyperlink.
   String text;
+
+  /// Mime type of content (image/jpeg).
   String type;
 
   /// Construct a new [Link] object.
