@@ -23,8 +23,8 @@
     <time>2010-01-02T03:04:05.000Z</time>
     <bounds minlat="0.0" minlon="1.0" maxlat="2.0" maxlon="3.0" />
     <extensions>
-      <m1>v1</m1>
-      <m2>v2</m2>
+      <schema:m1>v1</schema:m1>
+      <schema:m2>v2</schema:m2>
     </extensions>
   </metadata>
 </gpx>

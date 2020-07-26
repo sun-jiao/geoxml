@@ -11,10 +11,24 @@ import 'package:gpx/src/model/trkseg.dart';
 import 'package:gpx/src/model/wpt.dart';
 import 'package:test/test.dart';
 
-Gpx createGPXWithWpt() {
+Gpx createMinimalGPX() {
   final gpx = Gpx();
   gpx.version = '1.1';
   gpx.creator = 'dart-gpx library';
+  gpx.wpts = [];
+
+  return gpx;
+}
+
+Gpx createMinimalMetadataGPX() {
+  final gpx = createMinimalGPX();
+  gpx.metadata = Metadata();
+
+  return gpx;
+}
+
+Gpx createGPXWithWpt() {
+  final gpx = createMinimalGPX();
   gpx.metadata = Metadata();
   gpx.metadata.name = 'world cities';
   gpx.metadata.desc = 'location of some of world cities';
@@ -33,9 +47,7 @@ Gpx createGPXWithWpt() {
 }
 
 Gpx createGPXWithRte() {
-  final gpx = Gpx();
-  gpx.version = '1.1';
-  gpx.creator = 'dart-gpx library';
+  final gpx = createMinimalGPX();
   gpx.metadata = Metadata();
   gpx.metadata.name = 'routes';
   gpx.metadata.time = DateTime.utc(2010, 1, 2, 3, 4, 5);
@@ -54,9 +66,7 @@ Gpx createGPXWithRte() {
 }
 
 Gpx createGPXWithTrk() {
-  final gpx = Gpx();
-  gpx.version = '1.1';
-  gpx.creator = 'dart-gpx library';
+  final gpx = createMinimalGPX();
   gpx.metadata = Metadata();
   gpx.metadata.name = 'routes';
   gpx.metadata.time = DateTime.utc(2010, 1, 2, 3, 4, 5);
@@ -95,15 +105,13 @@ Gpx createMetadataGPX() {
       Copyright(author: 'lib', year: 2019, license: 'UNKNOWN');
   gpx.metadata.keywords = 'k1,k2,k3';
   gpx.metadata.bounds = Bounds(minlat: 0, minlon: 1, maxlat: 2, maxlon: 3);
-  gpx.metadata.extensions = {'m1': 'v1', 'm2': 'v2'};
+  gpx.metadata.extensions = {'schema:m1': 'v1', 'schema:m2': 'v2'};
 
   return gpx;
 }
 
 Gpx createComplexGPX() {
-  final gpx = Gpx();
-  gpx.version = '1.1';
-  gpx.creator = 'dart-gpx library';
+  final gpx = createMinimalGPX();
   gpx.metadata = Metadata();
   gpx.metadata.name = 'routes';
   gpx.metadata.time = DateTime.utc(2010, 1, 2, 3, 4, 5);

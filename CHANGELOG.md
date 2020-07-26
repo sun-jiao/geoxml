@@ -1,3 +1,13 @@
+## [1.0.1] 
+
+* fix kml writer for empty metadata
+
+## [1.0.0] 
+
+* add extensions support
+* fix person tag
+* add wpt.ageofdgpsdata, wpt.geoidheight, wpt.dgpsid, wpt.fix, wpt.sym
+
 ## [0.0.4] 
 
 * add wpt.extensions support

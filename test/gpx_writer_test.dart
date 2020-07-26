@@ -8,6 +8,27 @@ import 'package:test/test.dart';
 import 'utils.dart';
 
 void main() {
+  test('write empty gpx', () async {
+    final gpx = createMinimalGPX();
+    final xml = await File('test/assets/minimal.gpx').readAsString();
+
+    expectXml(GpxWriter().asString(gpx, pretty: true), xml);
+  });
+
+  test('write empty gpx with metadata', () async {
+    final gpx = createMinimalMetadataGPX();
+    final xml = await File('test/assets/minimal_with_metadata.gpx').readAsString();
+
+    expectXml(GpxWriter().asString(gpx, pretty: true), xml);
+  });
+
+  test('write gpx with multiply points', () async {
+    final gpx = createGPXWithWpt();
+    final xml = await File('test/assets/wpt.gpx').readAsString();
+
+    expectXml(GpxWriter().asString(gpx, pretty: true), xml);
+  });
+
   test('write gpx with multiply points', () async {
     final gpx = createGPXWithWpt();
     final xml = await File('test/assets/wpt.gpx').readAsString();

@@ -65,15 +65,17 @@ class KmlWriter {
     }
 
     builder.element(KmlTagV22.extendedData, nest: () {
-      _writeExtendedElement(builder, GpxTagV11.keywords, metadata.keywords);
+        _writeExtendedElement(builder, GpxTagV11.keywords, metadata.keywords);
 
-      _writeExtendedElement(
-          builder, GpxTagV11.time, metadata.time.toIso8601String());
+        if (metadata.time != null) {
+          _writeExtendedElement(
+              builder, GpxTagV11.time, metadata.time.toIso8601String());
+        }
 
-      if (metadata.copyright != null) {
-        _writeExtendedElement(builder, GpxTagV11.copyright,
-            '${metadata.copyright.author}, ${metadata.copyright.year}');
-      }
+        if (metadata.copyright != null) {
+          _writeExtendedElement(builder, GpxTagV11.copyright,
+              '${metadata.copyright.author}, ${metadata.copyright.year}');
+        }
     });
   }
 
