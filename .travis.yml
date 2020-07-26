@@ -4,7 +4,7 @@ dart: stable
 jobs:
   include:
     - stage: analyze
-      script: dartanalyzer --fatal-warnings .
+      script: dartanalyzer --fatal-warnings --fatal-infos --verbose .
     - stage: analyze
       script: dartfmt --dry-run --set-exit-if-changed .
     - stage: unit_test

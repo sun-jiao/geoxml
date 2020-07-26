@@ -47,7 +47,7 @@ class GpxWriter {
       }
     });
 
-    return builder.build();
+    return builder.buildDocument();
   }
 
   void _writeMetadata(XmlBuilder builder, Metadata metadata) {
