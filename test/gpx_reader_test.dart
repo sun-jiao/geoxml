@@ -125,4 +125,34 @@ void main() {
     expect(gpx.trks.first.trksegs.first.trkpts.last.time,
         DateTime.utc(2016, 8, 21, 12, 24, 31));
   });
+
+  test('issue-4 FixType', () async {
+    final gpx = GpxReader()
+        .fromString(await File('test/assets/fix.gpx').readAsString());
+
+    expect(gpx.wpts[0].fix, FixType.fix_2d);
+    expect(gpx.wpts[1].fix, FixType.fix_3d);
+    expect(gpx.wpts[2].fix, FixType.none);
+
+    final gpxUnknown = GpxReader()
+        .fromString(await File('test/assets/fix_unknown.gpx').readAsString());
+    expect(gpxUnknown.wpts[0].fix, null);
+  });
+
+  test('issue-4', () async {
+    final gpx = GpxReader()
+        .fromString(await File('test/assets/20160617-La-Hermida-to-Bejes.gpx').readAsString());
+
+    expect(gpx.creator, 'MapGazer 1.86');
+    expect(gpx.metadata.links.length, 1);
+    expect(gpx.metadata.links.first.text, 'MapGazer website');
+    expect(gpx.metadata.links.first.href, 'http://speleotrove.com/mapgazer/');
+
+    expect(gpx.wpts.length, 3);
+    expect(gpx.wpts.first.fix, FixType.fix_3d);
+    expect(gpx.wpts.first.name, "La Hermida");
+    expect(gpx.wpts.first.desc, "At 43.25473N, 4.61518W");
+
+    expect(gpx.trks.length, 1);
+  });
 }

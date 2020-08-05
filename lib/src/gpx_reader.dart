@@ -254,8 +254,12 @@ class GpxReader {
               break;
 
             case GpxTagV11.fix:
+              final fixAsString = _readString(iterator, GpxTagV11.fix);
               wpt.fix = FixType.values.firstWhere(
-                  (e) => e.toString() == _readString(iterator, GpxTagV11.fix));
+                  (e) =>
+                      e.toString().replaceFirst('.fix_', '.') ==
+                      'FixType.$fixAsString',
+                  orElse: () => null);
               break;
 
             case GpxTagV11.dGPSId:

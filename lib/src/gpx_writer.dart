@@ -161,6 +161,13 @@ class GpxWriter {
         _writeElementWithTime(builder, GpxTagV11.time, wpt.time);
 
         _writeElement(builder, GpxTagV11.elevation, wpt.ele);
+        _writeElement(
+            builder,
+            GpxTagV11.fix,
+            wpt.fix
+                ?.toString()
+                ?.replaceFirst('FixType.', '')
+                ?.replaceFirst('fix_', ''));
         _writeElement(builder, GpxTagV11.magVar, wpt.magvar);
 
         _writeElement(builder, GpxTagV11.sat, wpt.sat);

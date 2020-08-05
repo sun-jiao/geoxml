@@ -64,4 +64,16 @@ void main() {
 
     expectXml(GpxWriter().asString(gpx, pretty: true), xml);
   });
+
+  test('write FixType', () async {
+    final gpx = createMinimalGPX();
+    gpx.wpts = [
+      Wpt(lat: 1, lon: 1, fix: FixType.fix_2d),
+      Wpt(lat: 1, lon: 1, fix: FixType.fix_3d),
+      Wpt(lat: 1, lon: 1, fix: FixType.none)
+    ];
+    final xml = await File('test/assets/fix.gpx').readAsString();
+
+    expectXml(GpxWriter().asString(gpx, pretty: true), xml);
+  });
 }

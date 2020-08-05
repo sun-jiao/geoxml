@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="dart-gpx library">
+  <wpt lat="1.0" lon="1.0">
+    <fix>2d</fix>
+  </wpt>
+  <wpt lat="1.0" lon="1.0">
+    <fix>3d</fix>
+  </wpt>
+  <wpt lat="1.0" lon="1.0">
+    <fix>none</fix>
+  </wpt>
+</gpx>
