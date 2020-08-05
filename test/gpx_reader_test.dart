@@ -150,8 +150,8 @@ void main() {
 
     expect(gpx.wpts.length, 3);
     expect(gpx.wpts.first.fix, FixType.fix_3d);
-    expect(gpx.wpts.first.name, "La Hermida");
-    expect(gpx.wpts.first.desc, "At 43.25473N, 4.61518W");
+    expect(gpx.wpts.first.name, 'La Hermida');
+    expect(gpx.wpts.first.desc, 'At 43.25473N, 4.61518W');
 
     expect(gpx.trks.length, 1);
   });
