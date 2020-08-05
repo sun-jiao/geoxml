@@ -140,8 +140,9 @@ void main() {
   });
 
   test('issue-4', () async {
-    final gpx = GpxReader()
-        .fromString(await File('test/assets/20160617-La-Hermida-to-Bejes.gpx').readAsString());
+    final gpx = GpxReader().fromString(
+        await File('test/assets/20160617-La-Hermida-to-Bejes.gpx')
+            .readAsString());
 
     expect(gpx.creator, 'MapGazer 1.86');
     expect(gpx.metadata.links.length, 1);
