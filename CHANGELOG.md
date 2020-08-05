@@ -1,3 +1,7 @@
+## [1.1.0] 
+
+* fix gps fixing tag (FixType - 2d, 3d, dgps, none, pps)
+
 ## [1.0.1+3] 
 
 * add comments for GPX fields
