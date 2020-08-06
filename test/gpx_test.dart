@@ -110,8 +110,46 @@ void main() {
     mt2.copyright = Copyright(year: 1);
     expect(mt1, mt2);
 
+    expect(mt1, mt2);
+    expect(mt1.toString(), mt2.toString());
+    expect(mt1.hashCode, mt2.hashCode);
+
     mt1.links = [Link()];
     mt2.links = [Link()];
     expect(mt1, mt2);
+
+    expect(mt1, mt2);
+    expect(mt1.toString(), mt2.toString());
+    expect(mt1.hashCode, mt2.hashCode);
+  });
+
+  test('test bounds objects', () async {
+    final o1 = Bounds();
+    final o2 = Bounds();
+    expect(o1, o2);
+    expect(o1.toString(), o2.toString());
+    expect(o1.hashCode, o2.hashCode);
+
+    o1.maxlat = 1;
+    o2.maxlat = 2;
+
+    expect(o1, isNot(equals(o2)));
+    expect(o1.toString(), isNot(equals(o2.toString())));
+    expect(o1.hashCode, isNot(equals(o2.hashCode)));
+  });
+
+  test('test links objects', () async {
+    final o1 = Link();
+    final o2 = Link();
+    expect(o1, o2);
+    expect(o1.toString(), o2.toString());
+    expect(o1.hashCode, o2.hashCode);
+
+    o1.href = 'http://google.com/';
+    o2.href = 'http://dart.com/';
+
+    expect(o1, isNot(equals(o2)));
+    expect(o1.toString(), isNot(equals(o2.toString())));
+    expect(o1.hashCode, isNot(equals(o2.hashCode)));
   });
 }
