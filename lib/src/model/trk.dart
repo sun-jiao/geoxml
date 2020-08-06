@@ -75,6 +75,16 @@ class Trk {
   String toString() => "Trk[${[name, type, extensions, trksegs].join(",")}]";
 
   @override
-  int get hashCode => hashObjects(
-      [name, cmt, desc, src, links, number, type, extensions, trksegs]);
+  int get hashCode => hashObjects([
+        name,
+        cmt,
+        desc,
+        src,
+        number,
+        type,
+        ...links,
+        ...extensions.keys,
+        ...extensions.values,
+        ...trksegs
+      ]);
 }

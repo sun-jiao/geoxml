@@ -73,6 +73,16 @@ class Rte {
   String toString() => "Rte[${[name, type, extensions, rtepts].join(",")}]";
 
   @override
-  int get hashCode => hashObjects(
-      [name, cmt, desc, src, links, number, type, extensions, rtepts]);
+  int get hashCode => hashObjects([
+        name,
+        cmt,
+        desc,
+        src,
+        ...links,
+        number,
+        type,
+        ...extensions.keys,
+        ...extensions.values,
+        ...rtepts
+      ]);
 }

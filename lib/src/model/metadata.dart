@@ -88,10 +88,11 @@ class Metadata {
         desc,
         author,
         copyright,
-        links,
+        ...links,
         time,
         keywords,
         bounds,
-        extensions
+        ...extensions.keys,
+        ...extensions.values
       ]);
 }

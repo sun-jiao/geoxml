@@ -153,7 +153,7 @@ class Wpt {
         cmt,
         desc,
         src,
-        links,
+        ...links,
         sym,
         type,
         fix,
@@ -163,6 +163,7 @@ class Wpt {
         pdop,
         ageofdgpsdata,
         dgpsid,
-        extensions
+        ...extensions.keys,
+        ...extensions.values
       ]);
 }

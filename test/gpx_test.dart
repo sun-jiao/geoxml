@@ -12,7 +12,10 @@ void main() {
 
     expect(gpx1, gpx2);
     expect(gpx1.toString(), gpx2.toString());
-    expect(gpx1.hashCode, isNot(gpx2.hashCode));
+    expect(gpx1.version.hashCode, gpx2.version.hashCode);
+    expect(gpx1.creator.hashCode, gpx2.creator.hashCode);
+    expect(gpx1.metadata.hashCode, gpx2.metadata.hashCode);
+    expect(gpx1.hashCode, gpx2.hashCode);
 
     gpx1.version = '1';
     gpx2.version = '2';
@@ -29,13 +32,13 @@ void main() {
     gpx2.wpts = [];
     expect(gpx1, gpx2);
     expect(gpx1.toString(), gpx2.toString());
-    expect(gpx1.hashCode, isNot(gpx2.hashCode));
+    expect(gpx1.hashCode, gpx2.hashCode);
 
     gpx1.wpts = [Wpt(lat: 1)];
     gpx2.wpts = [Wpt(lat: 1)];
     expect(gpx1, gpx2);
     expect(gpx1.toString(), gpx2.toString());
-    expect(gpx1.hashCode, isNot(gpx2.hashCode));
+    expect(gpx1.hashCode, gpx2.hashCode);
 
     gpx1.rtes = [
       Rte(rtepts: [Wpt(lat: 1)])
@@ -86,7 +89,7 @@ void main() {
     wpt2.links = [Link()];
     expect(wpt1, wpt2);
     expect(wpt1.toString(), wpt2.toString());
-    expect(wpt1.hashCode, isNot(wpt2.hashCode));
+    expect(wpt1.hashCode, wpt2.hashCode);
 
     wpt1.lat = 1.0;
     wpt2.lat = 2.0;
@@ -127,7 +130,7 @@ void main() {
 
     expect(mt1, mt2);
     expect(mt1.toString(), mt2.toString());
-    expect(mt1.hashCode, isNot(equals(mt2.hashCode)));
+    expect(mt1.hashCode, mt2.hashCode);
 
     mt1.links = [Link()];
     mt2.links = [Link()];
@@ -135,7 +138,7 @@ void main() {
 
     expect(mt1, mt2);
     expect(mt1.toString(), mt2.toString());
-    expect(mt1.hashCode, isNot(equals(mt2.hashCode)));
+    expect(mt1.hashCode, mt2.hashCode);
   });
 
   test('test bounds objects', () async {

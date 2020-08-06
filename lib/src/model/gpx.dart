@@ -62,8 +62,12 @@ class Gpx {
       ].join(",")}]";
 
   @override
-  int get hashCode =>
-      hashObjects([version, creator, metadata, wpts, rtes, trks, extensions]);
+  int get hashCode => hashObjects([version, creator, metadata]
+    ..addAll(wpts)
+    ..addAll(rtes)
+    ..addAll(trks)
+    ..addAll(extensions.keys)
+    ..addAll(extensions.values));
 }
 
 class Pt {

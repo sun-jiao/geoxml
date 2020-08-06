@@ -36,5 +36,6 @@ class Trkseg {
   String toString() => "Trkseg[${[trkpts, extensions].join(",")}]";
 
   @override
-  int get hashCode => hashObjects([trkpts, extensions]);
+  int get hashCode =>
+      hashObjects([...extensions.keys, ...extensions.values, ...trkpts]);
 }
