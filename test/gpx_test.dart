@@ -11,10 +11,14 @@ void main() {
     final gpx2 = Gpx();
 
     expect(gpx1, gpx2);
+    expect(gpx1.toString(), gpx2.toString());
+    expect(gpx1.hashCode, isNot(gpx2.hashCode));
 
     gpx1.version = '1';
     gpx2.version = '2';
     expect(gpx1, isNot(gpx2));
+    expect(gpx1.toString(), isNot(gpx2.toString()));
+    expect(gpx1.hashCode, isNot(gpx2.hashCode));
   });
 
   test('compare gpx objects with wpts', () async {
@@ -24,10 +28,14 @@ void main() {
     gpx1.wpts = [];
     gpx2.wpts = [];
     expect(gpx1, gpx2);
+    expect(gpx1.toString(), gpx2.toString());
+    expect(gpx1.hashCode, isNot(gpx2.hashCode));
 
     gpx1.wpts = [Wpt(lat: 1)];
     gpx2.wpts = [Wpt(lat: 1)];
     expect(gpx1, gpx2);
+    expect(gpx1.toString(), gpx2.toString());
+    expect(gpx1.hashCode, isNot(gpx2.hashCode));
 
     gpx1.rtes = [
       Rte(rtepts: [Wpt(lat: 1)])
@@ -59,7 +67,10 @@ void main() {
         Trkseg(trkpts: [Wpt(lat: 2)])
       ])
     ];
+
     expect(gpx1, isNot(gpx2));
+    expect(gpx1.toString(), isNot(gpx2.toString()));
+    expect(gpx1.hashCode, isNot(gpx2.hashCode));
   });
 
   test('compare wpt objects', () async {
@@ -75,15 +86,19 @@ void main() {
     wpt2.links = [Link()];
     expect(wpt1, wpt2);
     expect(wpt1.toString(), wpt2.toString());
+    expect(wpt1.hashCode, isNot(wpt2.hashCode));
 
     wpt1.lat = 1.0;
     wpt2.lat = 2.0;
     expect(wpt1, isNot(wpt2));
     expect(wpt1.toString(), isNot(wpt2.toString()));
+    expect(wpt1.hashCode, isNot(wpt2.hashCode));
   });
 
   test('compare email objects', () async {
     expect(Email(), Email());
+    expect(Email().toString(), Email().toString());
+
     expect(Email(id: 'mail'), Email(id: 'mail'));
     expect(Email(id: 'mail', domain: 'test.com'),
         Email(id: 'mail', domain: 'test.com'));
@@ -147,6 +162,21 @@ void main() {
 
     o1.href = 'http://google.com/';
     o2.href = 'http://dart.com/';
+
+    expect(o1, isNot(equals(o2)));
+    expect(o1.toString(), isNot(equals(o2.toString())));
+    expect(o1.hashCode, isNot(equals(o2.hashCode)));
+  });
+
+  test('test person objects', () async {
+    final o1 = Person();
+    final o2 = Person();
+    expect(o1, o2);
+    expect(o1.toString(), o2.toString());
+    expect(o1.hashCode, o2.hashCode);
+
+    o1.name = 'person 1';
+    o2.name = 'person 2';
 
     expect(o1, isNot(equals(o2)));
     expect(o1.toString(), isNot(equals(o2.toString())));
