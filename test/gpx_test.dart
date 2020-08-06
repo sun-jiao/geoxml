@@ -112,7 +112,7 @@ void main() {
 
     expect(mt1, mt2);
     expect(mt1.toString(), mt2.toString());
-    expect(mt1.hashCode, mt2.hashCode);
+    expect(mt1.hashCode, isNot(equals(mt2.hashCode)));
 
     mt1.links = [Link()];
     mt2.links = [Link()];
@@ -120,7 +120,7 @@ void main() {
 
     expect(mt1, mt2);
     expect(mt1.toString(), mt2.toString());
-    expect(mt1.hashCode, mt2.hashCode);
+    expect(mt1.hashCode, isNot(equals(mt2.hashCode)));
   });
 
   test('test bounds objects', () async {
