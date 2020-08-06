@@ -1,3 +1,8 @@
+## [1.1.1] 
+
+* fix hashCode calculation for gpx types
+* update Dart SDK requirements to min. v2.3.0
+
 ## [1.1.0] 
 
 * fix gps fixing tag (FixType - 2d, 3d, dgps, none, pps)
