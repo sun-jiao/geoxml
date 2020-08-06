@@ -52,10 +52,20 @@ Gpx createGPXWithRte() {
   gpx.metadata.name = 'routes';
   gpx.metadata.time = DateTime.utc(2010, 1, 2, 3, 4, 5);
   gpx.rtes = [
-    Rte(name: 'route from London to Paris', rtepts: [
-      Wpt(lat: 51.5, lon: -0.1167, name: 'London'),
-      Wpt(lat: 48.8667, lon: 2.3333, name: 'Paris')
-    ]),
+    Rte(
+        name: 'route from London to Paris',
+        desc: 'route description',
+        cmt: 'route comments',
+        type: 'type',
+        src: 'source',
+        number: 1,
+        rtepts: [
+          Wpt(lat: 51.5, lon: -0.1167, name: 'London'),
+          Wpt(lat: 48.8667, lon: 2.3333, name: 'Paris')
+        ],
+        links: [
+          Link(href: 'http://google.com/', text: 'LINK', type: 'TYPE')
+        ]),
     Rte(name: 'route from Paris to Londan', rtepts: [
       Wpt(lat: 48.8667, lon: 2.3333, name: 'Paris'),
       Wpt(lat: 51.5, lon: -0.1167, name: 'London')

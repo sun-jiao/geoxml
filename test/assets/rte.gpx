@@ -6,12 +6,24 @@
   </metadata>
   <rte>
     <name>route from London to Paris</name>
+    <desc>route description</desc>
+    <cmt>route comments</cmt>
+    <type>type</type>
+
+    <src>source</src>
+    <number>1</number>
+
     <rtept lat="51.5" lon="-0.1167">
       <name>London</name>
     </rtept>
     <rtept lat="48.8667" lon="2.3333">
       <name>Paris</name>
     </rtept>
+    
+    <link href="http://google.com/">
+      <text>LINK</text>
+      <type>TYPE</type>
+    </link>
   </rte>
   <rte>
     <name>route from Paris to Londan</name>
