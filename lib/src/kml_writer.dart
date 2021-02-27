@@ -9,8 +9,24 @@ import 'model/rte.dart';
 import 'model/trk.dart';
 import 'model/wpt.dart';
 
+/// KML 2.2 AltitudeMode values
+enum AltitudeMode {
+  absolute,
+  clampToGround,
+  relativeToGround,
+}
+
 /// Convert Gpx into KML
 class KmlWriter {
+  final AltitudeMode altitudeMode;
+
+  KmlWriter({this.altitudeMode = AltitudeMode.absolute});
+
+  String get _altitudeModeString {
+    final strVal = altitudeMode.toString();
+    return strVal.substring(strVal.indexOf('.') + 1);
+  }
+
   /// Convert Gpx into KML as String
   String asString(Gpx gpx, {bool pretty = false}) =>
       _build(gpx).toXmlString(pretty: pretty);
@@ -97,7 +113,7 @@ class KmlWriter {
       builder.element(KmlTagV22.track, nest: () {
         _writeElement(builder, KmlTagV22.extrude, 1);
         _writeElement(builder, KmlTagV22.tessellate, 1);
-        _writeElement(builder, KmlTagV22.altitudeMode, 'absolute');
+        _writeElement(builder, KmlTagV22.altitudeMode, _altitudeModeString);
 
         _writeElement(
             builder,
@@ -126,7 +142,7 @@ class KmlWriter {
       builder.element(KmlTagV22.track, nest: () {
         _writeElement(builder, KmlTagV22.extrude, 1);
         _writeElement(builder, KmlTagV22.tessellate, 1);
-        _writeElement(builder, KmlTagV22.altitudeMode, 'absolute');
+        _writeElement(builder, KmlTagV22.altitudeMode, _altitudeModeString);
 
         _writeElement(
             builder,
@@ -168,7 +184,7 @@ class KmlWriter {
 
       builder.element(KmlTagV22.point, nest: () {
         if (wpt.ele != null) {
-          _writeElement(builder, KmlTagV22.altitudeMode, 'absolute');
+          _writeElement(builder, KmlTagV22.altitudeMode, _altitudeModeString);
         }
 
         _writeElement(builder, KmlTagV22.coordinates,
