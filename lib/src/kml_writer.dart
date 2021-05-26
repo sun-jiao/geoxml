@@ -27,25 +27,19 @@ class KmlWriter {
 
       builder.element(KmlTagV22.document, nest: () {
         if (gpx.metadata != null) {
-          _writeMetadata(builder, gpx.metadata);
+          _writeMetadata(builder, gpx.metadata!);
         }
 
-        if (gpx.wpts != null) {
-          for (final wpt in gpx.wpts) {
-            _writePoint(builder, KmlTagV22.placemark, wpt);
-          }
+        for (final wpt in gpx.wpts) {
+          _writePoint(builder, KmlTagV22.placemark, wpt);
         }
 
-        if (gpx.rtes != null) {
-          for (final rte in gpx.rtes) {
-            _writeRoute(builder, rte);
-          }
+        for (final rte in gpx.rtes) {
+          _writeRoute(builder, rte);
         }
 
-        if (gpx.trks != null) {
-          for (final trk in gpx.trks) {
-            _writeTrack(builder, trk);
-          }
+        for (final trk in gpx.trks) {
+          _writeTrack(builder, trk);
         }
       });
     });
@@ -59,11 +53,15 @@ class KmlWriter {
 
     if (metadata.author != null) {
       builder.element('atom:author', nest: () {
-        _writeElement(builder, 'atom:name', metadata.author.name);
-        _writeElement(builder, 'atom:email',
-            '${metadata.author.email.id}@${metadata.author.email.domain}');
+        _writeElement(builder, 'atom:name', metadata.author?.name);
+        if (metadata.author?.email?.id != null &&
+            metadata.author?.email?.domain != null) {
+          final email =
+              '${metadata.author!.email!.id}@${metadata.author!.email!.domain}';
+          _writeElement(builder, 'atom:email', email);
+        }
 
-        _writeElement(builder, 'atom:uri', metadata.author.link.href);
+        _writeElement(builder, 'atom:uri', metadata.author?.link?.href);
       });
     }
 
@@ -72,12 +70,12 @@ class KmlWriter {
 
       if (metadata.time != null) {
         _writeExtendedElement(
-            builder, GpxTagV11.time, metadata.time.toIso8601String());
+            builder, GpxTagV11.time, metadata.time?.toIso8601String());
       }
 
       if (metadata.copyright != null) {
         _writeExtendedElement(builder, GpxTagV11.copyright,
-            '${metadata.copyright.author}, ${metadata.copyright.year}');
+            '${metadata.copyright!.author}, ${metadata.copyright!.year}');
       }
     });
   }
@@ -142,58 +140,52 @@ class KmlWriter {
   }
 
   void _writePoint(XmlBuilder builder, String tagName, Wpt wpt) {
-    if (wpt != null) {
-      builder.element(tagName, nest: () {
-        _writeElement(builder, KmlTagV22.name, wpt.name);
-        _writeElement(builder, KmlTagV22.desc, wpt.desc);
+    builder.element(tagName, nest: () {
+      _writeElement(builder, KmlTagV22.name, wpt.name);
+      _writeElement(builder, KmlTagV22.desc, wpt.desc);
 
-        _writeElementWithTime(builder, wpt.time);
+      _writeElementWithTime(builder, wpt.time);
 
-        _writeAtomLinks(builder, wpt.links);
+      _writeAtomLinks(builder, wpt.links);
 
-        builder.element(KmlTagV22.extendedData, nest: () {
-          _writeExtendedElement(builder, GpxTagV11.magVar, wpt.magvar);
+      builder.element(KmlTagV22.extendedData, nest: () {
+        _writeExtendedElement(builder, GpxTagV11.magVar, wpt.magvar);
 
-          _writeExtendedElement(builder, GpxTagV11.sat, wpt.sat);
-          _writeExtendedElement(builder, GpxTagV11.src, wpt.src);
+        _writeExtendedElement(builder, GpxTagV11.sat, wpt.sat);
+        _writeExtendedElement(builder, GpxTagV11.src, wpt.src);
 
-          _writeExtendedElement(builder, GpxTagV11.hDOP, wpt.hdop);
-          _writeExtendedElement(builder, GpxTagV11.vDOP, wpt.vdop);
-          _writeExtendedElement(builder, GpxTagV11.pDOP, wpt.pdop);
+        _writeExtendedElement(builder, GpxTagV11.hDOP, wpt.hdop);
+        _writeExtendedElement(builder, GpxTagV11.vDOP, wpt.vdop);
+        _writeExtendedElement(builder, GpxTagV11.pDOP, wpt.pdop);
 
-          _writeExtendedElement(
-              builder, GpxTagV11.geoidHeight, wpt.geoidheight);
-          _writeExtendedElement(
-              builder, GpxTagV11.ageOfData, wpt.ageofdgpsdata);
-          _writeExtendedElement(builder, GpxTagV11.dGPSId, wpt.dgpsid);
+        _writeExtendedElement(builder, GpxTagV11.geoidHeight, wpt.geoidheight);
+        _writeExtendedElement(builder, GpxTagV11.ageOfData, wpt.ageofdgpsdata);
+        _writeExtendedElement(builder, GpxTagV11.dGPSId, wpt.dgpsid);
 
-          _writeExtendedElement(builder, GpxTagV11.comment, wpt.cmt);
-          _writeExtendedElement(builder, GpxTagV11.type, wpt.type);
-        });
-
-        builder.element(KmlTagV22.point, nest: () {
-          if (wpt.ele != null) {
-            _writeElement(builder, KmlTagV22.altitudeMode, 'absolute');
-          }
-
-          _writeElement(builder, KmlTagV22.coordinates,
-              [wpt.lon, wpt.lat, wpt.ele ?? 0].join(','));
-        });
+        _writeExtendedElement(builder, GpxTagV11.comment, wpt.cmt);
+        _writeExtendedElement(builder, GpxTagV11.type, wpt.type);
       });
-    }
+
+      builder.element(KmlTagV22.point, nest: () {
+        if (wpt.ele != null) {
+          _writeElement(builder, KmlTagV22.altitudeMode, 'absolute');
+        }
+
+        _writeElement(builder, KmlTagV22.coordinates,
+            [wpt.lon, wpt.lat, wpt.ele ?? 0].join(','));
+      });
+    });
   }
 
-  void _writeElement(XmlBuilder builder, String tagName, value) {
+  void _writeElement(XmlBuilder builder, String tagName, Object? value) {
     if (value != null) {
       builder.element(tagName, nest: value);
     }
   }
 
   void _writeAtomLinks(XmlBuilder builder, List<Link> value) {
-    if (value != null) {
-      for (final link in value.where((link) => link != null)) {
-        builder.element('atom:link', nest: link.href);
-      }
+    for (final link in value) {
+      builder.element('atom:link', nest: link.href);
     }
   }
 
@@ -206,7 +198,7 @@ class KmlWriter {
     }
   }
 
-  void _writeElementWithTime(XmlBuilder builder, DateTime value) {
+  void _writeElementWithTime(XmlBuilder builder, DateTime? value) {
     if (value != null) {
       builder.element(KmlTagV22.timestamp, nest: () {
         builder.element(KmlTagV22.when, nest: value.toUtc().toIso8601String());

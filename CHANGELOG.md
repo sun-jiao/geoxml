@@ -1,3 +1,8 @@
+## [2.0.0]
+
+* BREAKING CHANGE: This version requires Dart SDK 2.12.0 or later (null safety).
+* update XML to min v5.0.0
+
 ## [1.1.1] 
 
 * fix hashCode calculation for gpx types

@@ -95,14 +95,14 @@ void main() {
     expect(gpx.version, '1.0');
     expect(gpx.creator, 'GPSLogger 79 - http://gpslogger.mendhak.com/');
 
-    expect(gpx.metadata.name, 'Five Hikes in the White Mountains');
-    expect(gpx.metadata.desc, 'Five Hikes in the White Mountains!!');
-    expect(gpx.metadata.time, DateTime.utc(2016, 8, 21, 12, 24, 27));
-    expect(gpx.metadata.keywords, 'Hiking, NH, Presidential Range');
-    expect(gpx.metadata.bounds.minlat, 42.1);
-    expect(gpx.metadata.bounds.minlon, 71.9);
-    expect(gpx.metadata.bounds.maxlat, 42.4);
-    expect(gpx.metadata.bounds.maxlon, 71.1);
+    expect(gpx.metadata!.name, 'Five Hikes in the White Mountains');
+    expect(gpx.metadata!.desc, 'Five Hikes in the White Mountains!!');
+    expect(gpx.metadata!.time, DateTime.utc(2016, 8, 21, 12, 24, 27));
+    expect(gpx.metadata!.keywords, 'Hiking, NH, Presidential Range');
+    expect(gpx.metadata!.bounds!.minlat, 42.1);
+    expect(gpx.metadata!.bounds!.minlon, 71.9);
+    expect(gpx.metadata!.bounds!.maxlat, 42.4);
+    expect(gpx.metadata!.bounds!.maxlon, 71.1);
 
     expect(gpx.wpts.length, 1);
     expect(gpx.wpts.first.lat, 48.2033471);
@@ -145,9 +145,9 @@ void main() {
             .readAsString());
 
     expect(gpx.creator, 'MapGazer 1.86');
-    expect(gpx.metadata.links.length, 1);
-    expect(gpx.metadata.links.first.text, 'MapGazer website');
-    expect(gpx.metadata.links.first.href, 'http://speleotrove.com/mapgazer/');
+    expect(gpx.metadata!.links.length, 1);
+    expect(gpx.metadata!.links.first.text, 'MapGazer website');
+    expect(gpx.metadata!.links.first.href, 'http://speleotrove.com/mapgazer/');
 
     expect(gpx.wpts.length, 3);
     expect(gpx.wpts.first.fix, FixType.fix_3d);

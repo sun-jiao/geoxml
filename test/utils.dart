@@ -30,9 +30,9 @@ Gpx createMinimalMetadataGPX() {
 Gpx createGPXWithWpt() {
   final gpx = createMinimalGPX();
   gpx.metadata = Metadata();
-  gpx.metadata.name = 'world cities';
-  gpx.metadata.desc = 'location of some of world cities';
-  gpx.metadata.time = DateTime.utc(2010, 1, 2, 3, 4, 5);
+  gpx.metadata!.name = 'world cities';
+  gpx.metadata!.desc = 'location of some of world cities';
+  gpx.metadata!.time = DateTime.utc(2010, 1, 2, 3, 4, 5);
   gpx.wpts = [
     Wpt(
         lat: -25.7996,
@@ -49,8 +49,8 @@ Gpx createGPXWithWpt() {
 Gpx createGPXWithRte() {
   final gpx = createMinimalGPX();
   gpx.metadata = Metadata();
-  gpx.metadata.name = 'routes';
-  gpx.metadata.time = DateTime.utc(2010, 1, 2, 3, 4, 5);
+  gpx.metadata!.name = 'routes';
+  gpx.metadata!.time = DateTime.utc(2010, 1, 2, 3, 4, 5);
   gpx.rtes = [
     Rte(
         name: 'route from London to Paris',
@@ -78,8 +78,8 @@ Gpx createGPXWithRte() {
 Gpx createGPXWithTrk() {
   final gpx = createMinimalGPX();
   gpx.metadata = Metadata();
-  gpx.metadata.name = 'routes';
-  gpx.metadata.time = DateTime.utc(2010, 1, 2, 3, 4, 5);
+  gpx.metadata!.name = 'routes';
+  gpx.metadata!.time = DateTime.utc(2010, 1, 2, 3, 4, 5);
   gpx.trks = [
     Trk(name: 'route from London to Paris', trksegs: [
       Trkseg(trkpts: [
@@ -101,21 +101,21 @@ Gpx createGPXWithTrk() {
 Gpx createMetadataGPX() {
   final gpx = Gpx();
   gpx.metadata = Metadata();
-  gpx.metadata.name = 'routes';
-  gpx.metadata.desc = 'desc';
-  gpx.metadata.author = Person(
+  gpx.metadata!.name = 'routes';
+  gpx.metadata!.desc = 'desc';
+  gpx.metadata!.author = Person(
       name: 'name',
       email: Email(id: 'mail', domain: 'mail.com'),
       link: Link(href: 'http://google.com/', text: 'LINK', type: 'TYPE'));
-  gpx.metadata.links = [
+  gpx.metadata!.links = [
     Link(href: 'http://metadata.com/', text: 'LINK', type: 'TYPE')
   ];
-  gpx.metadata.time = DateTime.utc(2010, 1, 2, 3, 4, 5);
-  gpx.metadata.copyright =
+  gpx.metadata!.time = DateTime.utc(2010, 1, 2, 3, 4, 5);
+  gpx.metadata!.copyright =
       Copyright(author: 'lib', year: 2019, license: 'UNKNOWN');
-  gpx.metadata.keywords = 'k1,k2,k3';
-  gpx.metadata.bounds = Bounds(minlat: 0, minlon: 1, maxlat: 2, maxlon: 3);
-  gpx.metadata.extensions = {'schema:m1': 'v1', 'schema:m2': 'v2'};
+  gpx.metadata!.keywords = 'k1,k2,k3';
+  gpx.metadata!.bounds = Bounds(minlat: 0, minlon: 1, maxlat: 2, maxlon: 3);
+  gpx.metadata!.extensions = {'schema:m1': 'v1', 'schema:m2': 'v2'};
 
   return gpx;
 }
@@ -123,11 +123,11 @@ Gpx createMetadataGPX() {
 Gpx createComplexGPX() {
   final gpx = createMinimalGPX();
   gpx.metadata = Metadata();
-  gpx.metadata.name = 'routes';
-  gpx.metadata.time = DateTime.utc(2010, 1, 2, 3, 4, 5);
-  gpx.metadata.copyright =
+  gpx.metadata!.name = 'routes';
+  gpx.metadata!.time = DateTime.utc(2010, 1, 2, 3, 4, 5);
+  gpx.metadata!.copyright =
       Copyright(author: 'lib', year: 2019, license: 'UNKNOWN');
-  gpx.metadata.extensions = {'m1': 'v1', 'm2': 'v2'};
+  gpx.metadata!.extensions = {'m1': 'v1', 'm2': 'v2'};
   gpx.wpts = [
     Wpt(
         lat: -25.7996,

@@ -8,10 +8,10 @@ class Copyright {
   String author = '';
 
   /// Year of copyright.
-  int year;
+  int? year;
 
   /// Link to external file containing license text.
-  String license;
+  String? license;
 
   /// Construct a new [Copyright] with author, year and license.
   Copyright({this.author = '', this.year, this.license});
