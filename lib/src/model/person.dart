@@ -6,13 +6,13 @@ import 'link.dart';
 /// A person or organization.
 class Person {
   /// Name of person or organization.
-  String name;
+  String? name;
 
   /// Email address.
-  Email email;
+  Email? email;
 
   /// Link to Web site or other external information about person
-  Link link;
+  Link? link;
 
   /// Construct a new [Person] object.
   Person({this.name, this.email, this.link});

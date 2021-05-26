@@ -1,7 +1,5 @@
 library gpx.test.gpx_test;
 
-import 'dart:io';
-
 import 'package:gpx/gpx.dart';
 import 'package:test/test.dart';
 

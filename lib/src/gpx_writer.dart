@@ -26,27 +26,19 @@ class GpxWriter {
       builder.attribute(GpxTagV11.creator, gpx.creator);
 
       if (gpx.metadata != null) {
-        _writeMetadata(builder, gpx.metadata);
+        _writeMetadata(builder, gpx.metadata!);
       }
 
       _writeExtensions(builder, gpx.extensions);
 
-      if (gpx.wpts != null) {
-        for (final wpt in gpx.wpts) {
-          _writePoint(builder, GpxTagV11.wayPoint, wpt);
-        }
+      for (final wpt in gpx.wpts) {
+        _writePoint(builder, GpxTagV11.wayPoint, wpt);
       }
-
-      if (gpx.rtes != null) {
-        for (final rte in gpx.rtes) {
-          _writeRoute(builder, rte);
-        }
+      for (final rte in gpx.rtes) {
+        _writeRoute(builder, rte);
       }
-
-      if (gpx.trks != null) {
-        for (final trk in gpx.trks) {
-          _writeTrack(builder, trk);
-        }
+      for (final trk in gpx.trks) {
+        _writeTrack(builder, trk);
       }
     });
 
@@ -62,26 +54,31 @@ class GpxWriter {
 
       if (metadata.author != null) {
         builder.element(GpxTagV11.author, nest: () {
-          _writeElement(builder, GpxTagV11.name, metadata.author.name);
+          if (metadata.author?.name != null) {
+            _writeElement(builder, GpxTagV11.name, metadata.author?.name);
+          }
 
-          if (metadata.author.email != null) {
+          if (metadata.author?.email != null) {
             builder.element(GpxTagV11.email, nest: () {
-              _writeAttribute(builder, GpxTagV11.id, metadata.author.email.id);
               _writeAttribute(
-                  builder, GpxTagV11.domain, metadata.author.email.domain);
+                  builder, GpxTagV11.id, metadata.author?.email?.id);
+              _writeAttribute(
+                  builder, GpxTagV11.domain, metadata.author?.email?.domain);
             });
           }
 
-          _writeLinks(builder, [metadata.author.link]);
+          _writeLinks(builder, [metadata.author?.link]);
         });
       }
 
       if (metadata.copyright != null) {
         builder.element(GpxTagV11.copyright, nest: () {
-          _writeAttribute(builder, GpxTagV11.author, metadata.copyright.author);
+          _writeAttribute(
+              builder, GpxTagV11.author, metadata.copyright?.author);
 
-          _writeElement(builder, GpxTagV11.year, metadata.copyright.year);
-          _writeElement(builder, GpxTagV11.license, metadata.copyright.license);
+          _writeElement(builder, GpxTagV11.year, metadata.copyright?.year);
+          _writeElement(
+              builder, GpxTagV11.license, metadata.copyright?.license);
         });
       }
 
@@ -92,13 +89,13 @@ class GpxWriter {
       if (metadata.bounds != null) {
         builder.element(GpxTagV11.bounds, nest: () {
           _writeAttribute(
-              builder, GpxTagV11.minLatitude, metadata.bounds.minlat);
+              builder, GpxTagV11.minLatitude, metadata.bounds?.minlat);
           _writeAttribute(
-              builder, GpxTagV11.minLongitude, metadata.bounds.minlon);
+              builder, GpxTagV11.minLongitude, metadata.bounds?.minlon);
           _writeAttribute(
-              builder, GpxTagV11.maxLatitude, metadata.bounds.maxlat);
+              builder, GpxTagV11.maxLatitude, metadata.bounds?.maxlat);
           _writeAttribute(
-              builder, GpxTagV11.maxLongitude, metadata.bounds.maxlon);
+              builder, GpxTagV11.maxLongitude, metadata.bounds?.maxlon);
         });
       }
 
@@ -152,7 +149,7 @@ class GpxWriter {
     });
   }
 
-  void _writePoint(XmlBuilder builder, String tagName, Wpt wpt) {
+  void _writePoint(XmlBuilder builder, String tagName, Wpt? wpt) {
     if (wpt != null) {
       builder.element(tagName, nest: () {
         _writeAttribute(builder, GpxTagV11.latitude, wpt.lat);
@@ -166,8 +163,8 @@ class GpxWriter {
             GpxTagV11.fix,
             wpt.fix
                 ?.toString()
-                ?.replaceFirst('FixType.', '')
-                ?.replaceFirst('fix_', ''));
+                .replaceFirst('FixType.', '')
+                .replaceFirst('fix_', ''));
         _writeElement(builder, GpxTagV11.magVar, wpt.magvar);
 
         _writeElement(builder, GpxTagV11.sat, wpt.sat);
@@ -193,7 +190,7 @@ class GpxWriter {
     }
   }
 
-  void _writeExtensions(XmlBuilder builder, Map<String, String> value) {
+  void _writeExtensions(XmlBuilder builder, Map<String, String>? value) {
     if (value != null && value.isNotEmpty) {
       builder.element(GpxTagV11.extensions, nest: () {
         value.forEach((k, v) {
@@ -203,33 +200,33 @@ class GpxWriter {
     }
   }
 
-  void _writeLinks(XmlBuilder builder, List<Link> value) {
+  void _writeLinks(XmlBuilder builder, List<Link?>? value) {
     if (value != null) {
       for (final link in value.where((link) => link != null)) {
         builder.element(GpxTagV11.link, nest: () {
-          _writeAttribute(builder, GpxTagV11.href, link.href);
+          _writeAttribute(builder, GpxTagV11.href, link?.href);
 
-          _writeElement(builder, GpxTagV11.text, link.text);
-          _writeElement(builder, GpxTagV11.type, link.type);
+          _writeElement(builder, GpxTagV11.text, link?.text);
+          _writeElement(builder, GpxTagV11.type, link?.type);
         });
       }
     }
   }
 
-  void _writeElement(XmlBuilder builder, String tagName, value) {
+  void _writeElement(XmlBuilder builder, String tagName, Object? value) {
     if (value != null) {
       builder.element(tagName, nest: value);
     }
   }
 
-  void _writeAttribute(XmlBuilder builder, String tagName, value) {
+  void _writeAttribute(XmlBuilder builder, String tagName, Object? value) {
     if (value != null) {
       builder.attribute(tagName, value);
     }
   }
 
   void _writeElementWithTime(
-      XmlBuilder builder, String tagName, DateTime value) {
+      XmlBuilder builder, String tagName, DateTime? value) {
     if (value != null) {
       builder.element(tagName, nest: value.toUtc().toIso8601String());
     }

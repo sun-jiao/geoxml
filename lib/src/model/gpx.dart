@@ -19,7 +19,7 @@ class Gpx {
   String creator = '';
 
   /// Metadata about the file.
-  Metadata metadata;
+  Metadata? metadata;
 
   /// A list of waypoints.
   List<Wpt> wpts = [];
@@ -77,6 +77,6 @@ class Gpx {
 class Pt {
   double lat = 0;
   double lon = 0;
-  double ele;
-  DateTime time;
+  double? ele;
+  DateTime? time;
 }

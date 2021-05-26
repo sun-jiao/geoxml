@@ -7,10 +7,10 @@ class Link {
   String href;
 
   /// Text of hyperlink.
-  String text;
+  String? text;
 
   /// Mime type of content (image/jpeg).
-  String type;
+  String? type;
 
   /// Construct a new [Link] object.
   Link({this.href = '', this.text, this.type});

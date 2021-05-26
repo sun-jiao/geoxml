@@ -6,9 +6,9 @@ void main() {
   gpx.version = '1.1';
   gpx.creator = 'dart-gpx library';
   gpx.metadata = Metadata();
-  gpx.metadata.name = 'world cities';
-  gpx.metadata.desc = 'location of some of world cities';
-  gpx.metadata.time = DateTime.utc(2010, 1, 2, 3, 4, 5);
+  gpx.metadata?.name = 'world cities';
+  gpx.metadata?.desc = 'location of some of world cities';
+  gpx.metadata?.time = DateTime.utc(2010, 1, 2, 3, 4, 5);
   gpx.wpts = [
     Wpt(
         lat: -25.7996,

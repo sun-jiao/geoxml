@@ -3,47 +3,47 @@ import 'package:quiver/core.dart';
 
 import 'link.dart';
 
-enum FixType { fix_2d, fix_3d, dgps, none, pps }
+enum FixType { fix_2d, fix_3d, dgps, none, pps, unknown }
 
 /// Wpt represents a waypoint, point of interest, or named feature on a map.
 class Wpt {
   /// The latitude of the point. This is always in decimal degrees, and always
   /// in WGS84 datum.
-  double lat;
+  double? lat;
 
   /// The longitude of the point. This is always in decimal degrees, and always
   /// in WGS84 datum.
-  double lon;
+  double? lon;
 
   /// The elevation (in meters) of the point.
-  double ele;
+  double? ele;
 
   /// The time that the point was recorded.
-  DateTime time;
+  DateTime? time;
 
   /// Magnetic variation (in degrees) at the point.
-  double magvar;
+  double? magvar;
 
   /// Height (in meters) of geoid (mean sea level) above WGS84 earth ellipsoid.
   /// As defined in NMEA GGA message.
-  double geoidheight;
+  double? geoidheight;
 
   /// The GPS name of the waypoint. This field will be transferred to and from
   /// the GPS. GPX does not place restrictions on the length of this field or
   /// the characters contained in it. It is up to the receiving application to
   /// validate the field before sending it to the GPS.
-  String name;
+  String? name;
 
   /// GPS waypoint comment. Sent to GPS as comment.
-  String cmt;
+  String? cmt;
 
   /// A text description of the element. Holds additional information about the
   /// element intended for the user, not the GPS.
-  String desc;
+  String? desc;
 
   /// Source of data. Included to give user some idea of reliability and
   /// accuracy of data. "Garmin eTrex", "USGS quad Boston North", e.g.
-  String src;
+  String? src;
 
   /// Links to external information.
   List<Link> links;
@@ -51,31 +51,31 @@ class Wpt {
   /// Text of GPS symbol name. For interchange with other programs, use the
   /// exact spelling of the symbol as displayed on the GPS. If the GPS
   /// abbreviates words, spell them out
-  String sym;
+  String? sym;
 
   /// Type (classification) of the waypoint.
-  String type;
+  String? type;
 
   /// Type of GPX fix.
-  FixType fix;
+  FixType? fix;
 
   /// Number of satellites used to calculate the GPX fix.
-  int sat;
+  int? sat;
 
   /// Horizontal dilution of precision.
-  double hdop;
+  double? hdop;
 
   /// Vertical dilution of precision.
-  double vdop;
+  double? vdop;
 
   /// Position dilution of precision.
-  double pdop;
+  double? pdop;
 
   /// Number of seconds since last DGPS update.
-  double ageofdgpsdata;
+  double? ageofdgpsdata;
 
   /// ID of DGPS station used in differential correction.
-  int dgpsid;
+  int? dgpsid;
 
   /// You can add extend GPX by adding your own elements from another schema
   /// here.
@@ -93,7 +93,7 @@ class Wpt {
       this.cmt,
       this.desc,
       this.src,
-      List<Link> links,
+      List<Link>? links,
       this.sym,
       this.type,
       this.fix,
@@ -103,7 +103,7 @@ class Wpt {
       this.pdop,
       this.ageofdgpsdata,
       this.dgpsid,
-      Map<String, String> extensions})
+      Map<String, String>? extensions})
       : links = links ?? [],
         extensions = extensions ?? <String, String>{};
 

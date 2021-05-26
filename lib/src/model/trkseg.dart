@@ -17,7 +17,7 @@ class Trkseg {
   Map<String, String> extensions;
 
   /// Construct a new [Trkseg] object.
-  Trkseg({List<Wpt> trkpts, Map<String, String> extensions})
+  Trkseg({List<Wpt>? trkpts, Map<String, String>? extensions})
       : trkpts = trkpts ?? [],
         extensions = extensions ?? <String, String>{};
 

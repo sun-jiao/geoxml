@@ -11,30 +11,30 @@ import 'person.dart';
 /// files allows others to search for and use your GPS data.
 class Metadata {
   /// The name of the GPX file.
-  String name;
+  String? name;
 
   /// A description of the contents of the GPX file.
-  String desc;
+  String? desc;
 
   /// The person or organization who created the GPX file.
-  Person author;
+  Person? author;
 
   /// Copyright and license information governing use of the file.
-  Copyright copyright;
+  Copyright? copyright;
 
   /// URLs associated with the location described in the file.
   List<Link> links;
 
   /// The creation date of the file.
-  DateTime time;
+  DateTime? time;
 
   /// Keywords associated with the file. Search engines or databases can use
   /// this information to classify the data.
-  String keywords;
+  String? keywords;
 
   /// Minimum and maximum coordinates which describe the extent of the
   /// coordinates in the file.
-  Bounds bounds;
+  Bounds? bounds;
 
   /// You can add extend GPX by adding your own elements from another schema
   /// here.
@@ -46,11 +46,11 @@ class Metadata {
       this.desc,
       this.author,
       this.copyright,
-      List<Link> links,
+      List<Link>? links,
       this.time,
       this.keywords,
       this.bounds,
-      Map<String, String> extensions})
+      Map<String, String>? extensions})
       : links = links ?? [],
         extensions = extensions ?? <String, String>{};
 
