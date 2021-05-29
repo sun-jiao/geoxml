@@ -52,6 +52,17 @@ void main() {
     expectXml(KmlWriter().asString(gpx, pretty: true), xml);
   });
 
+  test('write complex kml with altitudeMode', () async {
+    final gpx = createComplexGPX();
+    final xml =
+        await File('test/assets/complex_clampToGround.kml').readAsString();
+
+    expectXml(
+        KmlWriter(altitudeMode: AltitudeMode.clampToGround)
+            .asString(gpx, pretty: true),
+        xml);
+  });
+
   test('write large kml', () async {
     final gpx = GpxReader()
         .fromString(await File('test/assets/large.gpx').readAsString());
