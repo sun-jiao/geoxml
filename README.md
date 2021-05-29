@@ -24,7 +24,7 @@ In your dart/flutter project add the dependency:
 ```
  dependencies:
    ...
-   gpx: ^2.0.0
+   gpx: ^2.1.0
 ```
 
 ### Reading XML
@@ -84,6 +84,11 @@ main() {
 
   // generate xml string
   var kmlString = KmlWriter().asString(gpx, pretty: true);
+  print(kmlString);
+
+  // generate xml string with altitude mode - clampToGround
+  var kmlString = KmlWriter(altitudeMode: AltitudeMode.clampToGround)
+      .asString(gpx, pretty: true);
   print(kmlString);
 }
 ```

@@ -1,3 +1,7 @@
+## [2.1.0]
+
+* Add option to KmlWriter to specify <altitudeMode> (absolute, clampToGround, relativeToGround)
+
 ## [2.0.0]
 
 * BREAKING CHANGE: This version requires Dart SDK 2.12.0 or later (null safety).
