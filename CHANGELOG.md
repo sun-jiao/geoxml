@@ -1,3 +1,7 @@
+## [2.1.1]
+
+* Fix GpxReader to read CDATA elements
+
 ## [2.1.0]
 
 * Add option to KmlWriter to specify <altitudeMode> (absolute, clampToGround, relativeToGround)
