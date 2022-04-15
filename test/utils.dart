@@ -1,14 +1,4 @@
 import 'package:gpx/gpx.dart';
-import 'package:gpx/src/model/copyright.dart';
-import 'package:gpx/src/model/email.dart';
-import 'package:gpx/src/model/gpx.dart';
-import 'package:gpx/src/model/link.dart';
-import 'package:gpx/src/model/metadata.dart';
-import 'package:gpx/src/model/person.dart';
-import 'package:gpx/src/model/rte.dart';
-import 'package:gpx/src/model/trk.dart';
-import 'package:gpx/src/model/trkseg.dart';
-import 'package:gpx/src/model/wpt.dart';
 import 'package:test/test.dart';
 
 Gpx createMinimalGPX() {

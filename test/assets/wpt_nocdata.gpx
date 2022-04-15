@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gpx version="1.1" creator="dart-gpx library">
   <metadata>
-    <name><![CDATA[world cities]]></name>
+    <name>world cities</name>
     <desc>location of some of world cities</desc>
     <time>2010-01-02T03:04:05.000Z</time>
   </metadata>
@@ -13,6 +13,6 @@
   <wpt lat="36.62" lon="101.77">
     <ele>10.2</ele>
     <name>Xining</name>
-    <desc><![CDATA[China]]></desc>
+    <desc>China</desc>
   </wpt>
 </gpx>

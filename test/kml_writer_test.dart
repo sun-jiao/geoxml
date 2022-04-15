@@ -3,7 +3,6 @@ library gpx.test.kml_writer_test;
 import 'dart:io';
 
 import 'package:gpx/gpx.dart';
-import 'package:gpx/src/kml_writer.dart';
 import 'package:test/test.dart';
 
 import 'utils.dart';

@@ -363,6 +363,10 @@ class GpxReader {
         string += val.text;
       }
 
+      if (val is XmlCDATAEvent) {
+        string += val.text;
+      }
+
       if (val is XmlEndElementEvent && val.name == tagName) {
         break;
       }

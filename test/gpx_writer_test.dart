@@ -25,14 +25,14 @@ void main() {
 
   test('write gpx with multiply points', () async {
     final gpx = createGPXWithWpt();
-    final xml = await File('test/assets/wpt.gpx').readAsString();
+    final xml = await File('test/assets/wpt_nocdata.gpx').readAsString();
 
     expectXml(GpxWriter().asString(gpx, pretty: true), xml);
   });
 
   test('write gpx with multiply points', () async {
     final gpx = createGPXWithWpt();
-    final xml = await File('test/assets/wpt.gpx').readAsString();
+    final xml = await File('test/assets/wpt_nocdata.gpx').readAsString();
 
     expectXml(GpxWriter().asString(gpx, pretty: true), xml);
   });
