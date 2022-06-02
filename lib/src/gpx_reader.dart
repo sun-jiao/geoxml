@@ -37,10 +37,10 @@ class GpxReader {
     final gpx = Gpx();
 
     gpx.version = gpxTag.attributes
-        .firstWhere((attr) => attr.name == GpxTagV11.version)
+        .firstWhere((attr) => attr.name == GpxTagV11.version, orElse: () => XmlEventAttribute(GpxTagV11.version, '1.1', XmlAttributeType.DOUBLE_QUOTE))
         .value;
     gpx.creator = gpxTag.attributes
-        .firstWhere((attr) => attr.name == GpxTagV11.creator)
+        .firstWhere((attr) => attr.name == GpxTagV11.creator, orElse: () => XmlEventAttribute(GpxTagV11.creator, 'unknown', XmlAttributeType.DOUBLE_QUOTE))
         .value;
 
     while (iterator.moveNext()) {
