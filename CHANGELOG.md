@@ -1,3 +1,7 @@
+## [2.2.1]
+
+* fixed missed symbol during writing
+
 ## [2.2.0]
 
 * update Dart SDK to 2.17.0 or later
