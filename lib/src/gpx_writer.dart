@@ -182,6 +182,7 @@ class GpxWriter {
         _writeElement(builder, GpxTagV11.desc, wpt.desc);
         _writeElement(builder, GpxTagV11.comment, wpt.cmt);
         _writeElement(builder, GpxTagV11.type, wpt.type);
+        _writeElement(builder, GpxTagV11.sym, wpt.sym);
 
         _writeExtensions(builder, wpt.extensions);
 
