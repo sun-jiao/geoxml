@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:xml/xml_events.dart';
 
 import 'model/bounds.dart';
@@ -15,14 +17,30 @@ import 'model/wpt.dart';
 
 /// Read Gpx from string
 class GpxReader {
-//  // @TODO
-//  Gpx fromStream(Stream<int> stream) {
-//
-//  }
+
+  /// Parse xml stream and create Gpx object
+  Future<Gpx> fromStream(Stream<String> stream) async {
+    final gpxs = <Gpx>[];
+
+    final listen = stream.toXmlEvents().listen((events) {
+      gpxs.add(_fromIterator(events.iterator));
+    });
+
+    await listen.asFuture();
+
+    await listen.cancel();
+
+    return Gpx();
+  }
 
   /// Parse xml string and create Gpx object
   Gpx fromString(String xml) {
     final iterator = parseEvents(xml).iterator;
+
+    return _fromIterator(iterator);
+  }
+
+  Gpx _fromIterator(Iterator<XmlEvent> iterator) {
 
     while (iterator.moveNext()) {
       final val = iterator.current;
