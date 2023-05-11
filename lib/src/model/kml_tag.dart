@@ -10,10 +10,22 @@ class KmlTagV22 {
 
   static const point = 'Point';
   static const track = 'LineString';
+  static const ring = 'LinearRing';
   static const coordinates = 'coordinates';
 
   static const extendedData = 'ExtendedData';
   static const data = 'Data';
+
+  static const author = 'atom:author';
+  static const authorName = 'atom:name';
+  static const email = 'atom:email';
+  static const uri = 'atom:uri';
+
+  static const copyright = 'copyright';
+  static const keywords = 'keywords';
+  static const time = 'time';
+  
+  static const link = 'atom:link';
 
   static const value = 'value';
 

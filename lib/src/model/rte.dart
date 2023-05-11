@@ -1,12 +1,14 @@
 import 'package:collection/collection.dart';
 import 'package:quiver/core.dart';
 
+import 'gpx_object.dart';
+import 'gpx_tag.dart';
 import 'link.dart';
 import 'wpt.dart';
 
 /// Rte represents route - an ordered list of waypoints representing a series of
 /// turn points leading to a destination.
-class Rte {
+class Rte extends GpxObject{
   /// GPS name of route.
   String? name;
 
@@ -32,6 +34,9 @@ class Rte {
   /// You can add extend GPX by adding your own elements from another schema
   /// here.
   Map<String, String> extensions;
+
+  // Element tag.
+  String tag = GpxTagV11.route;
 
   /// A list of route points.
   List<Wpt> rtepts;

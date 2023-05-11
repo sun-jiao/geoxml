@@ -9,13 +9,13 @@
     </ExtendedData>
     <Placemark>
       <name>route from London to Paris</name>
-      <desc>routedescription</desc>
+      <desc>route description</desc>
       <atom:link>http://google.com/</atom:link>
       <ExtendedData>
-        <Dataname="cmt"><value>routecomments</value></Data>
-        <Dataname="type"><value>type</value></Data>
-        <Dataname="src"><value>source</value></Data>
-        <Dataname="number"><value>1</value></Data>
+        <Data name="cmt"><value>route comments</value></Data>
+        <Data name="type"><value>type</value></Data>
+        <Data name="src"><value>source</value></Data>
+        <Data name="number"><value>1</value></Data>
       </ExtendedData>
       <LineString>
         <extrude>1</extrude>

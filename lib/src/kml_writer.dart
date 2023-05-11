@@ -1,6 +1,7 @@
 import 'package:xml/xml.dart';
 
 import 'model/gpx.dart';
+import 'model/gpx_object.dart';
 import 'model/gpx_tag.dart';
 import 'model/kml_tag.dart';
 import 'model/link.dart';
@@ -51,11 +52,11 @@ class KmlWriter {
         }
 
         for (final rte in gpx.rtes) {
-          _writeRoute(builder, rte);
+          _writeTrackRoute(builder, rte);
         }
 
         for (final trk in gpx.trks) {
-          _writeTrack(builder, trk);
+          _writeTrackRoute(builder, trk);
         }
       });
     });
@@ -68,16 +69,16 @@ class KmlWriter {
     _writeElement(builder, KmlTagV22.desc, metadata.desc);
 
     if (metadata.author != null) {
-      builder.element('atom:author', nest: () {
-        _writeElement(builder, 'atom:name', metadata.author?.name);
+      builder.element(KmlTagV22.author, nest: () {
+        _writeElement(builder, KmlTagV22.authorName, metadata.author?.name);
         if (metadata.author?.email?.id != null &&
             metadata.author?.email?.domain != null) {
           final email =
               '${metadata.author!.email!.id}@${metadata.author!.email!.domain}';
-          _writeElement(builder, 'atom:email', email);
+          _writeElement(builder, KmlTagV22.email, email);
         }
 
-        _writeElement(builder, 'atom:uri', metadata.author?.link?.href);
+        _writeElement(builder, KmlTagV22.uri, metadata.author?.link?.href);
       });
     }
 
@@ -96,21 +97,35 @@ class KmlWriter {
     });
   }
 
-  void _writeRoute(XmlBuilder builder, Rte rte) {
+  void _writeTrackRoute(XmlBuilder builder, GpxObject item) {
     builder.element(KmlTagV22.placemark, nest: () {
-      _writeElement(builder, GpxTagV11.name, rte.name);
-      _writeElement(builder, GpxTagV11.desc, rte.desc);
-      _writeAtomLinks(builder, rte.links);
+      _writeElement(builder, GpxTagV11.name, item.name);
+      _writeElement(builder, GpxTagV11.desc, item.desc);
+      _writeAtomLinks(builder, item.links);
 
       builder.element(KmlTagV22.extendedData, nest: () {
-        _writeExtendedElement(builder, GpxTagV11.comment, rte.cmt);
-        _writeExtendedElement(builder, GpxTagV11.type, rte.type);
+        _writeExtendedElement(builder, GpxTagV11.comment, item.cmt);
+        _writeExtendedElement(builder, GpxTagV11.type, item.type);
 
-        _writeExtendedElement(builder, GpxTagV11.src, rte.src);
-        _writeExtendedElement(builder, GpxTagV11.number, rte.number);
+        _writeExtendedElement(builder, GpxTagV11.src, item.src);
+        _writeExtendedElement(builder, GpxTagV11.number, item.number);
       });
 
-      builder.element(KmlTagV22.track, nest: () {
+      final Iterable<Wpt> wptList;
+
+      if (item is Rte){
+        wptList = item.rtepts;
+      } else if (item is Trk){
+        wptList = item.trksegs.expand((trkseg) => trkseg.trkpts);
+      } else {
+        return;
+      }
+
+      final tag = wptList.first.coordinateEqual(wptList.last)
+          ? KmlTagV22.ring
+          : KmlTagV22.track;
+
+      builder.element(tag, nest: () {
         _writeElement(builder, KmlTagV22.extrude, 1);
         _writeElement(builder, KmlTagV22.tessellate, 1);
         _writeElement(builder, KmlTagV22.altitudeMode, _altitudeModeString);
@@ -118,37 +133,7 @@ class KmlWriter {
         _writeElement(
             builder,
             KmlTagV22.coordinates,
-            rte.rtepts
-                .map((wpt) => [wpt.lon, wpt.lat, wpt.ele ?? 0].join(','))
-                .join('\n'));
-      });
-    });
-  }
-
-  void _writeTrack(XmlBuilder builder, Trk trk) {
-    builder.element(KmlTagV22.placemark, nest: () {
-      _writeElement(builder, KmlTagV22.name, trk.name);
-      _writeElement(builder, KmlTagV22.desc, trk.desc);
-      _writeAtomLinks(builder, trk.links);
-
-      builder.element(KmlTagV22.extendedData, nest: () {
-        _writeExtendedElement(builder, GpxTagV11.comment, trk.cmt);
-        _writeExtendedElement(builder, GpxTagV11.type, trk.type);
-
-        _writeExtendedElement(builder, GpxTagV11.src, trk.src);
-        _writeExtendedElement(builder, GpxTagV11.number, trk.number);
-      });
-
-      builder.element(KmlTagV22.track, nest: () {
-        _writeElement(builder, KmlTagV22.extrude, 1);
-        _writeElement(builder, KmlTagV22.tessellate, 1);
-        _writeElement(builder, KmlTagV22.altitudeMode, _altitudeModeString);
-
-        _writeElement(
-            builder,
-            KmlTagV22.coordinates,
-            trk.trksegs
-                .expand((trkseg) => trkseg.trkpts)
+            wptList
                 .map((wpt) => [wpt.lon, wpt.lat, wpt.ele ?? 0].join(','))
                 .join('\n'));
       });
@@ -201,7 +186,7 @@ class KmlWriter {
 
   void _writeAtomLinks(XmlBuilder builder, List<Link> value) {
     for (final link in value) {
-      builder.element('atom:link', nest: link.href);
+      builder.element(KmlTagV22.link, nest: link.href);
     }
   }
 

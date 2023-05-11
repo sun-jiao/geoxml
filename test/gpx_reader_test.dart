@@ -47,6 +47,7 @@ void main() {
 
     expect(gpx.metadata, src.metadata);
     expect(gpx.extensions, src.extensions);
+    expect(gpx.wpts, src.wpts);
     expect(gpx.trks, src.trks);
     expect(gpx.rtes, src.rtes);
     expect(gpx, src);

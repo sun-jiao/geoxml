@@ -2,6 +2,7 @@ library gpx;
 
 export 'src/gpx_reader.dart';
 export 'src/gpx_writer.dart';
+export 'src/kml_reader.dart';
 export 'src/kml_writer.dart';
 export 'src/model/bounds.dart';
 export 'src/model/copyright.dart';

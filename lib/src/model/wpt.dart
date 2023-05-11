@@ -1,12 +1,13 @@
 import 'package:collection/collection.dart';
 import 'package:quiver/core.dart';
 
+import 'gpx_object.dart';
 import 'link.dart';
 
 enum FixType { fix_2d, fix_3d, dgps, none, pps, unknown }
 
 /// Wpt represents a waypoint, point of interest, or named feature on a map.
-class Wpt {
+class Wpt extends GpxObject{
   /// The latitude of the point. This is always in decimal degrees, and always
   /// in WGS84 datum.
   double? lat;
@@ -136,6 +137,10 @@ class Wpt {
 
     return false;
   }
+
+  bool coordinateEqual(Wpt other) => other.lat == lat &&
+        other.lon == lon &&
+        other.ele == ele;
 
   @override
   String toString() =>

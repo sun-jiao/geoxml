@@ -1,6 +1,7 @@
 import 'package:xml/xml.dart';
 
 import 'model/gpx.dart';
+import 'model/gpx_object.dart';
 import 'model/gpx_tag.dart';
 import 'model/link.dart';
 import 'model/metadata.dart';
@@ -35,10 +36,10 @@ class GpxWriter {
         _writePoint(builder, GpxTagV11.wayPoint, wpt);
       }
       for (final rte in gpx.rtes) {
-        _writeRoute(builder, rte);
+        _writeTrackRoute(builder, rte);
       }
       for (final trk in gpx.trks) {
-        _writeTrack(builder, trk);
+        _writeTrackRoute(builder, trk);
       }
     });
 
@@ -103,49 +104,35 @@ class GpxWriter {
     });
   }
 
-  void _writeRoute(XmlBuilder builder, Rte rte) {
-    builder.element(GpxTagV11.route, nest: () {
-      _writeElement(builder, GpxTagV11.name, rte.name);
-      _writeElement(builder, GpxTagV11.desc, rte.desc);
-      _writeElement(builder, GpxTagV11.comment, rte.cmt);
-      _writeElement(builder, GpxTagV11.type, rte.type);
+  void _writeTrackRoute(XmlBuilder builder, GpxObject item) {
+    builder.element(item.tag, nest: () {
+      _writeElement(builder, GpxTagV11.name, item.name);
+      _writeElement(builder, GpxTagV11.desc, item.desc);
+      _writeElement(builder, GpxTagV11.comment, item.cmt);
+      _writeElement(builder, GpxTagV11.type, item.type);
 
-      _writeElement(builder, GpxTagV11.src, rte.src);
-      _writeElement(builder, GpxTagV11.number, rte.number);
+      _writeElement(builder, GpxTagV11.src, item.src);
+      _writeElement(builder, GpxTagV11.number, item.number);
 
-      _writeExtensions(builder, rte.extensions);
+      _writeExtensions(builder, item.extensions);
 
-      for (final wpt in rte.rtepts) {
-        _writePoint(builder, GpxTagV11.routePoint, wpt);
+      if (item is Trk){
+        for (final trkseg in item.trksegs) {
+          builder.element(GpxTagV11.trackSegment, nest: () {
+            for (final wpt in trkseg.trkpts) {
+              _writePoint(builder, GpxTagV11.trackPoint, wpt);
+            }
+
+            _writeExtensions(builder, trkseg.extensions);
+          });
+        }
+      } else if (item is Rte){
+        for (final wpt in item.rtepts) {
+          _writePoint(builder, GpxTagV11.routePoint, wpt);
+        }
       }
 
-      _writeLinks(builder, rte.links);
-    });
-  }
-
-  void _writeTrack(XmlBuilder builder, Trk trk) {
-    builder.element(GpxTagV11.track, nest: () {
-      _writeElement(builder, GpxTagV11.name, trk.name);
-      _writeElement(builder, GpxTagV11.desc, trk.desc);
-      _writeElement(builder, GpxTagV11.comment, trk.cmt);
-      _writeElement(builder, GpxTagV11.type, trk.type);
-
-      _writeElement(builder, GpxTagV11.src, trk.src);
-      _writeElement(builder, GpxTagV11.number, trk.number);
-
-      _writeExtensions(builder, trk.extensions);
-
-      for (final trkseg in trk.trksegs) {
-        builder.element(GpxTagV11.trackSegment, nest: () {
-          for (final wpt in trkseg.trkpts) {
-            _writePoint(builder, GpxTagV11.trackPoint, wpt);
-          }
-
-          _writeExtensions(builder, trkseg.extensions);
-        });
-      }
-
-      _writeLinks(builder, trk.links);
+      _writeLinks(builder, item.links);
     });
   }
 

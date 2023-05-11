@@ -27,9 +27,9 @@ In your dart/flutter project add the dependency:
    gpx: ^2.2.1
 ```
 
-### Reading XML
+### Reading GPX
 
-To read XML input use the GpxReader object and function `Gpx fromString(String input)`:
+To read GPX input use the GpxReader object and function `Gpx fromString(String input)`:
 
 ```dart
 import 'package:gpx/gpx.dart';
@@ -46,9 +46,9 @@ main() {
 }
 ```
 
-### Writing XML
+### Writing GPX
 
-To write object to XML use the GpxWriter object and function `String asString(Gpx gpx, {bool pretty = false})`:
+To write object to GPX use the GpxWriter object and function `String asString(Gpx gpx, {bool pretty = false})`:
 
 ```dart
 import 'package:gpx/gpx.dart';
@@ -67,7 +67,28 @@ main() {
 }
 ```
 
-### Export to KML
+### Reading KML
+
+To read KML input use the KmlReader object and function `Gpx fromString(String input)`:
+
+```dart
+import 'package:gpx/gpx.dart';
+
+main() {
+  // create gpx from xml string
+  var xmlGpx = KmlReader().fromString('<?xml version="1.0" encoding="UTF-8"?> '
+      '<kml xmlns="http://www.opengis.net/kml/2.2"><Document><Placemark><name>Monte Quemado</name>'
+      '<description>Argentina</description> <ExtendedData/>'
+      '<Point><altitudeMode>absolute</altitudeMode>'
+      '<coordinates>-62.8666,-25.7996,10.0</coordinates></Point></Placemark>'
+      '</Document></kml>');
+
+  print(xmlGpx);
+  print(xmlGpx.wpts);
+}
+```
+
+### Writing KML
 
 To export object to KML use the KmlWriter object and function `String asString(Gpx gpx, {bool pretty = false})`:
 

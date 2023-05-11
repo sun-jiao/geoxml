@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>routes</name>
+    <description>desc</description>
+    <atom:author>
+      <atom:name>name</atom:name>
+      <atom:email>mail@mail.com</atom:email>
+      <atom:uri>http://google.com/</atom:uri>
+    </atom:author>
+    <ExtendedData>
+      <Data name="keywords">
+        <value>k1,k2,k3</value>
+      </Data>
+      <Data name="time">
+        <value>2010-01-02T03:04:05.000Z</value>
+      </Data>
+      <Data name="copyright">
+        <value>lib, 2019</value>
+      </Data>
+    </ExtendedData>
+  </Document>
+</kml>
