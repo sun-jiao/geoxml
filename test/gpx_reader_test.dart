@@ -9,7 +9,7 @@ import 'utils.dart';
 
 void main() {
   test('read gpx with multiply points', () async {
-    final gpx = GpxReader()
+    final gpx = await GpxReader()
         .fromString(await File('test/assets/wpt.gpx').readAsString());
     final src = createGPXWithWpt();
 
@@ -17,7 +17,7 @@ void main() {
   });
 
   test('read gpx with multiply routes', () async {
-    final gpx = GpxReader()
+    final gpx = await GpxReader()
         .fromString(await File('test/assets/rte.gpx').readAsString());
     final src = createGPXWithRte();
 
@@ -25,7 +25,7 @@ void main() {
   });
 
   test('read gpx with multiply tracks', () async {
-    final gpx = GpxReader()
+    final gpx = await GpxReader()
         .fromString(await File('test/assets/trk.gpx').readAsString());
     final src = createGPXWithTrk();
 
@@ -33,7 +33,7 @@ void main() {
   });
 
   test('read complex gpx', () async {
-    final gpx = GpxReader()
+    final gpx = await GpxReader()
         .fromString(await File('test/assets/complex.gpx').readAsString());
     final src = createComplexGPX();
 
@@ -46,7 +46,7 @@ void main() {
   });
 
   test('read metadata gpx', () async {
-    final gpx = GpxReader()
+    final gpx = await GpxReader()
         .fromString(await File('test/assets/metadata.gpx').readAsString());
     final src = createMetadataGPX();
 
@@ -55,7 +55,7 @@ void main() {
   });
 
   test('read large', () async {
-    final gpx = GpxReader()
+    final gpx = await GpxReader()
         .fromString(await File('test/assets/large.gpx').readAsString());
 
     expect(gpx.trks.length, 1);
@@ -63,7 +63,7 @@ void main() {
     expect(gpx.trks.first.trksegs.first.trkpts.length, 8139);
   });
 
-  test('read simple gpx', () {
+  test('read simple gpx', () async {
     const xml = '<?xml version="1.0" encoding="UTF-8" ?>'
         '<gpx xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" creator="GPSLogger 79 - http://gpslogger.mendhak.com/" xmlns="http://www.topografix.com/GPX/1/0" xsi:schemaLocation="http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd">'
         '<metadata>'
@@ -83,7 +83,7 @@ void main() {
         '<trkpt lat="48.19948359" lon="16.40371021"><ele>212.0</ele><time>2016-08-21T12:24:31Z</time><course>298.6</course><speed>0.7424285</speed><geoidheight>43.0</geoidheight><src>gps</src><sat>2</sat><hdop>0.7</hdop><vdop>0.8</vdop><pdop>1.1</pdop></trkpt>'
         '</trkseg></trk></gpx>';
 
-    final gpx = GpxReader().fromString(xml);
+    final gpx = await GpxReader().fromString(xml);
 
     expect(gpx.version, '1.0');
     expect(gpx.creator, 'GPSLogger 79 - http://gpslogger.mendhak.com/');
@@ -120,20 +120,20 @@ void main() {
   });
 
   test('issue-4 FixType', () async {
-    final gpx = GpxReader()
+    final gpx = await GpxReader()
         .fromString(await File('test/assets/fix.gpx').readAsString());
 
     expect(gpx.wpts[0].fix, FixType.fix_2d);
     expect(gpx.wpts[1].fix, FixType.fix_3d);
     expect(gpx.wpts[2].fix, FixType.none);
 
-    final gpxUnknown = GpxReader()
+    final gpxUnknown = await GpxReader()
         .fromString(await File('test/assets/fix_unknown.gpx').readAsString());
     expect(gpxUnknown.wpts[0].fix, null);
   });
 
   test('issue-4', () async {
-    final gpx = GpxReader().fromString(
+    final gpx = await GpxReader().fromString(
         await File('test/assets/20160617-La-Hermida-to-Bejes.gpx')
             .readAsString());
 

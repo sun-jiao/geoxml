@@ -63,7 +63,7 @@ void main() {
   });
 
   test('write large kml', () async {
-    final gpx = GpxReader()
+    final gpx = await GpxReader()
         .fromString(await File('test/assets/large.gpx').readAsString());
     final xml = await File('test/assets/large.kml').readAsString();
 

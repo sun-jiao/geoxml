@@ -9,7 +9,7 @@ import 'kml_utils.dart';
 
 void main() {
   test('read kml with multiply points', () async {
-    final kml = KmlReader()
+    final kml = await KmlReader()
         .fromString(await File('test/assets/wpt.kml').readAsString());
     final src = createKmlWithWpt();
 
@@ -17,7 +17,7 @@ void main() {
   });
 
   test('read kml with multiply routes', () async {
-    final kml = KmlReader()
+    final kml = await KmlReader()
         .fromString(await File('test/assets/rte.kml').readAsString());
     final src = createGPXWithRte();
 
@@ -25,7 +25,7 @@ void main() {
   });
 
   test('read kml with multiply tracks', () async {
-    final kml = KmlReader()
+    final kml = await KmlReader()
         .fromString(await File('test/assets/trk.kml').readAsString());
     final src = createGPXWithTrk();
 
@@ -33,7 +33,7 @@ void main() {
   });
 
   test('read complex kml', () async {
-    final kml = KmlReader()
+    final kml = await KmlReader()
         .fromString(await File('test/assets/complex.kml').readAsString());
     final src = createComplexKml();
 
@@ -45,7 +45,7 @@ void main() {
   });
 
   test('read metadata kml', () async {
-    final kml = KmlReader()
+    final kml = await KmlReader()
         .fromString(await File('test/assets/metadata.kml').readAsString());
     final src = createMetadataKml();
 
@@ -54,14 +54,14 @@ void main() {
   });
 
   test('read large', () async {
-    final kml = KmlReader()
+    final kml = await KmlReader()
         .fromString(await File('test/assets/large.kml').readAsString());
 
     expect(kml.rtes.length, 1);
     expect(kml.rtes.first.rtepts.length, 8139);
   });
 
-  test('read simple kml', () {
+  test('read simple kml', () async {
     const xml = '<?xml version="1.0" encoding="UTF-8"?> '
         '<kml xmlns="http://www.opengis.net/kml/2.2"><Document>'
         '<name>Five Hikes in the White Mountains</name>'
@@ -78,7 +78,7 @@ void main() {
         '<coordinates>16.40377444,48.19949341,212.0 16.40371021,48.19948359,212.0</coordinates>'
         '</LineString></Placemark></Document></kml>';
 
-    final kml = KmlReader().fromString(xml);
+    final kml = await KmlReader().fromString(xml);
 
     expect(kml.metadata!.name, 'Five Hikes in the White Mountains');
     expect(kml.metadata!.desc, 'Five Hikes in the White Mountains!!');

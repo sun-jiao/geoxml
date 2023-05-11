@@ -79,7 +79,7 @@ void main() {
     expect(gpx.wpts[1].fix, FixType.fix_3d);
     expect(gpx.wpts[2].fix, FixType.none);
 
-    final gpxUnknown = GpxReader()
+    final gpxUnknown = await GpxReader()
         .fromString(await File('test/assets/fix_unknown.gpx').readAsString());
     expect(gpxUnknown.wpts[0].fix, null);
   });
