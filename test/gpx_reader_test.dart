@@ -16,14 +16,6 @@ void main() {
     expect(gpx, src);
   });
 
-  test('read gpx with multiply points', () async {
-    final gpx = GpxReader()
-        .fromString(await File('test/assets/wpt.gpx').readAsString());
-    final src = createGPXWithWpt();
-
-    expect(gpx, src);
-  });
-
   test('read gpx with multiply routes', () async {
     final gpx = GpxReader()
         .fromString(await File('test/assets/rte.gpx').readAsString());

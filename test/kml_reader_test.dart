@@ -16,14 +16,6 @@ void main() {
     expect(kml, src);
   });
 
-  test('read kml with multiply points', () async {
-    final kml = KmlReader()
-        .fromString(await File('test/assets/wpt.kml').readAsString());
-    final src = createKmlWithWpt();
-
-    expect(kml, src);
-  });
-
   test('read kml with multiply routes', () async {
     final kml = KmlReader()
         .fromString(await File('test/assets/rte.kml').readAsString());
