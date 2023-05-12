@@ -13,7 +13,7 @@ gpx
 A library for or load, manipulate, and save GPS data in GPX format (https://www.topografix.com/gpx.asp, a light-weight XML data format for the interchange of GPS data - waypoints, routes, and tracks).
 View the official GPX 1.1 Schema at https://www.topografix.com/GPX/1/1/gpx.xsd.
 
-Also support export from Gpx into:
+Also support import to and export from Gpx into:
 - KML (a file format used to display geographic data in an Earth browser such as Google Earth, https://developers.google.com/kml/)
 - CSV (*not implemented yet*)
 
@@ -34,12 +34,29 @@ To read GPX input use the GpxReader object and function `Gpx fromString(String i
 ```dart
 import 'package:gpx/gpx.dart';
 
-main() {
+main() async {
   // create gpx from xml string
-  var xmlGpx = GpxReader().fromString('<?xml version="1.0" encoding="UTF-8"?>'
+  var xmlGpx = await GpxReader().fromString('<?xml version="1.0" encoding="UTF-8"?>'
       '<gpx version="1.1" creator="dart-gpx library">'
       '<wpt lat="-25.7996" lon="-62.8666"><ele>10.0</ele><name>Monte Quemado</name><desc>Argentina</desc></wpt>'
       '</gpx>');
+
+  print(xmlGpx);
+  print(xmlGpx.wpts);
+}
+```
+
+To read GPX from a `Stream<String>`:
+
+```dart
+import 'package:gpx/gpx.dart';
+
+main() async {
+  // create gpx from xml string stream
+  final stream = File('test/assets/wpt.gpx').openRead()
+      .transform(utf8.decoder);
+  final kml = await KmlReader()
+      .fromStream(stream);
 
   print(xmlGpx);
   print(xmlGpx.wpts);
@@ -74,14 +91,31 @@ To read KML input use the KmlReader object and function `Gpx fromString(String i
 ```dart
 import 'package:gpx/gpx.dart';
 
-main() {
+main() async {
   // create gpx from xml string
-  var xmlGpx = KmlReader().fromString('<?xml version="1.0" encoding="UTF-8"?> '
+  var xmlGpx = await KmlReader().fromString('<?xml version="1.0" encoding="UTF-8"?> '
       '<kml xmlns="http://www.opengis.net/kml/2.2"><Document><Placemark><name>Monte Quemado</name>'
       '<description>Argentina</description> <ExtendedData/>'
       '<Point><altitudeMode>absolute</altitudeMode>'
       '<coordinates>-62.8666,-25.7996,10.0</coordinates></Point></Placemark>'
       '</Document></kml>');
+
+  print(xmlGpx);
+  print(xmlGpx.wpts);
+}
+```
+
+To read KML from a `Stream<String>`:
+
+```dart
+import 'package:gpx/gpx.dart';
+
+main() async {
+  // create gpx from xml string stream
+  final stream = File('test/assets/wpt.kml').openRead()
+      .transform(utf8.decoder);
+  final kml = await KmlReader()
+      .fromStream(stream);
 
   print(xmlGpx);
   print(xmlGpx.wpts);
@@ -120,7 +154,6 @@ main() {
 This is just an initial version of the package. There are still some limitations:
 
 - No support for GPX 1.0.
-- Read/write only from strings.
 - Doesn't validate schema declarations.
 
 ## Features and bugs

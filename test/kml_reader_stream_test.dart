@@ -60,10 +60,8 @@ void main() {
   });
 
   test('read large', () async {
-    //final kml = await KmlReader().fromStream(File('test/assets/large.kml').readAsString().asStream());
-
     final kml = await KmlReader()
-        .fromStream(File('test/assets/metadata.kml').openRead()
+        .fromStream(File('test/assets/large.kml').openRead()
         .transform(utf8.decoder));
 
     expect(kml.rtes.length, 1);
