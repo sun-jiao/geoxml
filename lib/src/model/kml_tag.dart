@@ -13,6 +13,8 @@ class KmlTagV22 {
   static const ring = 'LinearRing';
   static const coordinates = 'coordinates';
 
+  static const gxTrack = 'gx:Track';
+  static const gxCoord = 'gx:coord';
   static const extendedData = 'ExtendedData';
   static const data = 'Data';
 

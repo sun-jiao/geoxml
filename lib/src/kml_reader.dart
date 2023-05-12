@@ -175,6 +175,9 @@ class KmlReader {
               rte = Rte();
               rte.rtepts = await _readCoordinate(iterator, val.name);
               break;
+            case KmlTagV22.gxTrack:
+              rte = await _readGxTrack(iterator, val.name);
+              break;
           }
         }
 
@@ -370,6 +373,60 @@ class KmlReader {
     }
 
     return wpt;
+  }
+
+  Future<Rte> _readGxTrack(
+      StreamIterator<XmlEvent> iterator, String tagName) async {
+    final wpts = <Wpt>[];
+    final whens = <DateTime>[];
+    final elm = iterator.current;
+
+    if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
+      while (await iterator.moveNext()) {
+        final val = iterator.current;
+
+        if (val is XmlStartElementEvent) {
+          switch (val.name) {
+            case KmlTagV22.when:
+              final dateTime = await _readDateTime(iterator, val.name);
+              if (dateTime != null){
+                whens.add(dateTime);
+              }
+              break;
+            case KmlTagV22.gxCoord:
+              final coorStr = await _readString(iterator, val.name);
+              if (coorStr == null) {
+                break;
+              }
+              final list = coorStr.split(' ');
+              if (list.length == 3) {
+                final wpt = Wpt();
+                wpt.lon = double.parse(list[0]);
+                wpt.lat = double.parse(list[1]);
+                wpt.ele = double.parse(list[2]);
+                wpts.add(wpt);
+              }
+              break;
+          }
+        }
+
+        if (val is XmlEndElementEvent && val.name == tagName) {
+          break;
+        }
+      }
+    }
+
+    if (wpts.length != whens.length) {
+      throw const FormatException(
+          'Kml file format is not right. The number of <when> elements in a '
+              '<Track> must be equal to the number of <gx:coord> elements');
+    }
+
+    whens.asMap().forEach((index, when) {
+      wpts[index].time = when;
+    });
+
+    return Rte(rtepts: wpts);
   }
 
   Future<List<Wpt>> _readCoordinate(
