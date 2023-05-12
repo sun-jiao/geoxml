@@ -7,6 +7,7 @@ import 'package:test/test.dart';
 
 import '../tools/expect_xml.dart';
 import '../tools/gpx_utils.dart';
+import '../tools/kml_utils.dart';
 
 void main() {
   test('write empty kml', () async {
@@ -39,7 +40,7 @@ void main() {
   });
 
   test('write kml with multiply tracks', () async {
-    final gpx = createGPXWithTrk();
+    final gpx = createKmlWithTrk();
     final xml = await File('test/assets/trk.kml').readAsString();
 
     expectXml(KmlWriter().asString(gpx, pretty: true), xml);
