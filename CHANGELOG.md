@@ -1,3 +1,7 @@
+## [2.5.0]
+
+* support writing to kml with <gx:Track>.
+
 ## [2.4.0]
 
 * class `Gpx` was renamed to `GeoXml`.

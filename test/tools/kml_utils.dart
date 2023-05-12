@@ -1,5 +1,4 @@
 import 'package:geoxml/geoxml.dart';
-import 'package:test/test.dart';
 
 GeoXml createMinimalKml() {
   final kml = GeoXml();
@@ -35,7 +34,7 @@ GeoXml createKmlWithWpt() {
   return kml;
 }
 
-GeoXml createGPXWithRte() {
+GeoXml createKmlWithRte() {
   final kml = createMinimalKml();
   kml.metadata = Metadata();
   kml.metadata!.name = 'routes';
@@ -64,19 +63,39 @@ GeoXml createGPXWithRte() {
   return kml;
 }
 
-GeoXml createGPXWithTrk() {
+GeoXml createKmlWithTrk() {
   final kml = createMinimalKml();
   kml.metadata = Metadata();
   kml.metadata!.name = 'routes';
   kml.metadata!.time = DateTime.utc(2010, 1, 2, 3, 4, 5);
-  kml.rtes = [
-    Rte(name: 'route from London to Paris', rtepts: [
-      Wpt(lat: 51.5, lon: -0.1167, ele: 0),
-      Wpt(lat: 48.8667, lon: 2.3333, ele: 0)
+  kml.trks = [
+    Trk(name: 'route from London to Paris', trksegs: [
+      Trkseg(trkpts: [
+        Wpt(
+            lat: 51.5,
+            lon: -0.1167,
+            ele: 0,
+            time: DateTime(2022, 1, 2, 3, 4, 5)),
+        Wpt(
+            lat: 48.8667,
+            lon: 2.3333,
+            ele: 0,
+            time: DateTime(2022, 1, 2, 3, 4, 5)),
+      ])
     ]),
-    Rte(name: 'route from Paris to Londan', rtepts: [
-      Wpt(lat: 51.5, lon: -0.1167, ele: 0),
-      Wpt(lat: 48.8667, lon: 2.3333, ele: 0)
+    Trk(name: 'route from Paris to Londan', trksegs: [
+      Trkseg(trkpts: [
+        Wpt(
+            lat: 51.5,
+            lon: -0.1167,
+            ele: 0,
+            time: DateTime(2022, 1, 2, 3, 4, 5)),
+        Wpt(
+            lat: 48.8667,
+            lon: 2.3333,
+            ele: 0,
+            time: DateTime(2022, 1, 2, 3, 4, 5)),
+      ])
     ])
   ];
 
@@ -135,11 +154,4 @@ GeoXml createComplexKml() {
   ];
 
   return kml;
-}
-
-void expectXml(String xml1, String xml2) {
-  final regexp = RegExp(r'\s+|\t+');
-  expect(xml1.replaceAll(regexp, '').replaceAll(RegExp(r'\r\n'), '\n'),
-      xml2.replaceAll(regexp, '').replaceAll(RegExp(r'\r\n'), '\n'),
-      reason: xml1);
 }

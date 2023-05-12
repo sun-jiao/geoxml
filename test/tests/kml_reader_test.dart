@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:geoxml/geoxml.dart';
 import 'package:test/test.dart';
 
-import 'kml_utils.dart';
+import '../tools/kml_utils.dart';
 
 void main() {
   test('read kml with multiply points', () async {
@@ -19,7 +19,7 @@ void main() {
   test('read kml with multiply routes', () async {
     final kml = await KmlReader()
         .fromString(await File('test/assets/rte.kml').readAsString());
-    final src = createGPXWithRte();
+    final src = createKmlWithRte();
 
     expect(kml, src);
   });
@@ -27,7 +27,7 @@ void main() {
   test('read kml with multiply tracks', () async {
     final kml = await KmlReader()
         .fromString(await File('test/assets/trk.kml').readAsString());
-    final src = createGPXWithTrk();
+    final src = createKmlWithTrk();
 
     expect(kml, src);
   });

@@ -42,6 +42,12 @@ class KmlWriter {
     builder.element(KmlTag.kml, nest: () {
       builder.attribute('xmlns', 'http://www.opengis.net/kml/2.2');
 
+      if (gpx.trks.any((trk) => trk.trksegs
+          .expand((trkseg) => trkseg.trkpts)
+          .every((element) => element.time != null))) {
+        builder.attribute('xmlns:gx', 'http://www.google.com/kml/ext/2.2');
+      }
+
       builder.element(KmlTag.document, nest: () {
         if (gpx.metadata != null) {
           _writeMetadata(builder, gpx.metadata!);
@@ -56,7 +62,13 @@ class KmlWriter {
         }
 
         for (final trk in gpx.trks) {
-          _writeTrackRoute(builder, trk);
+          if (trk.trksegs
+              .expand((trkseg) => trkseg.trkpts)
+              .any((element) => element.time == null)) {
+            _writeTrackRoute(builder, trk);
+          } else {
+            _writeTrack(builder, trk);
+          }
         }
       });
     });
@@ -140,6 +152,39 @@ class KmlWriter {
     });
   }
 
+  void _writeTrack(XmlBuilder builder, Trk trk) {
+    builder.element(KmlTag.folder, nest: () {
+      _writeElement(builder, KmlTag.name, trk.name);
+      _writeElement(builder, KmlTag.desc, trk.desc);
+      _writeAtomLinks(builder, trk.links);
+
+      builder.element(KmlTag.extendedData, nest: () {
+        _writeExtendedElement(builder, GpxTag.comment, trk.cmt);
+        _writeExtendedElement(builder, GpxTag.type, trk.type);
+
+        _writeExtendedElement(builder, GpxTag.src, trk.src);
+        _writeExtendedElement(builder, GpxTag.number, trk.number);
+      });
+
+      for (final seg in trk.trksegs) {
+        builder.element(KmlTag.placemark, nest: () {
+          // _writeExtendedElement(builder, KmlTag.name, seg.name);
+
+          builder.element(KmlTag.gxTrack, nest: () {
+            for (final wpt in seg.trkpts) {
+              _writeElement(builder, KmlTag.gxCoord,
+                  [wpt.lon, wpt.lat, wpt.ele ?? 0].join(' '));
+            }
+            for (final wpt in seg.trkpts) {
+              _writeElement(
+                  builder, KmlTag.when, wpt.time?.toGxString() ?? ' ');
+            }
+          });
+        });
+      }
+    });
+  }
+
   void _writePoint(XmlBuilder builder, String tagName, Wpt wpt) {
     builder.element(tagName, nest: () {
       _writeElement(builder, KmlTag.name, wpt.name);
@@ -206,4 +251,14 @@ class KmlWriter {
       });
     }
   }
+}
+
+extension Gx on DateTime {
+  String toGxString() => '${year.toString().padLeft(4, '0')}-'
+      '${month.toString().padLeft(2, '0')}-'
+      '${day.toString().padLeft(2, '0')}T'
+      '${hour.toString().padLeft(2, '0')}:'
+      '${minute.toString().padLeft(2, '0')}:'
+      '${second.toString().padLeft(2, '0')}'
+      '${isUtc ? 'Z' : ''}';
 }

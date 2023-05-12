@@ -5,7 +5,8 @@ import 'dart:io';
 import 'package:geoxml/geoxml.dart';
 import 'package:test/test.dart';
 
-import 'utils.dart';
+import '../tools/expect_xml.dart';
+import '../tools/gpx_utils.dart';
 
 void main() {
   test('write empty kml', () async {

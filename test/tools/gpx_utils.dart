@@ -1,5 +1,4 @@
 import 'package:geoxml/geoxml.dart';
-import 'package:test/test.dart';
 
 GeoXml createMinimalGPX() {
   final gpx = GeoXml();
@@ -169,11 +168,4 @@ GeoXml createComplexGPX() {
   gpx.extensions = {'g1': 'v1', 'g2': 'v2'};
 
   return gpx;
-}
-
-void expectXml(String xml1, String xml2) {
-  final regexp = RegExp(r'\s+|\t+');
-  expect(xml1.replaceAll(regexp, '').replaceAll(RegExp(r'\r\n'), '\n'),
-      xml2.replaceAll(regexp, '').replaceAll(RegExp(r'\r\n'), '\n'),
-      reason: xml1);
 }

@@ -55,7 +55,7 @@ class GeoXml {
   }
 
   @override
-  String toString() => "Gpx[${[
+  String toString() => "GeoXml[${[
         version,
         creator,
         metadata,
@@ -80,8 +80,10 @@ class GeoXml {
   String toGpxString({bool pretty = false}) =>
       GpxWriter().asString(this, pretty: pretty);
 
-  String toKmlString({bool pretty = false}) =>
-      KmlWriter().asString(this, pretty: pretty);
+  String toKmlString(
+          {bool pretty = false,
+          AltitudeMode altitudeMode = AltitudeMode.absolute}) =>
+      KmlWriter(altitudeMode: altitudeMode).asString(this, pretty: pretty);
 
   static Future<GeoXml> fromKmlString(String str) =>
       KmlReader().fromString(str);

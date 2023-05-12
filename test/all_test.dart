@@ -2,13 +2,13 @@ library gpx.test.all_test;
 
 import 'package:test/test.dart';
 
-import 'gpx_reader_stream_test.dart' as gpx_reader_stream_test;
-import 'gpx_reader_test.dart' as gpx_reader_test;
-import 'gpx_test.dart' as gpx_test;
-import 'gpx_writer_test.dart' as gpx_writer_test;
-import 'kml_reader_stream_test.dart' as kml_reader_stream_test;
-import 'kml_reader_test.dart' as kml_reader_test;
-import 'kml_writer_test.dart' as kml_writer_test;
+import 'tests/gpx_reader_stream_test.dart' as gpx_reader_stream_test;
+import 'tests/gpx_reader_test.dart' as gpx_reader_test;
+import 'tests/gpx_test.dart' as gpx_test;
+import 'tests/gpx_writer_test.dart' as gpx_writer_test;
+import 'tests/kml_reader_stream_test.dart' as kml_reader_stream_test;
+import 'tests/kml_reader_test.dart' as kml_reader_test;
+import 'tests/kml_writer_test.dart' as kml_writer_test;
 
 void main() {
   group('gpx', gpx_test.main);

@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:geoxml/geoxml.dart';
 import 'package:test/test.dart';
 
-import 'utils.dart';
+import '../tools/gpx_utils.dart';
 
 void main() {
   test('read gpx with multiply points', () async {
