@@ -2,7 +2,7 @@ geoxml
 ======
 
 [![Pub Package](https://img.shields.io/pub/v/geoxml.svg)](https://pub.dev/packages/geoxml)
-[![Coverage Status](https://coveralls.io/repos/github/sun-jiao/geoxml/badge.svg?branch=main)](https://coveralls.io/github/sun-jiao/dart-sun-jiao?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/sun-jiao/geoxml/badge.svg?branch=main)](https://coveralls.io/github/sun-jiao/geoxml?branch=main)
 [![GitHub Issues](https://img.shields.io/github/issues/sun-jiao/geoxml.svg?branch=master)](https://github.com/sun-jiao/geoxml/issues)
 [![GitHub Forks](https://img.shields.io/github/forks/sun-jiao/geoxml.svg?branch=master)](https://github.com/sun-jiao/geoxml/network)
 [![GitHub Stars](https://img.shields.io/github/stars/sun-jiao/geoxml.svg?branch=master)](https://github.com/sun-jiao/geoxml/stargazers)
