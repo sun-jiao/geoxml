@@ -12,6 +12,8 @@ import 'model/link.dart';
 import 'model/metadata.dart';
 import 'model/person.dart';
 import 'model/rte.dart';
+import 'model/trk.dart';
+import 'model/trkseg.dart';
 import 'model/wpt.dart';
 import 'tools/stream_converter.dart';
 
@@ -69,6 +71,9 @@ class KmlReader {
             } else if (item is Rte) {
               gpx.rtes.add(item);
             }
+            break;
+          case KmlTagV22.folder:
+            gpx.trks.add(await _readFolder(iterator, val.name));
             break;
         }
       }
@@ -232,6 +237,66 @@ class KmlReader {
     }
 
     return item;
+  }
+
+  Future<Trk> _readFolder(
+      StreamIterator<XmlEvent> iterator, String tagName) async {
+    final trk = Trk();
+    final elm = iterator.current;
+    Wpt? ext;
+
+    if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
+      while (await iterator.moveNext()) {
+        final val = iterator.current;
+
+        if (val is XmlStartElementEvent) {
+          switch (val.name) {
+            case KmlTagV22.name:
+              trk.name = await _readString(iterator, val.name);
+              break;
+            case KmlTagV22.desc:
+              trk.desc = await _readString(iterator, val.name);
+              break;
+            case GpxTagV11.desc:
+              trk.desc = await _readString(iterator, val.name);
+              break;
+            case KmlTagV22.link:
+              final hrefStr = await _readString(iterator, val.name);
+              if (hrefStr != null) {
+                trk.links.add(Link(href: hrefStr));
+              }
+              break;
+            case KmlTagV22.extendedData:
+              ext = await _readExtended(iterator);
+              break;
+            case KmlTagV22.placemark:
+              final item = await _readPlacemark(iterator, val.name);
+              if (item is Wpt) {
+                if (trk.trksegs.isEmpty){
+                  trk.trksegs.add(Trkseg());
+                }
+                trk.trksegs.last.trkpts.add(item);
+              } else if (item is Rte){
+                trk.trksegs.add(Trkseg(trkpts: item.rtepts));
+              }
+              break;
+          }
+        }
+
+        if (val is XmlEndElementEvent && val.name == tagName) {
+          break;
+        }
+      }
+    }
+
+    if (ext != null) {
+      trk.src = ext.src;
+      trk.cmt = ext.cmt;
+      trk.type = ext.type;
+      trk.number = ext.number;
+    }
+
+    return trk;
   }
 
   Future<double?> _readDouble(
