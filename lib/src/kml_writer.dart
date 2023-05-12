@@ -113,9 +113,9 @@ class KmlWriter {
 
       final Iterable<Wpt> wptList;
 
-      if (item is Rte){
+      if (item is Rte) {
         wptList = item.rtepts;
-      } else if (item is Trk){
+      } else if (item is Trk) {
         wptList = item.trksegs.expand((trkseg) => trkseg.trkpts);
       } else {
         return;

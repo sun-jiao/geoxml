@@ -8,7 +8,7 @@ import 'wpt.dart';
 
 /// Rte represents route - an ordered list of waypoints representing a series of
 /// turn points leading to a destination.
-class Rte implements GpxObject{
+class Rte implements GpxObject {
   /// GPS name of route.
   @override
   String? name;

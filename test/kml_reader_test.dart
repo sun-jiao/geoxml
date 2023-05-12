@@ -85,7 +85,6 @@ void main() {
     expect(kml.metadata!.time, DateTime.utc(2016, 8, 21, 12, 24, 27));
     expect(kml.metadata!.keywords, 'Hiking, NH, Presidential Range');
 
-
     expect(kml.wpts.length, 1);
     expect(kml.wpts.first.lat, 48.2033471);
     expect(kml.wpts.first.lon, 16.3608048);
@@ -100,11 +99,9 @@ void main() {
     expect(kml.rtes.first.rtepts.last.ele, 212.0);
   });
 
-
   test('gx:Track support', () async {
     final kml = await KmlReader().fromString(
-        await File('test/assets/2022-12-18-11-47-Beihai.kml')
-            .readAsString());
+        await File('test/assets/2022-12-18-11-47-Beihai.kml').readAsString());
 
     expect(kml.trks.length, 1);
     expect(kml.trks.first.name, 'TbuluTrack');

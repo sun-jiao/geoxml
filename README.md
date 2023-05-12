@@ -9,12 +9,15 @@ gpx
 [![GitHub Stars](https://img.shields.io/github/stars/kb0/dart-gpx.svg?branch=master)](https://github.com/kb0/dart-gpx/stargazers)
 [![GitHub License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/kb0/dart-gpx/master/LICENSE)
 
-
-A library for or load, manipulate, and save GPS data in GPX format (https://www.topografix.com/gpx.asp, a light-weight XML data format for the interchange of GPS data - waypoints, routes, and tracks).
+A library for or load, manipulate, and save GPS data in GPX
+format (https://www.topografix.com/gpx.asp, a light-weight XML data format for the interchange of
+GPS data - waypoints, routes, and tracks).
 View the official GPX 1.1 Schema at https://www.topografix.com/GPX/1/1/gpx.xsd.
 
 Also support import to and export from Gpx into:
-- KML (a file format used to display geographic data in an Earth browser such as Google Earth, https://developers.google.com/kml/)
+
+- KML (a file format used to display geographic data in an Earth browser such as Google
+  Earth, https://developers.google.com/kml/)
 - CSV (*not implemented yet*)
 
 ## Getting Started
@@ -65,7 +68,8 @@ main() async {
 
 ### Writing GPX
 
-To write object to GPX use the GpxWriter object and function `String asString(Gpx gpx, {bool pretty = false})`:
+To write object to GPX use the GpxWriter object and
+function `String asString(Gpx gpx, {bool pretty = false})`:
 
 ```dart
 import 'package:gpx/gpx.dart';
@@ -124,7 +128,8 @@ main() async {
 
 ### Writing KML
 
-To export object to KML use the KmlWriter object and function `String asString(Gpx gpx, {bool pretty = false})`:
+To export object to KML use the KmlWriter object and
+function `String asString(Gpx gpx, {bool pretty = false})`:
 
 ```dart
 import 'package:gpx/gpx.dart';
@@ -147,7 +152,6 @@ main() {
   print(kmlString);
 }
 ```
-
 
 ## Limitations
 

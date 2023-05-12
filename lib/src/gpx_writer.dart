@@ -116,7 +116,7 @@ class GpxWriter {
 
       _writeExtensions(builder, item.extensions);
 
-      if (item is Trk){
+      if (item is Trk) {
         for (final trkseg in item.trksegs) {
           builder.element(GpxTagV11.trackSegment, nest: () {
             for (final wpt in trkseg.trkpts) {
@@ -126,7 +126,7 @@ class GpxWriter {
             _writeExtensions(builder, trkseg.extensions);
           });
         }
-      } else if (item is Rte){
+      } else if (item is Rte) {
         for (final wpt in item.rtepts) {
           _writePoint(builder, GpxTagV11.routePoint, wpt);
         }

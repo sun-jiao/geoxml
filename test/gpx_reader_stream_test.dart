@@ -10,36 +10,32 @@ import 'utils.dart';
 
 void main() {
   test('read gpx with multiply points', () async {
-    final gpx = await GpxReader()
-        .fromStream(File('test/assets/wpt.gpx').openRead()
-        .transform(utf8.decoder));
+    final gpx = await GpxReader().fromStream(
+        File('test/assets/wpt.gpx').openRead().transform(utf8.decoder));
     final src = createGPXWithWpt();
 
     expect(gpx, src);
   });
 
   test('read gpx with multiply routes', () async {
-    final gpx = await GpxReader()
-        .fromStream(File('test/assets/rte.gpx').openRead()
-        .transform(utf8.decoder));
+    final gpx = await GpxReader().fromStream(
+        File('test/assets/rte.gpx').openRead().transform(utf8.decoder));
     final src = createGPXWithRte();
 
     expect(gpx, src);
   });
 
   test('read gpx with multiply tracks', () async {
-    final gpx = await GpxReader()
-        .fromStream(File('test/assets/trk.gpx').openRead()
-        .transform(utf8.decoder));
+    final gpx = await GpxReader().fromStream(
+        File('test/assets/trk.gpx').openRead().transform(utf8.decoder));
     final src = createGPXWithTrk();
 
     expect(gpx, src);
   });
 
   test('read complex gpx', () async {
-    final gpx = await GpxReader()
-        .fromStream(File('test/assets/complex.gpx').openRead()
-        .transform(utf8.decoder));
+    final gpx = await GpxReader().fromStream(
+        File('test/assets/complex.gpx').openRead().transform(utf8.decoder));
     final src = createComplexGPX();
 
     expect(gpx.metadata, src.metadata);
@@ -51,9 +47,8 @@ void main() {
   });
 
   test('read metadata gpx', () async {
-    final gpx = await GpxReader()
-        .fromStream(File('test/assets/metadata.gpx').openRead()
-        .transform(utf8.decoder));
+    final gpx = await GpxReader().fromStream(
+        File('test/assets/metadata.gpx').openRead().transform(utf8.decoder));
     final src = createMetadataGPX();
 
     expect(gpx.metadata, src.metadata);
@@ -61,9 +56,8 @@ void main() {
   });
 
   test('read large', () async {
-    final gpx = await GpxReader()
-        .fromStream(File('test/assets/large.gpx').openRead()
-        .transform(utf8.decoder));
+    final gpx = await GpxReader().fromStream(
+        File('test/assets/large.gpx').openRead().transform(utf8.decoder));
 
     expect(gpx.trks.length, 1);
     expect(gpx.trks.first.trksegs.length, 1);
@@ -71,9 +65,8 @@ void main() {
   });
 
   test('issue-4 FixType', () async {
-    final gpx = await GpxReader()
-        .fromStream(File('test/assets/fix.gpx').openRead()
-        .transform(utf8.decoder));
+    final gpx = await GpxReader().fromStream(
+        File('test/assets/fix.gpx').openRead().transform(utf8.decoder));
 
     expect(gpx.wpts[0].fix, FixType.fix_2d);
     expect(gpx.wpts[1].fix, FixType.fix_3d);
@@ -85,9 +78,10 @@ void main() {
   });
 
   test('issue-4', () async {
-    final gpx = await GpxReader()
-        .fromStream(File('test/assets/20160617-La-Hermida-to-Bejes.gpx').openRead()
-        .transform(utf8.decoder));
+    final gpx = await GpxReader().fromStream(
+        File('test/assets/20160617-La-Hermida-to-Bejes.gpx')
+            .openRead()
+            .transform(utf8.decoder));
 
     expect(gpx.creator, 'MapGazer 1.86');
     expect(gpx.metadata!.links.length, 1);

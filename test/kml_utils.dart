@@ -107,11 +107,11 @@ Gpx createComplexKml() {
   kml.metadata!.copyright = Copyright(author: 'lib', year: 2019);
   kml.wpts = [
     Wpt(
-        lat: -25.7996,
-        lon: -62.8666,
-        ele: 10.2,
-        name: 'Monte Quemado',
-        desc: 'Argentina',
+      lat: -25.7996,
+      lon: -62.8666,
+      ele: 10.2,
+      name: 'Monte Quemado',
+      desc: 'Argentina',
     ),
     Wpt(lat: 36.62, lon: 101.77, ele: 10.2, name: 'Xining', desc: 'China'),
   ];
@@ -129,8 +129,8 @@ Gpx createComplexKml() {
       Wpt(lat: 48.8667, lon: 2.3333, ele: 0)
     ]),
     Rte(name: 'route from Paris to Londan', rtepts: [
-        Wpt(lat: 51.5, lon: -0.1167, ele: 0),
-        Wpt(lat: 48.8667, lon: 2.3333, ele: 0)
+      Wpt(lat: 51.5, lon: -0.1167, ele: 0),
+      Wpt(lat: 48.8667, lon: 2.3333, ele: 0)
     ]),
   ];
 

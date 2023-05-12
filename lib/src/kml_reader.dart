@@ -272,11 +272,11 @@ class KmlReader {
             case KmlTagV22.placemark:
               final item = await _readPlacemark(iterator, val.name);
               if (item is Wpt) {
-                if (trk.trksegs.isEmpty){
+                if (trk.trksegs.isEmpty) {
                   trk.trksegs.add(Trkseg());
                 }
                 trk.trksegs.last.trkpts.add(item);
-              } else if (item is Rte){
+              } else if (item is Rte) {
                 trk.trksegs.add(Trkseg(trkpts: item.rtepts));
               }
               break;
@@ -454,7 +454,7 @@ class KmlReader {
           switch (val.name) {
             case KmlTagV22.when:
               final dateTime = await _readDateTime(iterator, val.name);
-              if (dateTime != null){
+              if (dateTime != null) {
                 whens.add(dateTime);
               }
               break;
@@ -484,7 +484,7 @@ class KmlReader {
     if (wpts.length != whens.length) {
       throw const FormatException(
           'Kml file format is not right. The number of <when> elements in a '
-              '<Track> must be equal to the number of <gx:coord> elements');
+          '<Track> must be equal to the number of <gx:coord> elements');
     }
 
     whens.asMap().forEach((index, when) {

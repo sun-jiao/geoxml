@@ -1,6 +1,6 @@
 import 'link.dart';
 
-class GpxObject{
+class GpxObject {
   /// GPS name of object.
   String? name;
 

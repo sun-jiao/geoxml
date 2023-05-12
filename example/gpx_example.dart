@@ -1,6 +1,6 @@
 import 'package:gpx/gpx.dart';
 
-main() async {
+Future<void> main() async {
   // create gpx-xml from object
   final gpx = Gpx();
   gpx.version = '1.1';
@@ -34,7 +34,8 @@ main() async {
   print(kmlString);
 
   // read gpx from gpx-xml string
-  final xmlGpx = await GpxReader().fromString('<?xml version="1.0" encoding="UTF-8"?>'
+  final xmlGpx = await GpxReader().fromString(
+      '<?xml version="1.0" encoding="UTF-8"?>'
       '<gpx version="1.1" creator="dart-gpx library">'
       '<metadata>'
       '<name>world cities</name>'
