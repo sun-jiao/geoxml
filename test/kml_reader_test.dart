@@ -99,4 +99,16 @@ void main() {
     expect(kml.rtes.first.rtepts.last.lon, 16.40371021);
     expect(kml.rtes.first.rtepts.last.ele, 212.0);
   });
+
+
+  test('gx:Track support', () async {
+    final kml = await KmlReader().fromString(
+        await File('test/assets/2022-12-18-11-47-Beihai.kml')
+            .readAsString());
+
+    expect(kml.trks.length, 1);
+    expect(kml.trks.first.name, 'TbuluTrack');
+    expect(kml.trks.first.trksegs.length, 1);
+    expect(kml.trks.first.trksegs.first.trkpts.length, 1230);
+  });
 }
