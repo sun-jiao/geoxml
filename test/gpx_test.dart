@@ -1,6 +1,6 @@
 library gpx.test.gpx_test;
 
-import 'package:gpx/gpx.dart';
+import 'package:geoxml/geoxml.dart';
 import 'package:test/test.dart';
 
 void main() {

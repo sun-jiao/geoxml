@@ -1,4 +1,4 @@
-import 'package:gpx/gpx.dart';
+import 'package:geoxml/geoxml.dart';
 
 Future<void> main() async {
   // create gpx-xml from object

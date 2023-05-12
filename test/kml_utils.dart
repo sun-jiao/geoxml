@@ -1,4 +1,4 @@
-import 'package:gpx/gpx.dart';
+import 'package:geoxml/geoxml.dart';
 import 'package:test/test.dart';
 
 Gpx createMinimalKml() {

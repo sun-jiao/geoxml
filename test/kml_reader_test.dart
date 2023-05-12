@@ -2,7 +2,7 @@ library kml.test.kml_reader_test;
 
 import 'dart:io';
 
-import 'package:gpx/gpx.dart';
+import 'package:geoxml/geoxml.dart';
 import 'package:test/test.dart';
 
 import 'kml_utils.dart';

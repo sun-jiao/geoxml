@@ -1,3 +1,9 @@
+## [2.3.0]
+
+* added `KmlReader` to load KML file.
+* added `fromStream()` in `GpxReader` and `KmlReader` for reading from stream.
+* `fromString()` was changed to an async method.
+
 ## [2.2.1]
 
 * fixed missed symbol during writing

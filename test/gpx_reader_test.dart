@@ -2,7 +2,7 @@ library gpx.test.gpx_reader_test;
 
 import 'dart:io';
 
-import 'package:gpx/gpx.dart';
+import 'package:geoxml/geoxml.dart';
 import 'package:test/test.dart';
 
 import 'utils.dart';

@@ -1,24 +1,22 @@
-gpx
+geoxml
 ======
 
-[![Pub Package](https://img.shields.io/pub/v/gpx.svg)](https://pub.dartlang.org/packages/gpx)
-[![Build Status](https://travis-ci.org/kb0/dart-gpx.svg?branch=master)](https://travis-ci.org/kb0/dart-gpx)
-[![Coverage Status](https://coveralls.io/repos/github/kb0/dart-gpx/badge.svg?branch=master)](https://coveralls.io/github/kb0/dart-gpx?branch=master)
-[![GitHub Issues](https://img.shields.io/github/issues/kb0/dart-gpx.svg?branch=master)](https://github.com/kb0/dart-gpx/issues)
-[![GitHub Forks](https://img.shields.io/github/forks/kb0/dart-gpx.svg?branch=master)](https://github.com/kb0/dart-gpx/network)
-[![GitHub Stars](https://img.shields.io/github/stars/kb0/dart-gpx.svg?branch=master)](https://github.com/kb0/dart-gpx/stargazers)
-[![GitHub License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/kb0/dart-gpx/master/LICENSE)
+[![Pub Package](https://img.shields.io/pub/v/geoxml.svg)](https://pub.dev/packages/geoxml)
+[![Coverage Status](https://coveralls.io/repos/github/sun-jiao/geoxml/badge.svg?branch=main)](https://coveralls.io/github/sun-jiao/dart-sun-jiao?branch=main)
+[![GitHub Issues](https://img.shields.io/github/issues/sun-jiao/geoxml.svg?branch=master)](https://github.com/sun-jiao/geoxml/issues)
+[![GitHub Forks](https://img.shields.io/github/forks/sun-jiao/geoxml.svg?branch=master)](https://github.com/sun-jiao/geoxml/network)
+[![GitHub Stars](https://img.shields.io/github/stars/sun-jiao/geoxml.svg?branch=master)](https://github.com/sun-jiao/geoxml/stargazers)
+[![GitHub License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/sun-jiao/geoxml/master/LICENSE)
 
-A library for or load, manipulate, and save GPS data in GPX
-format (https://www.topografix.com/gpx.asp, a light-weight XML data format for the interchange of
-GPS data - waypoints, routes, and tracks).
-View the official GPX 1.1 Schema at https://www.topografix.com/GPX/1/1/gpx.xsd.
+A library for loading, manipulating, and saving GPS data in XML format, including GPX 
+(https://www.topografix.com/gpx.asp, a light-weight XML data format for the interchange of
+GPS data - waypoints, routes, and tracks) and KML (a file format used to display geographic 
+data in an Earth browser such as Google Earth).
 
-Also support import to and export from Gpx into:
+View the official GPX 1.1 Schema at https://www.topografix.com/GPX/1/1/gpx.xsd .
+And for KML schema, see https://developers.google.com/kml/ .
 
-- KML (a file format used to display geographic data in an Earth browser such as Google
-  Earth, https://developers.google.com/kml/)
-- CSV (*not implemented yet*)
+The project is originally authored by @kb0 with others, thanks for their works.
 
 ## Getting Started
 
@@ -27,7 +25,7 @@ In your dart/flutter project add the dependency:
 ```
  dependencies:
    ...
-   gpx: ^2.2.1
+   geoxml: ^2.3.0
 ```
 
 ### Reading GPX
@@ -35,7 +33,7 @@ In your dart/flutter project add the dependency:
 To read GPX input use the GpxReader object and function `Gpx fromString(String input)`:
 
 ```dart
-import 'package:gpx/gpx.dart';
+import 'package:geoxml/geoxml.dart';
 
 main() async {
   // create gpx from xml string
@@ -52,7 +50,7 @@ main() async {
 To read GPX from a `Stream<String>`:
 
 ```dart
-import 'package:gpx/gpx.dart';
+import 'package:geoxml/geoxml.dart';
 
 main() async {
   // create gpx from xml string stream
@@ -72,7 +70,7 @@ To write object to GPX use the GpxWriter object and
 function `String asString(Gpx gpx, {bool pretty = false})`:
 
 ```dart
-import 'package:gpx/gpx.dart';
+import 'package:geoxml/geoxml.dart';
 
 main() {
   // create gpx object
@@ -93,7 +91,7 @@ main() {
 To read KML input use the KmlReader object and function `Gpx fromString(String input)`:
 
 ```dart
-import 'package:gpx/gpx.dart';
+import 'package:geoxml/geoxml.dart';
 
 main() async {
   // create gpx from xml string
@@ -112,7 +110,7 @@ main() async {
 To read KML from a `Stream<String>`:
 
 ```dart
-import 'package:gpx/gpx.dart';
+import 'package:geoxml/geoxml.dart';
 
 main() async {
   // create gpx from xml string stream
@@ -132,7 +130,7 @@ To export object to KML use the KmlWriter object and
 function `String asString(Gpx gpx, {bool pretty = false})`:
 
 ```dart
-import 'package:gpx/gpx.dart';
+import 'package:geoxml/geoxml.dart';
 
 main() {
   // create gpx object
@@ -159,13 +157,14 @@ This is just an initial version of the package. There are still some limitations
 
 - No support for GPX 1.0.
 - Doesn't validate schema declarations.
+- Only some common KML elements are supported.
 
 ## Features and bugs
 
 Please file feature requests and bugs at the [issue tracker][tracker].
 
-[tracker]: https://github.com/kb0/dart-gpx/issues
+[tracker]: https://github.com/sun-jiao/geoxml/issues
 
 ### License
 
-The Apache 2.0 License, see [LICENSE](https://github.com/kb0/dart-gpx/raw/master/LICENSE).
+The Apache 2.0 License, see [LICENSE](https://github.com/sunjiao/geoxml/raw/master/LICENSE).
