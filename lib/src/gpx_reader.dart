@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:xml/xml_events.dart';
 
 import 'model/bounds.dart';
@@ -12,19 +14,26 @@ import 'model/rte.dart';
 import 'model/trk.dart';
 import 'model/trkseg.dart';
 import 'model/wpt.dart';
+import 'tools/stream_converter.dart';
 
 /// Read Gpx from string
 class GpxReader {
-//  // @TODO
-//  Gpx fromStream(Stream<int> stream) {
-//
-//  }
+  /// Parse xml stream and create Gpx object
+  Future<Gpx> fromStream(Stream<String> stream) async {
+    final iterator = StreamIterator(toXmlStream(stream));
+
+    return _fromIterator(iterator);
+  }
 
   /// Parse xml string and create Gpx object
-  Gpx fromString(String xml) {
-    final iterator = parseEvents(xml).iterator;
+  Future<Gpx> fromString(String xml) {
+    final iterator = StreamIterator(Stream.fromIterable(parseEvents(xml)));
 
-    while (iterator.moveNext()) {
+    return _fromIterator(iterator);
+  }
+
+  Future<Gpx> _fromIterator(StreamIterator<XmlEvent> iterator) async {
+    while (await iterator.moveNext()) {
       final val = iterator.current;
 
       if (val is XmlStartElementEvent && val.name == GpxTagV11.gpx) {
@@ -47,7 +56,7 @@ class GpxReader {
                 GpxTagV11.creator, 'unknown', XmlAttributeType.DOUBLE_QUOTE))
         .value;
 
-    while (iterator.moveNext()) {
+    while (await iterator.moveNext()) {
       final val = iterator.current;
       if (val is XmlEndElementEvent && val.name == GpxTagV11.gpx) {
         break;
@@ -56,20 +65,20 @@ class GpxReader {
       if (val is XmlStartElementEvent) {
         switch (val.name) {
           case GpxTagV11.metadata:
-            gpx.metadata = _parseMetadata(iterator);
+            gpx.metadata = await _parseMetadata(iterator);
             break;
           case GpxTagV11.wayPoint:
-            gpx.wpts.add(_readPoint(iterator, val.name));
+            gpx.wpts.add(await _readPoint(iterator, val.name));
             break;
           case GpxTagV11.route:
-            gpx.rtes.add(_parseRoute(iterator));
+            gpx.rtes.add(await _parseRoute(iterator));
             break;
           case GpxTagV11.track:
-            gpx.trks.add(_parseTrack(iterator));
+            gpx.trks.add(await _parseTrack(iterator));
             break;
 
           case GpxTagV11.extensions:
-            gpx.extensions = _readExtensions(iterator);
+            gpx.extensions = await _readExtensions(iterator);
             break;
         }
       }
@@ -78,42 +87,42 @@ class GpxReader {
     return gpx;
   }
 
-  Metadata _parseMetadata(Iterator<XmlEvent> iterator) {
+  Future<Metadata> _parseMetadata(StreamIterator<XmlEvent> iterator) async {
     final metadata = Metadata();
     final elm = iterator.current;
 
     if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
-      while (iterator.moveNext()) {
+      while (await iterator.moveNext()) {
         final val = iterator.current;
 
         if (val is XmlStartElementEvent) {
           switch (val.name) {
             case GpxTagV11.name:
-              metadata.name = _readString(iterator, val.name);
+              metadata.name = await _readString(iterator, val.name);
               break;
             case GpxTagV11.desc:
-              metadata.desc = _readString(iterator, val.name);
+              metadata.desc = await _readString(iterator, val.name);
               break;
             case GpxTagV11.author:
-              metadata.author = _readPerson(iterator);
+              metadata.author = await _readPerson(iterator);
               break;
             case GpxTagV11.copyright:
-              metadata.copyright = _readCopyright(iterator);
+              metadata.copyright = await _readCopyright(iterator);
               break;
             case GpxTagV11.link:
-              metadata.links.add(_readLink(iterator));
+              metadata.links.add(await _readLink(iterator));
               break;
             case GpxTagV11.time:
-              metadata.time = _readDateTime(iterator, val.name);
+              metadata.time = await _readDateTime(iterator, val.name);
               break;
             case GpxTagV11.keywords:
-              metadata.keywords = _readString(iterator, val.name);
+              metadata.keywords = await _readString(iterator, val.name);
               break;
             case GpxTagV11.bounds:
-              metadata.bounds = _readBounds(iterator);
+              metadata.bounds = await _readBounds(iterator);
               break;
             case GpxTagV11.extensions:
-              metadata.extensions = _readExtensions(iterator);
+              metadata.extensions = await _readExtensions(iterator);
               break;
           }
         }
@@ -127,46 +136,46 @@ class GpxReader {
     return metadata;
   }
 
-  Rte _parseRoute(Iterator<XmlEvent> iterator) {
+  Future<Rte> _parseRoute(StreamIterator<XmlEvent> iterator) async {
     final rte = Rte();
     final elm = iterator.current;
 
     if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
-      while (iterator.moveNext()) {
+      while (await iterator.moveNext()) {
         final val = iterator.current;
 
         if (val is XmlStartElementEvent) {
           switch (val.name) {
             case GpxTagV11.routePoint:
-              rte.rtepts.add(_readPoint(iterator, val.name));
+              rte.rtepts.add(await _readPoint(iterator, val.name));
               break;
 
             case GpxTagV11.name:
-              rte.name = _readString(iterator, val.name);
+              rte.name = await _readString(iterator, val.name);
               break;
             case GpxTagV11.desc:
-              rte.desc = _readString(iterator, val.name);
+              rte.desc = await _readString(iterator, val.name);
               break;
             case GpxTagV11.comment:
-              rte.cmt = _readString(iterator, val.name);
+              rte.cmt = await _readString(iterator, val.name);
               break;
             case GpxTagV11.src:
-              rte.src = _readString(iterator, val.name);
+              rte.src = await _readString(iterator, val.name);
               break;
 
             case GpxTagV11.link:
-              rte.links.add(_readLink(iterator));
+              rte.links.add(await _readLink(iterator));
               break;
 
             case GpxTagV11.number:
-              rte.number = _readInt(iterator, val.name);
+              rte.number = await _readInt(iterator, val.name);
               break;
             case GpxTagV11.type:
-              rte.type = _readString(iterator, val.name);
+              rte.type = await _readString(iterator, val.name);
               break;
 
             case GpxTagV11.extensions:
-              rte.extensions = _readExtensions(iterator);
+              rte.extensions = await _readExtensions(iterator);
               break;
           }
         }
@@ -180,46 +189,46 @@ class GpxReader {
     return rte;
   }
 
-  Trk _parseTrack(Iterator<XmlEvent> iterator) {
+  Future<Trk> _parseTrack(StreamIterator<XmlEvent> iterator) async {
     final trk = Trk();
     final elm = iterator.current;
 
     if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
-      while (iterator.moveNext()) {
+      while (await iterator.moveNext()) {
         final val = iterator.current;
 
         if (val is XmlStartElementEvent) {
           switch (val.name) {
             case GpxTagV11.trackSegment:
-              trk.trksegs.add(_readSegment(iterator));
+              trk.trksegs.add(await _readSegment(iterator));
               break;
 
             case GpxTagV11.name:
-              trk.name = _readString(iterator, val.name);
+              trk.name = await _readString(iterator, val.name);
               break;
             case GpxTagV11.desc:
-              trk.desc = _readString(iterator, val.name);
+              trk.desc = await _readString(iterator, val.name);
               break;
             case GpxTagV11.comment:
-              trk.cmt = _readString(iterator, val.name);
+              trk.cmt = await _readString(iterator, val.name);
               break;
             case GpxTagV11.src:
-              trk.src = _readString(iterator, val.name);
+              trk.src = await _readString(iterator, val.name);
               break;
 
             case GpxTagV11.link:
-              trk.links.add(_readLink(iterator));
+              trk.links.add(await _readLink(iterator));
               break;
 
             case GpxTagV11.number:
-              trk.number = _readInt(iterator, val.name);
+              trk.number = await _readInt(iterator, val.name);
               break;
             case GpxTagV11.type:
-              trk.type = _readString(iterator, val.name);
+              trk.type = await _readString(iterator, val.name);
               break;
 
             case GpxTagV11.extensions:
-              trk.extensions = _readExtensions(iterator);
+              trk.extensions = await _readExtensions(iterator);
               break;
           }
         }
@@ -233,7 +242,8 @@ class GpxReader {
     return trk;
   }
 
-  Wpt _readPoint(Iterator<XmlEvent> iterator, String tagName) {
+  Future<Wpt> _readPoint(
+      StreamIterator<XmlEvent> iterator, String tagName) async {
     final wpt = Wpt();
     final elm = iterator.current;
 
@@ -247,17 +257,17 @@ class GpxReader {
     }
 
     if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
-      while (iterator.moveNext()) {
+      while (await iterator.moveNext()) {
         final val = iterator.current;
 
         if (val is XmlStartElementEvent) {
           switch (val.name) {
             case GpxTagV11.sym:
-              wpt.sym = _readString(iterator, val.name);
+              wpt.sym = await _readString(iterator, val.name);
               break;
 
             case GpxTagV11.fix:
-              final fixAsString = _readString(iterator, val.name);
+              final fixAsString = await _readString(iterator, val.name);
               wpt.fix = FixType.values.firstWhere(
                   (e) =>
                       e.toString().replaceFirst('.fix_', '.') ==
@@ -270,59 +280,59 @@ class GpxReader {
               break;
 
             case GpxTagV11.dGPSId:
-              wpt.dgpsid = _readInt(iterator, val.name);
+              wpt.dgpsid = await _readInt(iterator, val.name);
               break;
 
             case GpxTagV11.name:
-              wpt.name = _readString(iterator, val.name);
+              wpt.name = await _readString(iterator, val.name);
               break;
             case GpxTagV11.desc:
-              wpt.desc = _readString(iterator, val.name);
+              wpt.desc = await _readString(iterator, val.name);
               break;
             case GpxTagV11.comment:
-              wpt.cmt = _readString(iterator, val.name);
+              wpt.cmt = await _readString(iterator, val.name);
               break;
             case GpxTagV11.src:
-              wpt.src = _readString(iterator, val.name);
+              wpt.src = await _readString(iterator, val.name);
               break;
             case GpxTagV11.link:
-              wpt.links.add(_readLink(iterator));
+              wpt.links.add(await _readLink(iterator));
               break;
             case GpxTagV11.hDOP:
-              wpt.hdop = _readDouble(iterator, val.name);
+              wpt.hdop = await _readDouble(iterator, val.name);
               break;
             case GpxTagV11.vDOP:
-              wpt.vdop = _readDouble(iterator, val.name);
+              wpt.vdop = await _readDouble(iterator, val.name);
               break;
             case GpxTagV11.pDOP:
-              wpt.pdop = _readDouble(iterator, val.name);
+              wpt.pdop = await _readDouble(iterator, val.name);
               break;
             case GpxTagV11.ageOfData:
-              wpt.ageofdgpsdata = _readDouble(iterator, val.name);
+              wpt.ageofdgpsdata = await _readDouble(iterator, val.name);
               break;
 
             case GpxTagV11.magVar:
-              wpt.magvar = _readDouble(iterator, val.name);
+              wpt.magvar = await _readDouble(iterator, val.name);
               break;
             case GpxTagV11.geoidHeight:
-              wpt.geoidheight = _readDouble(iterator, val.name);
+              wpt.geoidheight = await _readDouble(iterator, val.name);
               break;
 
             case GpxTagV11.sat:
-              wpt.sat = _readInt(iterator, val.name);
+              wpt.sat = await _readInt(iterator, val.name);
               break;
 
             case GpxTagV11.elevation:
-              wpt.ele = _readDouble(iterator, val.name);
+              wpt.ele = await _readDouble(iterator, val.name);
               break;
             case GpxTagV11.time:
-              wpt.time = _readDateTime(iterator, val.name);
+              wpt.time = await _readDateTime(iterator, val.name);
               break;
             case GpxTagV11.type:
-              wpt.type = _readString(iterator, val.name);
+              wpt.type = await _readString(iterator, val.name);
               break;
             case GpxTagV11.extensions:
-              wpt.extensions = _readExtensions(iterator);
+              wpt.extensions = await _readExtensions(iterator);
               break;
           }
         }
@@ -336,22 +346,26 @@ class GpxReader {
     return wpt;
   }
 
-  double? _readDouble(Iterator<XmlEvent> iterator, String tagName) {
-    final doubleString = _readString(iterator, tagName);
+  Future<double?> _readDouble(
+      StreamIterator<XmlEvent> iterator, String tagName) async {
+    final doubleString = await _readString(iterator, tagName);
     return doubleString != null ? double.parse(doubleString) : null;
   }
 
-  int? _readInt(Iterator<XmlEvent> iterator, String tagName) {
-    final intString = _readString(iterator, tagName);
+  Future<int?> _readInt(
+      StreamIterator<XmlEvent> iterator, String tagName) async {
+    final intString = await _readString(iterator, tagName);
     return intString != null ? int.parse(intString) : null;
   }
 
-  DateTime? _readDateTime(Iterator<XmlEvent> iterator, String tagName) {
-    final dateTimeString = _readString(iterator, tagName);
+  Future<DateTime?> _readDateTime(
+      StreamIterator<XmlEvent> iterator, String tagName) async {
+    final dateTimeString = await _readString(iterator, tagName);
     return dateTimeString != null ? DateTime.parse(dateTimeString) : null;
   }
 
-  String? _readString(Iterator<XmlEvent> iterator, String tagName) {
+  Future<String?> _readString(
+      StreamIterator<XmlEvent> iterator, String tagName) async {
     final elm = iterator.current;
     if (!(elm is XmlStartElementEvent &&
         elm.name == tagName &&
@@ -360,7 +374,7 @@ class GpxReader {
     }
 
     var string = '';
-    while (iterator.moveNext()) {
+    while (await iterator.moveNext()) {
       final val = iterator.current;
 
       if (val is XmlTextEvent) {
@@ -379,21 +393,21 @@ class GpxReader {
     return string;
   }
 
-  Trkseg _readSegment(Iterator<XmlEvent> iterator) {
+  Future<Trkseg> _readSegment(StreamIterator<XmlEvent> iterator) async {
     final trkseg = Trkseg();
     final elm = iterator.current;
 
     if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
-      while (iterator.moveNext()) {
+      while (await iterator.moveNext()) {
         final val = iterator.current;
 
         if (val is XmlStartElementEvent) {
           switch (val.name) {
             case GpxTagV11.trackPoint:
-              trkseg.trkpts.add(_readPoint(iterator, val.name));
+              trkseg.trkpts.add(await _readPoint(iterator, val.name));
               break;
             case GpxTagV11.extensions:
-              trkseg.extensions = _readExtensions(iterator);
+              trkseg.extensions = await _readExtensions(iterator);
               break;
           }
         }
@@ -407,7 +421,8 @@ class GpxReader {
     return trkseg;
   }
 
-  Map<String, String> _readExtensions(Iterator<XmlEvent> iterator) {
+  Future<Map<String, String>> _readExtensions(
+      StreamIterator<XmlEvent> iterator) async {
     final exts = <String, String>{};
     final elm = iterator.current;
 
@@ -418,11 +433,11 @@ class GpxReader {
     }*/
 
     if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
-      while (iterator.moveNext()) {
+      while (await iterator.moveNext()) {
         final val = iterator.current;
 
         if (val is XmlStartElementEvent) {
-          exts[val.name] = _readString(iterator, val.name) ?? '';
+          exts[val.name] = await _readString(iterator, val.name) ?? '';
         }
 
         if (val is XmlEndElementEvent && val.name == GpxTagV11.extensions) {
@@ -434,7 +449,7 @@ class GpxReader {
     return exts;
   }
 
-  Link _readLink(Iterator<XmlEvent> iterator) {
+  Future<Link> _readLink(StreamIterator<XmlEvent> iterator) async {
     final link = Link();
     final elm = iterator.current;
 
@@ -445,16 +460,16 @@ class GpxReader {
     }
 
     if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
-      while (iterator.moveNext()) {
+      while (await iterator.moveNext()) {
         final val = iterator.current;
 
         if (val is XmlStartElementEvent) {
           switch (val.name) {
             case GpxTagV11.text:
-              link.text = _readString(iterator, val.name);
+              link.text = await _readString(iterator, val.name);
               break;
             case GpxTagV11.type:
-              link.type = _readString(iterator, val.name);
+              link.type = await _readString(iterator, val.name);
               break;
           }
         }
@@ -468,24 +483,24 @@ class GpxReader {
     return link;
   }
 
-  Person _readPerson(Iterator<XmlEvent> iterator) {
+  Future<Person> _readPerson(StreamIterator<XmlEvent> iterator) async {
     final person = Person();
     final elm = iterator.current;
 
     if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
-      while (iterator.moveNext()) {
+      while (await iterator.moveNext()) {
         final val = iterator.current;
 
         if (val is XmlStartElementEvent) {
           switch (val.name) {
             case GpxTagV11.name:
-              person.name = _readString(iterator, val.name);
+              person.name = await _readString(iterator, val.name);
               break;
             case GpxTagV11.email:
-              person.email = _readEmail(iterator);
+              person.email = await _readEmail(iterator);
               break;
             case GpxTagV11.link:
-              person.link = _readLink(iterator);
+              person.link = await _readLink(iterator);
               break;
           }
         }
@@ -499,7 +514,7 @@ class GpxReader {
     return person;
   }
 
-  Copyright _readCopyright(Iterator<XmlEvent> iterator) {
+  Future<Copyright> _readCopyright(StreamIterator<XmlEvent> iterator) async {
     final copyright = Copyright();
     final elm = iterator.current;
 
@@ -509,16 +524,16 @@ class GpxReader {
           .value;
 
       if (!elm.isSelfClosing) {
-        while (iterator.moveNext()) {
+        while (await iterator.moveNext()) {
           final val = iterator.current;
 
           if (val is XmlStartElementEvent) {
             switch (val.name) {
               case GpxTagV11.year:
-                copyright.year = _readInt(iterator, val.name);
+                copyright.year = await _readInt(iterator, val.name);
                 break;
               case GpxTagV11.license:
-                copyright.license = _readString(iterator, val.name);
+                copyright.license = await _readString(iterator, val.name);
                 break;
             }
           }
@@ -533,7 +548,7 @@ class GpxReader {
     return copyright;
   }
 
-  Bounds _readBounds(Iterator<XmlEvent> iterator) {
+  Future<Bounds> _readBounds(StreamIterator<XmlEvent> iterator) async {
     final bounds = Bounds();
     final elm = iterator.current;
 
@@ -552,7 +567,7 @@ class GpxReader {
           .value);
 
       if (!elm.isSelfClosing) {
-        while (iterator.moveNext()) {
+        while (await iterator.moveNext()) {
           final val = iterator.current;
 
           if (val is XmlEndElementEvent && val.name == GpxTagV11.bounds) {
@@ -565,7 +580,7 @@ class GpxReader {
     return bounds;
   }
 
-  Email _readEmail(Iterator<XmlEvent> iterator) {
+  Future<Email> _readEmail(StreamIterator<XmlEvent> iterator) async {
     final email = Email();
     final elm = iterator.current;
 
@@ -577,7 +592,7 @@ class GpxReader {
           .value;
 
       if (!elm.isSelfClosing) {
-        while (iterator.moveNext()) {
+        while (await iterator.moveNext()) {
           final val = iterator.current;
 
           if (val is XmlEndElementEvent && val.name == GpxTagV11.email) {
