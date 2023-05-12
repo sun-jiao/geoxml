@@ -1,13 +1,13 @@
 import 'package:collection/collection.dart';
 import 'package:quiver/core.dart';
 
-import 'gpx_object.dart';
+import 'geo_object.dart';
 import 'gpx_tag.dart';
 import 'link.dart';
 import 'trkseg.dart';
 
 /// Trk represents a track - an ordered list of points describing a path.
-class Trk implements GpxObject {
+class Trk implements GeoObject {
   /// GPS name of track.
   @override
   String? name;
@@ -44,7 +44,7 @@ class Trk implements GpxObject {
 
   // Element tag.
   @override
-  String tag = GpxTagV11.track;
+  String tag = GpxTag.track;
 
   /// A Track Segment holds a list of Track Points which are logically connected
   /// in order. To represent a single GPS track where GPS reception was lost, or

@@ -8,7 +8,7 @@ import 'wpt.dart';
 /// the GPS receiver was turned off, start a new Track Segment for each
 /// continuous span of track data.
 class Trkseg {
-  /// List of trak points. A Track Point holds the coordinates, elevation,
+  /// List of track points. A Track Point holds the coordinates, elevation,
   /// timestamp, and metadata for a single point in a track.
   List<Wpt> trkpts;
 

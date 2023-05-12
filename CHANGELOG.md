@@ -1,3 +1,9 @@
+## [2.4.0]
+
+* class `Gpx` was renamed to `GeoXml`.
+* added methods `toGpxString` and `toKmlString` to `GeoXml`.
+* added static methods `fromKmlString`, `fromKmlStream`, `fromGpxString` and `fromGpxStream` to `GeoXml`.
+
 ## [2.3.0]
 
 * added `KmlReader` to load KML file.

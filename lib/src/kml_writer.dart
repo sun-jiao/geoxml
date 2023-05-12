@@ -1,7 +1,7 @@
 import 'package:xml/xml.dart';
 
-import 'model/gpx.dart';
-import 'model/gpx_object.dart';
+import 'model/geo_object.dart';
+import 'model/geoxml.dart';
 import 'model/gpx_tag.dart';
 import 'model/kml_tag.dart';
 import 'model/link.dart';
@@ -29,26 +29,26 @@ class KmlWriter {
   }
 
   /// Convert Gpx into KML as String
-  String asString(Gpx gpx, {bool pretty = false}) =>
+  String asString(GeoXml gpx, {bool pretty = false}) =>
       _build(gpx).toXmlString(pretty: pretty);
 
   /// Convert Gpx into KML as XmlNode
-  XmlNode asXml(Gpx gpx) => _build(gpx);
+  XmlNode asXml(GeoXml gpx) => _build(gpx);
 
-  XmlNode _build(Gpx gpx) {
+  XmlNode _build(GeoXml gpx) {
     final builder = XmlBuilder();
 
     builder.processing('xml', 'version="1.0" encoding="UTF-8"');
-    builder.element(KmlTagV22.kml, nest: () {
+    builder.element(KmlTag.kml, nest: () {
       builder.attribute('xmlns', 'http://www.opengis.net/kml/2.2');
 
-      builder.element(KmlTagV22.document, nest: () {
+      builder.element(KmlTag.document, nest: () {
         if (gpx.metadata != null) {
           _writeMetadata(builder, gpx.metadata!);
         }
 
         for (final wpt in gpx.wpts) {
-          _writePoint(builder, KmlTagV22.placemark, wpt);
+          _writePoint(builder, KmlTag.placemark, wpt);
         }
 
         for (final rte in gpx.rtes) {
@@ -65,50 +65,50 @@ class KmlWriter {
   }
 
   void _writeMetadata(XmlBuilder builder, Metadata metadata) {
-    _writeElement(builder, KmlTagV22.name, metadata.name);
-    _writeElement(builder, KmlTagV22.desc, metadata.desc);
+    _writeElement(builder, KmlTag.name, metadata.name);
+    _writeElement(builder, KmlTag.desc, metadata.desc);
 
     if (metadata.author != null) {
-      builder.element(KmlTagV22.author, nest: () {
-        _writeElement(builder, KmlTagV22.authorName, metadata.author?.name);
+      builder.element(KmlTag.author, nest: () {
+        _writeElement(builder, KmlTag.authorName, metadata.author?.name);
         if (metadata.author?.email?.id != null &&
             metadata.author?.email?.domain != null) {
           final email =
               '${metadata.author!.email!.id}@${metadata.author!.email!.domain}';
-          _writeElement(builder, KmlTagV22.email, email);
+          _writeElement(builder, KmlTag.email, email);
         }
 
-        _writeElement(builder, KmlTagV22.uri, metadata.author?.link?.href);
+        _writeElement(builder, KmlTag.uri, metadata.author?.link?.href);
       });
     }
 
-    builder.element(KmlTagV22.extendedData, nest: () {
-      _writeExtendedElement(builder, GpxTagV11.keywords, metadata.keywords);
+    builder.element(KmlTag.extendedData, nest: () {
+      _writeExtendedElement(builder, GpxTag.keywords, metadata.keywords);
 
       if (metadata.time != null) {
         _writeExtendedElement(
-            builder, GpxTagV11.time, metadata.time?.toIso8601String());
+            builder, GpxTag.time, metadata.time?.toIso8601String());
       }
 
       if (metadata.copyright != null) {
-        _writeExtendedElement(builder, GpxTagV11.copyright,
+        _writeExtendedElement(builder, GpxTag.copyright,
             '${metadata.copyright!.author}, ${metadata.copyright!.year}');
       }
     });
   }
 
-  void _writeTrackRoute(XmlBuilder builder, GpxObject item) {
-    builder.element(KmlTagV22.placemark, nest: () {
-      _writeElement(builder, GpxTagV11.name, item.name);
-      _writeElement(builder, GpxTagV11.desc, item.desc);
+  void _writeTrackRoute(XmlBuilder builder, GeoObject item) {
+    builder.element(KmlTag.placemark, nest: () {
+      _writeElement(builder, GpxTag.name, item.name);
+      _writeElement(builder, GpxTag.desc, item.desc);
       _writeAtomLinks(builder, item.links);
 
-      builder.element(KmlTagV22.extendedData, nest: () {
-        _writeExtendedElement(builder, GpxTagV11.comment, item.cmt);
-        _writeExtendedElement(builder, GpxTagV11.type, item.type);
+      builder.element(KmlTag.extendedData, nest: () {
+        _writeExtendedElement(builder, GpxTag.comment, item.cmt);
+        _writeExtendedElement(builder, GpxTag.type, item.type);
 
-        _writeExtendedElement(builder, GpxTagV11.src, item.src);
-        _writeExtendedElement(builder, GpxTagV11.number, item.number);
+        _writeExtendedElement(builder, GpxTag.src, item.src);
+        _writeExtendedElement(builder, GpxTag.number, item.number);
       });
 
       final Iterable<Wpt> wptList;
@@ -122,17 +122,17 @@ class KmlWriter {
       }
 
       final tag = wptList.first.coordinateEqual(wptList.last)
-          ? KmlTagV22.ring
-          : KmlTagV22.track;
+          ? KmlTag.ring
+          : KmlTag.track;
 
       builder.element(tag, nest: () {
-        _writeElement(builder, KmlTagV22.extrude, 1);
-        _writeElement(builder, KmlTagV22.tessellate, 1);
-        _writeElement(builder, KmlTagV22.altitudeMode, _altitudeModeString);
+        _writeElement(builder, KmlTag.extrude, 1);
+        _writeElement(builder, KmlTag.tessellate, 1);
+        _writeElement(builder, KmlTag.altitudeMode, _altitudeModeString);
 
         _writeElement(
             builder,
-            KmlTagV22.coordinates,
+            KmlTag.coordinates,
             wptList
                 .map((wpt) => [wpt.lon, wpt.lat, wpt.ele ?? 0].join(','))
                 .join('\n'));
@@ -142,37 +142,37 @@ class KmlWriter {
 
   void _writePoint(XmlBuilder builder, String tagName, Wpt wpt) {
     builder.element(tagName, nest: () {
-      _writeElement(builder, KmlTagV22.name, wpt.name);
-      _writeElement(builder, KmlTagV22.desc, wpt.desc);
+      _writeElement(builder, KmlTag.name, wpt.name);
+      _writeElement(builder, KmlTag.desc, wpt.desc);
 
       _writeElementWithTime(builder, wpt.time);
 
       _writeAtomLinks(builder, wpt.links);
 
-      builder.element(KmlTagV22.extendedData, nest: () {
-        _writeExtendedElement(builder, GpxTagV11.magVar, wpt.magvar);
+      builder.element(KmlTag.extendedData, nest: () {
+        _writeExtendedElement(builder, GpxTag.magVar, wpt.magvar);
 
-        _writeExtendedElement(builder, GpxTagV11.sat, wpt.sat);
-        _writeExtendedElement(builder, GpxTagV11.src, wpt.src);
+        _writeExtendedElement(builder, GpxTag.sat, wpt.sat);
+        _writeExtendedElement(builder, GpxTag.src, wpt.src);
 
-        _writeExtendedElement(builder, GpxTagV11.hDOP, wpt.hdop);
-        _writeExtendedElement(builder, GpxTagV11.vDOP, wpt.vdop);
-        _writeExtendedElement(builder, GpxTagV11.pDOP, wpt.pdop);
+        _writeExtendedElement(builder, GpxTag.hDOP, wpt.hdop);
+        _writeExtendedElement(builder, GpxTag.vDOP, wpt.vdop);
+        _writeExtendedElement(builder, GpxTag.pDOP, wpt.pdop);
 
-        _writeExtendedElement(builder, GpxTagV11.geoidHeight, wpt.geoidheight);
-        _writeExtendedElement(builder, GpxTagV11.ageOfData, wpt.ageofdgpsdata);
-        _writeExtendedElement(builder, GpxTagV11.dGPSId, wpt.dgpsid);
+        _writeExtendedElement(builder, GpxTag.geoidHeight, wpt.geoidheight);
+        _writeExtendedElement(builder, GpxTag.ageOfData, wpt.ageofdgpsdata);
+        _writeExtendedElement(builder, GpxTag.dGPSId, wpt.dgpsid);
 
-        _writeExtendedElement(builder, GpxTagV11.comment, wpt.cmt);
-        _writeExtendedElement(builder, GpxTagV11.type, wpt.type);
+        _writeExtendedElement(builder, GpxTag.comment, wpt.cmt);
+        _writeExtendedElement(builder, GpxTag.type, wpt.type);
       });
 
-      builder.element(KmlTagV22.point, nest: () {
+      builder.element(KmlTag.point, nest: () {
         if (wpt.ele != null) {
-          _writeElement(builder, KmlTagV22.altitudeMode, _altitudeModeString);
+          _writeElement(builder, KmlTag.altitudeMode, _altitudeModeString);
         }
 
-        _writeElement(builder, KmlTagV22.coordinates,
+        _writeElement(builder, KmlTag.coordinates,
             [wpt.lon, wpt.lat, wpt.ele ?? 0].join(','));
       });
     });
@@ -186,23 +186,23 @@ class KmlWriter {
 
   void _writeAtomLinks(XmlBuilder builder, List<Link> value) {
     for (final link in value) {
-      builder.element(KmlTagV22.link, nest: link.href);
+      builder.element(KmlTag.link, nest: link.href);
     }
   }
 
   void _writeExtendedElement(XmlBuilder builder, String tagName, value) {
     if (value != null) {
-      builder.element(KmlTagV22.data, nest: () {
-        builder.attribute(KmlTagV22.name, tagName);
-        builder.element(KmlTagV22.value, nest: value);
+      builder.element(KmlTag.data, nest: () {
+        builder.attribute(KmlTag.name, tagName);
+        builder.element(KmlTag.value, nest: value);
       });
     }
   }
 
   void _writeElementWithTime(XmlBuilder builder, DateTime? value) {
     if (value != null) {
-      builder.element(KmlTagV22.timestamp, nest: () {
-        builder.element(KmlTagV22.when, nest: value.toUtc().toIso8601String());
+      builder.element(KmlTag.timestamp, nest: () {
+        builder.element(KmlTag.when, nest: value.toUtc().toIso8601String());
       });
     }
   }

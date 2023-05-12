@@ -5,8 +5,8 @@ import 'package:test/test.dart';
 
 void main() {
   test('compare gpx objects with empty lists', () async {
-    final gpx1 = Gpx();
-    final gpx2 = Gpx();
+    final gpx1 = GeoXml();
+    final gpx2 = GeoXml();
 
     expect(gpx1, gpx2);
     expect(gpx1.toString(), gpx2.toString());
@@ -23,8 +23,8 @@ void main() {
   });
 
   test('compare gpx objects with wpts', () async {
-    final gpx1 = Gpx();
-    final gpx2 = Gpx();
+    final gpx1 = GeoXml();
+    final gpx2 = GeoXml();
 
     gpx1.wpts = [];
     gpx2.wpts = [];

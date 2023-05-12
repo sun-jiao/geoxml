@@ -1,22 +1,22 @@
 import 'package:geoxml/geoxml.dart';
 import 'package:test/test.dart';
 
-Gpx createMinimalKml() {
-  final kml = Gpx();
+GeoXml createMinimalKml() {
+  final kml = GeoXml();
   kml.version = '1.1';
   kml.wpts = [];
 
   return kml;
 }
 
-Gpx createMinimalMetadataKml() {
+GeoXml createMinimalMetadataKml() {
   final kml = createMinimalKml();
   kml.metadata = Metadata();
 
   return kml;
 }
 
-Gpx createKmlWithWpt() {
+GeoXml createKmlWithWpt() {
   final kml = createMinimalKml();
   kml.metadata = Metadata();
   kml.metadata!.name = 'world cities';
@@ -35,7 +35,7 @@ Gpx createKmlWithWpt() {
   return kml;
 }
 
-Gpx createGPXWithRte() {
+GeoXml createGPXWithRte() {
   final kml = createMinimalKml();
   kml.metadata = Metadata();
   kml.metadata!.name = 'routes';
@@ -64,7 +64,7 @@ Gpx createGPXWithRte() {
   return kml;
 }
 
-Gpx createGPXWithTrk() {
+GeoXml createGPXWithTrk() {
   final kml = createMinimalKml();
   kml.metadata = Metadata();
   kml.metadata!.name = 'routes';
@@ -83,8 +83,8 @@ Gpx createGPXWithTrk() {
   return kml;
 }
 
-Gpx createMetadataKml() {
-  final kml = Gpx();
+GeoXml createMetadataKml() {
+  final kml = GeoXml();
   kml.metadata = Metadata();
   kml.metadata!.name = 'routes';
   kml.metadata!.desc = 'desc';
@@ -99,7 +99,7 @@ Gpx createMetadataKml() {
   return kml;
 }
 
-Gpx createComplexKml() {
+GeoXml createComplexKml() {
   final kml = createMinimalKml();
   kml.metadata = Metadata();
   kml.metadata!.name = 'routes';

@@ -1,14 +1,14 @@
 import 'package:collection/collection.dart';
 import 'package:quiver/core.dart';
 
-import 'gpx_object.dart';
+import 'geo_object.dart';
 import 'gpx_tag.dart';
 import 'link.dart';
 import 'wpt.dart';
 
 /// Rte represents route - an ordered list of waypoints representing a series of
 /// turn points leading to a destination.
-class Rte implements GpxObject {
+class Rte implements GeoObject {
   /// GPS name of route.
   @override
   String? name;
@@ -45,7 +45,7 @@ class Rte implements GpxObject {
 
   // Element tag.
   @override
-  String tag = GpxTagV11.route;
+  String tag = GpxTag.route;
 
   /// A list of route points.
   List<Wpt> rtepts;

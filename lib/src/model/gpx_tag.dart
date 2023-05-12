@@ -1,5 +1,5 @@
 /// GPX tags names.
-class GpxTagV11 {
+class GpxTag {
   static const gpx = 'gpx';
   static const version = 'version';
   static const creator = 'creator';

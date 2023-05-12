@@ -2,7 +2,7 @@ import 'package:geoxml/geoxml.dart';
 
 Future<void> main() async {
   // create gpx-xml from object
-  final gpx = Gpx();
+  final gpx = GeoXml();
   gpx.version = '1.1';
   gpx.creator = 'dart-gpx library';
   gpx.metadata = Metadata();

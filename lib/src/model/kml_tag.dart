@@ -1,5 +1,5 @@
 /// KML tags names.
-class KmlTagV22 {
+class KmlTag {
   static const kml = 'kml';
 
   static const document = 'Document';

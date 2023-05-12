@@ -4,8 +4,8 @@ import 'package:xml/xml_events.dart';
 
 import 'model/copyright.dart';
 import 'model/email.dart';
-import 'model/gpx.dart';
-import 'model/gpx_object.dart';
+import 'model/geo_object.dart';
+import 'model/geoxml.dart';
 import 'model/gpx_tag.dart';
 import 'model/kml_tag.dart';
 import 'model/link.dart';
@@ -20,22 +20,22 @@ import 'tools/stream_converter.dart';
 /// Read Gpx from string
 class KmlReader {
   /// Parse xml stream and create Gpx object
-  Future<Gpx> fromStream(Stream<String> stream) async {
+  Future<GeoXml> fromStream(Stream<String> stream) async {
     final iterator = StreamIterator(toXmlStream(stream));
 
     return _fromIterator(iterator);
   }
 
   /// Parse xml string and create Gpx object
-  Future<Gpx> fromString(String xml) {
+  Future<GeoXml> fromString(String xml) {
     final iterator = StreamIterator(Stream.fromIterable(parseEvents(xml)));
 
     return _fromIterator(iterator);
   }
 
-  Future<Gpx> _fromIterator(StreamIterator<XmlEvent> iterator) async {
+  Future<GeoXml> _fromIterator(StreamIterator<XmlEvent> iterator) async {
     // ignore: avoid_as
-    final gpx = Gpx();
+    final gpx = GeoXml();
     String? kmlName;
     String? desc;
     Person? author;
@@ -45,26 +45,26 @@ class KmlReader {
 
       if (val is XmlStartElementEvent) {
         switch (val.name) {
-          case KmlTagV22.document:
+          case KmlTag.document:
             break;
-          case KmlTagV22.kml:
+          case KmlTag.kml:
             break;
-          case KmlTagV22.name:
+          case KmlTag.name:
             kmlName = await _readString(iterator, val.name);
             break;
-          case KmlTagV22.desc:
+          case KmlTag.desc:
             desc = await _readString(iterator, val.name);
             break;
-          case GpxTagV11.desc:
+          case GpxTag.desc:
             desc = await _readString(iterator, val.name);
             break;
-          case KmlTagV22.author:
+          case KmlTag.author:
             author = await _readPerson(iterator);
             break;
-          case KmlTagV22.extendedData:
+          case KmlTag.extendedData:
             gpx.metadata = await _parseMetadata(iterator);
             break;
-          case KmlTagV22.placemark:
+          case KmlTag.placemark:
             final item = await _readPlacemark(iterator, val.name);
             if (item is Wpt) {
               gpx.wpts.add(item);
@@ -72,7 +72,7 @@ class KmlReader {
               gpx.rtes.add(item);
             }
             break;
-          case KmlTagV22.folder:
+          case KmlTag.folder:
             gpx.trks.add(await _readFolder(iterator, val.name));
             break;
         }
@@ -105,17 +105,17 @@ class KmlReader {
       while (await iterator.moveNext()) {
         final val = iterator.current;
 
-        if (val is XmlStartElementEvent && val.name == KmlTagV22.data) {
+        if (val is XmlStartElementEvent && val.name == KmlTag.data) {
           for (final attribute in val.attributes) {
-            if (attribute.name == KmlTagV22.name) {
+            if (attribute.name == KmlTag.name) {
               switch (attribute.value) {
-                case KmlTagV22.copyright:
+                case KmlTag.copyright:
                   metadata.copyright = await _readCopyright(iterator);
                   break;
-                case KmlTagV22.keywords:
+                case KmlTag.keywords:
                   metadata.keywords = await _readData(iterator, _readString);
                   break;
-                case KmlTagV22.time:
+                case KmlTag.time:
                   metadata.time = await _readData(iterator, _readDateTime);
                   break;
               }
@@ -123,7 +123,7 @@ class KmlReader {
           }
         }
 
-        if (val is XmlEndElementEvent && val.name == KmlTagV22.extendedData) {
+        if (val is XmlEndElementEvent && val.name == KmlTag.extendedData) {
           break;
         }
       }
@@ -132,9 +132,9 @@ class KmlReader {
     return metadata;
   }
 
-  Future<GpxObject> _readPlacemark(
+  Future<GeoObject> _readPlacemark(
       StreamIterator<XmlEvent> iterator, String tagName) async {
-    final item = GpxObject();
+    final item = GeoObject();
     final elm = iterator.current;
     DateTime? time;
     Wpt? ext;
@@ -147,40 +147,40 @@ class KmlReader {
 
         if (val is XmlStartElementEvent) {
           switch (val.name) {
-            case KmlTagV22.name:
+            case KmlTag.name:
               item.name = await _readString(iterator, val.name);
               break;
-            case KmlTagV22.desc:
+            case KmlTag.desc:
               item.desc = await _readString(iterator, val.name);
               break;
-            case GpxTagV11.desc:
+            case GpxTag.desc:
               item.desc = await _readString(iterator, val.name);
               break;
-            case KmlTagV22.link:
+            case KmlTag.link:
               final hrefStr = await _readString(iterator, val.name);
               if (hrefStr != null) {
                 item.links.add(Link(href: hrefStr));
               }
               break;
-            case KmlTagV22.extendedData:
+            case KmlTag.extendedData:
               ext = await _readExtended(iterator);
               break;
-            case KmlTagV22.timestamp:
+            case KmlTag.timestamp:
               time = await _readData(iterator, _readDateTime,
-                  tagName: KmlTagV22.when);
+                  tagName: KmlTag.when);
               break;
-            case KmlTagV22.point:
+            case KmlTag.point:
               final coorList = await _readCoordinate(iterator, val.name);
               if (coorList.length == 1) {
                 wpt = coorList.first;
               }
               break;
-            case KmlTagV22.track:
-            case KmlTagV22.ring:
+            case KmlTag.track:
+            case KmlTag.ring:
               rte = Rte();
               rte.rtepts = await _readCoordinate(iterator, val.name);
               break;
-            case KmlTagV22.gxTrack:
+            case KmlTag.gxTrack:
               rte = await _readGxTrack(iterator, val.name);
               break;
           }
@@ -251,25 +251,25 @@ class KmlReader {
 
         if (val is XmlStartElementEvent) {
           switch (val.name) {
-            case KmlTagV22.name:
+            case KmlTag.name:
               trk.name = await _readString(iterator, val.name);
               break;
-            case KmlTagV22.desc:
+            case KmlTag.desc:
               trk.desc = await _readString(iterator, val.name);
               break;
-            case GpxTagV11.desc:
+            case GpxTag.desc:
               trk.desc = await _readString(iterator, val.name);
               break;
-            case KmlTagV22.link:
+            case KmlTag.link:
               final hrefStr = await _readString(iterator, val.name);
               if (hrefStr != null) {
                 trk.links.add(Link(href: hrefStr));
               }
               break;
-            case KmlTagV22.extendedData:
+            case KmlTag.extendedData:
               ext = await _readExtended(iterator);
               break;
-            case KmlTagV22.placemark:
+            case KmlTag.placemark:
               final item = await _readPlacemark(iterator, val.name);
               if (item is Wpt) {
                 if (trk.trksegs.isEmpty) {
@@ -351,7 +351,7 @@ class KmlReader {
       Future<T?> Function(StreamIterator<XmlEvent> iterator, String tagName)
           function,
       {String? tagName}) async {
-    tagName ??= KmlTagV22.value;
+    tagName ??= KmlTag.value;
 
     final elm = iterator.current;
 
@@ -365,7 +365,7 @@ class KmlReader {
               return function(iterator, tagName);
             }
 
-            if (elm.isSelfClosing && val.name == KmlTagV22.data) {
+            if (elm.isSelfClosing && val.name == KmlTag.data) {
               break;
             }
           }
@@ -383,55 +383,55 @@ class KmlReader {
       while (await iterator.moveNext()) {
         final val = iterator.current;
 
-        if (val is XmlStartElementEvent && val.name == KmlTagV22.data) {
+        if (val is XmlStartElementEvent && val.name == KmlTag.data) {
           for (final attribute in val.attributes) {
-            if (attribute.name == KmlTagV22.name) {
+            if (attribute.name == KmlTag.name) {
               switch (attribute.value) {
-                case GpxTagV11.magVar:
+                case GpxTag.magVar:
                   wpt.magvar = await _readData(iterator, _readDouble);
                   break;
 
-                case GpxTagV11.sat:
+                case GpxTag.sat:
                   wpt.sat = await _readData(iterator, _readInt);
                   break;
-                case GpxTagV11.src:
+                case GpxTag.src:
                   wpt.src = await _readData(iterator, _readString);
                   break;
 
-                case GpxTagV11.hDOP:
+                case GpxTag.hDOP:
                   wpt.hdop = await _readData(iterator, _readDouble);
                   break;
-                case GpxTagV11.vDOP:
+                case GpxTag.vDOP:
                   wpt.vdop = await _readData(iterator, _readDouble);
                   break;
-                case GpxTagV11.pDOP:
+                case GpxTag.pDOP:
                   wpt.pdop = await _readData(iterator, _readDouble);
                   break;
 
-                case GpxTagV11.geoidHeight:
+                case GpxTag.geoidHeight:
                   wpt.geoidheight = await _readData(iterator, _readDouble);
                   break;
-                case GpxTagV11.ageOfData:
+                case GpxTag.ageOfData:
                   wpt.ageofdgpsdata = await _readData(iterator, _readDouble);
                   break;
-                case GpxTagV11.dGPSId:
+                case GpxTag.dGPSId:
                   wpt.dgpsid = await _readData(iterator, _readInt);
                   break;
 
-                case GpxTagV11.comment:
+                case GpxTag.comment:
                   wpt.cmt = await _readData(iterator, _readString);
                   break;
-                case GpxTagV11.type:
+                case GpxTag.type:
                   wpt.type = await _readData(iterator, _readString);
                   break;
-                case GpxTagV11.number:
+                case GpxTag.number:
                   wpt.number = await _readData(iterator, _readInt);
               }
             }
           }
         }
 
-        if (val is XmlEndElementEvent && val.name == KmlTagV22.extendedData) {
+        if (val is XmlEndElementEvent && val.name == KmlTag.extendedData) {
           break;
         }
       }
@@ -452,13 +452,13 @@ class KmlReader {
 
         if (val is XmlStartElementEvent) {
           switch (val.name) {
-            case KmlTagV22.when:
+            case KmlTag.when:
               final dateTime = await _readDateTime(iterator, val.name);
               if (dateTime != null) {
                 whens.add(dateTime);
               }
               break;
-            case KmlTagV22.gxCoord:
+            case KmlTag.gxCoord:
               final coorStr = await _readString(iterator, val.name);
               if (coorStr == null) {
                 break;
@@ -505,11 +505,10 @@ class KmlReader {
 
         if (val is XmlStartElementEvent) {
           switch (val.name) {
-            case KmlTagV22.altitudeMode:
+            case KmlTag.altitudeMode:
               break;
-            case KmlTagV22.coordinates:
-              final coorStr =
-                  await _readString(iterator, KmlTagV22.coordinates);
+            case KmlTag.coordinates:
+              final coorStr = await _readString(iterator, KmlTag.coordinates);
               if (coorStr == null) {
                 break;
               }
@@ -547,20 +546,20 @@ class KmlReader {
 
         if (val is XmlStartElementEvent) {
           switch (val.name) {
-            case KmlTagV22.authorName:
+            case KmlTag.authorName:
               person.name = await _readString(iterator, val.name);
               break;
-            case KmlTagV22.email:
+            case KmlTag.email:
               person.email = await _readEmail(iterator);
               break;
-            case KmlTagV22.uri:
+            case KmlTag.uri:
               person.link =
                   Link(href: await _readString(iterator, val.name) ?? '');
               break;
           }
         }
 
-        if (val is XmlEndElementEvent && val.name == KmlTagV22.author) {
+        if (val is XmlEndElementEvent && val.name == KmlTag.author) {
           break;
         }
       }
@@ -579,7 +578,7 @@ class KmlReader {
           final val = iterator.current;
 
           if (val is XmlStartElementEvent) {
-            if (val.name == KmlTagV22.value) {
+            if (val.name == KmlTag.value) {
               final copyrightText = await _readString(iterator, val.name);
               if (copyrightText != null) {
                 final copyrightSplit = copyrightText.split(', ');
@@ -595,7 +594,7 @@ class KmlReader {
             }
           }
 
-          if (val is XmlEndElementEvent && val.name == KmlTagV22.data) {
+          if (val is XmlEndElementEvent && val.name == KmlTag.data) {
             break;
           }
         }
@@ -610,8 +609,8 @@ class KmlReader {
     final elm = iterator.current;
 
     if (elm is XmlStartElementEvent) {
-      if (elm.name == KmlTagV22.email) {
-        final emailText = await _readString(iterator, KmlTagV22.email);
+      if (elm.name == KmlTag.email) {
+        final emailText = await _readString(iterator, KmlTag.email);
         if (emailText != null) {
           final emailSplit = emailText.split('@');
 

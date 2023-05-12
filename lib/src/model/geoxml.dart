@@ -1,6 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:quiver/core.dart';
 
+import '../gpx_reader.dart';
+import '../gpx_writer.dart';
+import '../kml_reader.dart';
+import '../kml_writer.dart';
 import 'metadata.dart';
 import 'rte.dart';
 import 'trk.dart';
@@ -9,7 +13,7 @@ import 'wpt.dart';
 /// GPX documents contain a metadata header, followed by waypoints, routes, and
 /// tracks. You can add your own elements to the extensions section of the GPX
 /// document.
-class Gpx {
+class GeoXml {
   /// Version number of your GPX document.
   String version = '1.1';
 
@@ -37,7 +41,7 @@ class Gpx {
   @override
   // ignore: type_annotate_public_apis
   bool operator ==(other) {
-    if (other is Gpx) {
+    if (other is GeoXml) {
       return other.creator == creator &&
           other.version == version &&
           other.metadata == metadata &&
@@ -72,11 +76,25 @@ class Gpx {
         ...rtes,
         ...wpts
       ]);
+
+  String toGpxString({bool pretty = false}) =>
+      GpxWriter().asString(this, pretty: pretty);
+
+  String toKmlString({bool pretty = false}) =>
+      KmlWriter().asString(this, pretty: pretty);
+
+  static Future<GeoXml> fromKmlString(String str) =>
+      KmlReader().fromString(str);
+
+  static Future<GeoXml> fromKmlStream(Stream<String> stream) =>
+      KmlReader().fromStream(stream);
+
+  static Future<GeoXml> fromGpxString(String str) =>
+      GpxReader().fromString(str);
+
+  static Future<GeoXml> fromGpxStream(Stream<String> stream) =>
+      GpxReader().fromStream(stream);
 }
 
-class Pt {
-  double lat = 0;
-  double lon = 0;
-  double? ele;
-  DateTime? time;
-}
+@Deprecated('Use `GeoXml` instead.')
+class Gpx extends GeoXml {}

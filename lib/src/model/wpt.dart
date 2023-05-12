@@ -1,14 +1,14 @@
 import 'package:collection/collection.dart';
 import 'package:quiver/core.dart';
 
-import 'gpx_object.dart';
+import 'geo_object.dart';
 import 'gpx_tag.dart';
 import 'link.dart';
 
 enum FixType { fix_2d, fix_3d, dgps, none, pps, unknown }
 
 /// Wpt represents a waypoint, point of interest, or named feature on a map.
-class Wpt implements GpxObject {
+class Wpt implements GeoObject {
   /// The latitude of the point. This is always in decimal degrees, and always
   /// in WGS84 datum.
   double? lat;
@@ -183,5 +183,5 @@ class Wpt implements GpxObject {
   int? number;
 
   @override
-  String tag = GpxTagV11.wayPoint;
+  String tag = GpxTag.wayPoint;
 }
