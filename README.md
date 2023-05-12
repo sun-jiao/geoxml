@@ -8,13 +8,14 @@ geoxml
 [![GitHub Stars](https://img.shields.io/github/stars/sun-jiao/geoxml.svg?branch=master)](https://github.com/sun-jiao/geoxml/stargazers)
 [![GitHub License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/sun-jiao/geoxml/master/LICENSE)
 
-A library for loading, manipulating, and saving GPS data in XML format, including GPX 
-(https://www.topografix.com/gpx.asp, a light-weight XML data format for the interchange of
-GPS data - waypoints, routes, and tracks) and KML (a file format used to display geographic 
-data in an Earth browser such as Google Earth).
+A Dart library for loading, manipulating, and saving GPS data in XML format, including GPX and KML.
 
-View the official GPX 1.1 Schema at https://www.topografix.com/GPX/1/1/gpx.xsd .
-And for KML schema, see https://developers.google.com/kml/ .
+GPX is a light-weight XML data format for the interchange of GPS data - waypoints, routes, 
+and tracks. KML is a XML data format used to display geographic data in an Earth browser 
+such as Google Earth.
+
+The GPX document: https://www.topografix.com/gpx.asp.
+And for KML, see https://developers.google.com/kml/ .
 
 The project is originally authored by @kb0 with others, thanks for their works.
 
@@ -30,14 +31,14 @@ In your dart/flutter project add the dependency:
 
 ### Reading GPX
 
-To read GPX input use the GpxReader object and function `Gpx fromString(String input)`:
+To read GPX input use the GpxReader object and function `GeoXml.fromGpxString(String input)`:
 
 ```dart
 import 'package:geoxml/geoxml.dart';
 
 main() async {
   // create gpx from xml string
-  var xmlGpx = await GpxReader().fromString('<?xml version="1.0" encoding="UTF-8"?>'
+  var xmlGpx = await GeoXml.fromGpxString('<?xml version="1.0" encoding="UTF-8"?>'
       '<gpx version="1.1" creator="dart-gpx library">'
       '<wpt lat="-25.7996" lon="-62.8666"><ele>10.0</ele><name>Monte Quemado</name><desc>Argentina</desc></wpt>'
       '</gpx>');
@@ -56,8 +57,7 @@ main() async {
   // create gpx from xml string stream
   final stream = File('test/assets/wpt.gpx').openRead()
       .transform(utf8.decoder);
-  final kml = await KmlReader()
-      .fromStream(stream);
+  final xmlGpx = await GeoXml.fromGpxStream(stream);
 
   print(xmlGpx);
   print(xmlGpx.wpts);
@@ -66,8 +66,7 @@ main() async {
 
 ### Writing GPX
 
-To write object to GPX use the GpxWriter object and
-function `String asString(Gpx gpx, {bool pretty = false})`:
+To write object to GPX use the method `asGpxString(Gpx gpx, {bool pretty = false})`:
 
 ```dart
 import 'package:geoxml/geoxml.dart';
@@ -81,29 +80,29 @@ main() {
   ];
 
   // generate xml string
-  var gpxString = GpxWriter().asString(gpx, pretty: true);
+  var gpxString = gpx.asGpxString(pretty: true);
   print(gpxString);
 }
 ```
 
 ### Reading KML
 
-To read KML input use the KmlReader object and function `Gpx fromString(String input)`:
+To read KML input use the KmlReader object and function `GeoXml.fromKmlString(String input)`:
 
 ```dart
 import 'package:geoxml/geoxml.dart';
 
 main() async {
   // create gpx from xml string
-  var xmlGpx = await KmlReader().fromString('<?xml version="1.0" encoding="UTF-8"?> '
+  var xmlKml = await GeoXml.fromKmlString('<?xml version="1.0" encoding="UTF-8"?> '
       '<kml xmlns="http://www.opengis.net/kml/2.2"><Document><Placemark><name>Monte Quemado</name>'
       '<description>Argentina</description> <ExtendedData/>'
       '<Point><altitudeMode>absolute</altitudeMode>'
       '<coordinates>-62.8666,-25.7996,10.0</coordinates></Point></Placemark>'
       '</Document></kml>');
 
-  print(xmlGpx);
-  print(xmlGpx.wpts);
+  print(xmlKml);
+  print(xmlKml.wpts);
 }
 ```
 
@@ -116,8 +115,7 @@ main() async {
   // create gpx from xml string stream
   final stream = File('test/assets/wpt.kml').openRead()
       .transform(utf8.decoder);
-  final kml = await KmlReader()
-      .fromStream(stream);
+  final kml = await GeoXml.fromKmlStream(stream);
 
   print(xmlGpx);
   print(xmlGpx.wpts);
@@ -126,22 +124,21 @@ main() async {
 
 ### Writing KML
 
-To export object to KML use the KmlWriter object and
-function `String asString(Gpx gpx, {bool pretty = false})`:
+To export object to KML use the method `asKmlString({bool pretty = false})`:
 
 ```dart
 import 'package:geoxml/geoxml.dart';
 
 main() {
   // create gpx object
-  var gpx = Gpx();
-  gpx.creator = "dart-gpx library";
-  gpx.wpts = [
+  var geoXml = GeoXml();
+  geoXml.creator = "dart geoxml library";
+  geoXml.wpts = [
     Wpt(lat: 36.62, lon: 101.77, ele: 10.0, name: 'Xining', desc: 'China'),
   ];
 
   // generate xml string
-  var kmlString = KmlWriter().asString(gpx, pretty: true);
+  var kmlString = geoXml.asKmlString(pretty: true);
   print(kmlString);
 
   // generate xml string with altitude mode - clampToGround
@@ -167,4 +164,4 @@ Please file feature requests and bugs at the [issue tracker][tracker].
 
 ### License
 
-The Apache 2.0 License, see [LICENSE](https://github.com/sunjiao/geoxml/raw/master/LICENSE).
+The Apache 2.0 License, see [LICENSE](https://github.com/sun-jiao/geoxml/raw/main/LICENSE).
