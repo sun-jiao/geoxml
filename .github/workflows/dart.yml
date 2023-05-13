@@ -8,13 +8,13 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest ]
         sdk: [ 2.19.2, 3.0.0, stable, beta, dev ]
-        
+
     steps:
       - uses: actions/checkout@v3
       - uses: dart-lang/setup-dart@v1
@@ -28,9 +28,6 @@ jobs:
       - name: Analyze project source
         run: dart analyze --fatal-warnings --fatal-infos --verbose .
 
-      - name: Activate code coverage
-        run: dart pub global activate dart_coveralls
-
       - name: Analyze code coverage
         run: dart_coveralls report --debug --exclude-test-files --token=$COVERALLS_REPO_TOKEN test/all_test.dart
 
@@ -41,6 +38,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         sdk: [ 2.19.2, 3.0.0, stable, beta, dev ]
+
     steps:
       - uses: actions/checkout@v3
       - uses: dart-lang/setup-dart@v1
@@ -54,7 +52,12 @@ jobs:
         run: dart test
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest ]
+        sdk: [ 2.19.2, 3.0.0, stable, beta, dev ]
 
     steps:
       - uses: actions/checkout@v3
