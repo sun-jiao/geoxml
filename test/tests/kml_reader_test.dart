@@ -57,8 +57,9 @@ void main() {
     final kml = await KmlReader()
         .fromString(await File('test/assets/large.kml').readAsString());
 
-    expect(kml.rtes.length, 1);
-    expect(kml.rtes.first.rtepts.length, 8139);
+    expect(kml.trks.length, 1);
+    expect(kml.trks.first.trksegs.length, 1);
+    expect(kml.trks.first.trksegs.first.trkpts.length, 8139);
   });
 
   test('read simple kml', () async {

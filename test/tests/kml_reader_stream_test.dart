@@ -58,7 +58,8 @@ void main() {
     final kml = await KmlReader().fromStream(
         File('test/assets/large.kml').openRead().transform(utf8.decoder));
 
-    expect(kml.rtes.length, 1);
-    expect(kml.rtes.first.rtepts.length, 8139);
+    expect(kml.trks.length, 1);
+    expect(kml.trks.first.trksegs.length, 1);
+    expect(kml.trks.first.trksegs.first.trkpts.length, 8139);
   });
 }

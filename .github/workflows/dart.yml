@@ -59,4 +59,4 @@ jobs:
         run: dart pub get
 
       - name: Publish project
-        run: dart pub publish --dry-run --force
+        run: dart pub publish --dry-run
