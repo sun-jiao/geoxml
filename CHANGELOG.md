@@ -1,6 +1,11 @@
+## [2.5.1]
+
+* I have to do it to get rid of the continuous and tiresome GitHub Actions build failure report.
+* This will not change any public API, but any project depends on geoxml must also depends on xml ^6.3.0.
+
 ## [2.5.0]
 
-* support writing to kml with `<gx:Track>`.
+* support writing to kml with `gx:Track` tag.
 
 ## [2.4.0]
 
