@@ -1,6 +1,6 @@
 ## [2.5.1]
 
-* I have to do it to get rid of the continuous and tiresome GitHub Actions build failure report.
+* Update xml version to get rid of the continuous and tiresome deprecated warning message.
 * This will not change any public API, but any project depends on geoxml must also depends on xml ^6.3.0.
 
 ## [2.5.0]
