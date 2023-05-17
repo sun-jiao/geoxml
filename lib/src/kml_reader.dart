@@ -36,9 +36,7 @@ class KmlReader {
   Future<GeoXml> _fromIterator(StreamIterator<XmlEvent> iterator) async {
     // ignore: avoid_as
     final gpx = GeoXml();
-    String? kmlName;
-    String? desc;
-    Person? author;
+    final metadata = Metadata();
 
     while (await iterator.moveNext()) {
       final val = iterator.current;
@@ -50,19 +48,23 @@ class KmlReader {
           case KmlTag.kml:
             break;
           case KmlTag.name:
-            kmlName = await _readString(iterator, val.name);
+            metadata.name = await _readString(iterator, val.name);
             break;
           case KmlTag.desc:
-            desc = await _readString(iterator, val.name);
+            metadata.desc = await _readString(iterator, val.name);
             break;
           case GpxTag.desc:
-            desc = await _readString(iterator, val.name);
+            metadata.desc = await _readString(iterator, val.name);
             break;
           case KmlTag.author:
-            author = await _readPerson(iterator);
+            metadata.author = await _readPerson(iterator);
             break;
           case KmlTag.extendedData:
-            gpx.metadata = await _parseMetadata(iterator);
+            final (copyright, keywords, time) =
+                await _parseExtendedData(iterator);
+            metadata.copyright = copyright;
+            metadata.keywords = keywords;
+            metadata.time = time;
             break;
           case KmlTag.placemark:
             final item = await _readPlacemark(iterator, val.name);
@@ -79,26 +81,16 @@ class KmlReader {
       }
     }
 
-    if (kmlName != null) {
-      gpx.metadata ??= Metadata();
-      gpx.metadata!.name = kmlName;
-    }
-
-    if (author != null) {
-      gpx.metadata ??= Metadata();
-      gpx.metadata!.author = author;
-    }
-
-    if (desc != null) {
-      gpx.metadata ??= Metadata();
-      gpx.metadata!.desc = desc;
-    }
+    gpx.metadata = metadata;
 
     return gpx;
   }
 
-  Future<Metadata> _parseMetadata(StreamIterator<XmlEvent> iterator) async {
-    final metadata = Metadata();
+  Future<(Copyright? copyright, String? keywords, DateTime? time)>
+      _parseExtendedData(StreamIterator<XmlEvent> iterator) async {
+    Copyright? copyright;
+    String? keywords;
+    DateTime? time;
     final elm = iterator.current;
 
     if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
@@ -110,13 +102,13 @@ class KmlReader {
             if (attribute.name == KmlTag.name) {
               switch (attribute.value) {
                 case KmlTag.copyright:
-                  metadata.copyright = await _readCopyright(iterator);
+                  copyright = await _readCopyright(iterator);
                   break;
                 case KmlTag.keywords:
-                  metadata.keywords = await _readData(iterator, _readString);
+                  keywords = await _readData(iterator, _readString);
                   break;
                 case KmlTag.time:
-                  metadata.time = await _readData(iterator, _readDateTime);
+                  time = await _readData(iterator, _readDateTime);
                   break;
               }
             }
@@ -129,7 +121,7 @@ class KmlReader {
       }
     }
 
-    return metadata;
+    return (copyright, keywords, time);
   }
 
   Future<GeoObject> _readPlacemark(
