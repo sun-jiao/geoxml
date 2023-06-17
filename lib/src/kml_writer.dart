@@ -177,7 +177,7 @@ class KmlWriter {
             }
             for (final wpt in seg.trkpts) {
               _writeElement(
-                  builder, KmlTag.when, wpt.time?.toGxString() ?? ' ');
+                  builder, KmlTag.when, wpt.time?._toGxString() ?? ' ');
             }
           });
         });
@@ -253,8 +253,8 @@ class KmlWriter {
   }
 }
 
-extension Gx on DateTime {
-  String toGxString() => '${year.toString().padLeft(4, '0')}-'
+extension _Gx on DateTime {
+  String _toGxString() => '${year.toString().padLeft(4, '0')}-'
       '${month.toString().padLeft(2, '0')}-'
       '${day.toString().padLeft(2, '0')}T'
       '${hour.toString().padLeft(2, '0')}:'
