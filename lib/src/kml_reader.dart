@@ -470,6 +470,14 @@ class KmlReader {
                 wpt.lat = double.parse(list[1]);
                 wpt.ele = double.parse(list[2]);
                 wpts.add(wpt);
+              } else {
+                if (list.length == 3) {
+                  final wpt = Wpt();
+                  wpt.lon = double.parse(list[0]);
+                  wpt.lat = double.parse(list[1]);
+                  wpt.ele = 0;
+                  wpts.add(wpt);
+                }
               }
               break;
           }
@@ -520,6 +528,12 @@ class KmlReader {
                   wpt.lon = double.parse(list[0]);
                   wpt.lat = double.parse(list[1]);
                   wpt.ele = double.parse(list[2]);
+                  wpts.add(wpt);
+                } else if (list.length == 2) {
+                  final wpt = Wpt();
+                  wpt.lon = double.parse(list[0]);
+                  wpt.lat = double.parse(list[1]);
+                  wpt.ele = 0;
                   wpts.add(wpt);
                 }
               }

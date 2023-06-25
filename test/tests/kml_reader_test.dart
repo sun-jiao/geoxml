@@ -109,4 +109,22 @@ void main() {
     expect(kml.trks.first.trksegs.length, 1);
     expect(kml.trks.first.trksegs.first.trkpts.length, 1230);
   });
+
+  test('coordinates without altitude', () async {
+    const xml = '<kml xmlns="http://www.opengis.net/kml/2.2"><Placemark>'
+        '<name>01:05:3305001:1171</name><description>text</description>'
+        '<Style><LineStyle><color>FF143C6E</color><width>1</width></LineStyle>'
+        '<PolyStyle><fill>1</fill><color>9914F0FF</color></PolyStyle></Style>'
+        '<MultiGeometry><Polygon><outerBoundaryIs><LinearRing><coordinates>'
+        '39.0291230732137,44.9582356582183 39.02908207410419,44.957191221292 '
+        '39.0298317721077,44.9571829320347 39.02981420106074,44.956565378946 '
+        '39.0313955952869,44.9565488002489 39.03182901444519,44.957933105033 '
+        '39.0291230732137,44.9582356582183</coordinates></LinearRing>'
+        '</outerBoundaryIs></Polygon></MultiGeometry></Placemark></kml>';
+
+    final kml = await KmlReader().fromString(xml);
+
+    expect(kml.rtes.length, 1);
+    expect(kml.rtes.first.rtepts.length, 7);
+  });
 }

@@ -1,3 +1,8 @@
+## [2.5.2]
+
+* Hide `_toGxString` from public access from outside.
+* Add support for kml file without altitude data.
+
 ## [2.5.1]
 
 * Update xml version to get rid of the continuous and tiresome deprecated warning message.

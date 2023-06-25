@@ -26,7 +26,7 @@ In your dart/flutter project add the dependency:
 ```
  dependencies:
    ...
-   geoxml: ^2.5.1
+   geoxml: ^2.5.2
 ```
 
 ### Reading GPX
