@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 import 'package:geoxml/src/model/kml_tag.dart';
 import 'package:quiver/core.dart';
 
@@ -54,6 +55,11 @@ class Polygon implements GeoObject {
   /// continuous span of track data.
   List<Wpt> points;
 
+  Color fillColor;
+  Color outlineColor;
+
+  int outlineWidth;
+
   /// Construct a new [Trk] object.
   Polygon(
       {this.name,
@@ -64,9 +70,13 @@ class Polygon implements GeoObject {
       this.number,
       this.type,
       Map<String, String>? extensions,
-      List<Wpt>? points})
+      List<Wpt>? points,
+      Color fillColor = Colors.black,
+      this.outlineColor = Colors.black,
+      this.outlineWidth = 1})
       : links = links ?? [],
         extensions = extensions ?? <String, String>{},
+        fillColor = fillColor.withOpacity(0.8),
         points = points ?? [];
 
   @override

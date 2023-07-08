@@ -8,6 +8,8 @@ environment:
 
 dependencies:
   collection: ^1.16.0
+  flutter:
+    sdk: flutter
   quiver: '>=3.0.0 <4.0.0'
   xml: '^6.3.0'
 
