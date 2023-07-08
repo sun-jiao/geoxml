@@ -199,11 +199,13 @@ class KmlWriter {
       // Style the polygon.
       builder.element(KmlTag.style, nest: () {
         builder.element(KmlTag.linestyle, nest: () {
-          _writeElement(builder, KmlTag.color, polygon.outlineColor.value);
+          _writeElement(builder, KmlTag.color,
+              polygon.outlineColor.value.toRadixString(16));
           _writeElement(builder, KmlTag.width, polygon.outlineWidth);
         });
         builder.element(KmlTag.polystyle, nest: () {
-          _writeElement(builder, KmlTag.color, polygon.fillColor.value);
+          _writeElement(
+              builder, KmlTag.color, polygon.fillColor.value.toRadixString(16));
           _writeElement(builder, KmlTag.outline, 0);
         });
       });
