@@ -6,6 +6,7 @@ import 'model/gpx_tag.dart';
 import 'model/kml_tag.dart';
 import 'model/link.dart';
 import 'model/metadata.dart';
+import 'model/polygon.dart';
 import 'model/rte.dart';
 import 'model/trk.dart';
 import 'model/wpt.dart';
@@ -55,6 +56,10 @@ class KmlWriter {
 
         for (final wpt in gpx.wpts) {
           _writePoint(builder, KmlTag.placemark, wpt);
+        }
+
+        for (final polygon in gpx.polygons) {
+          _writePolygon(builder, polygon);
         }
 
         for (final rte in gpx.rtes) {
@@ -182,6 +187,35 @@ class KmlWriter {
           });
         });
       }
+    });
+  }
+
+  void _writePolygon(XmlBuilder builder, Polygon polygon) {
+    builder.element(KmlTag.placemark, nest: () {
+      _writeElement(builder, KmlTag.name, polygon.name);
+      _writeElement(builder, KmlTag.desc, polygon.desc);
+      _writeAtomLinks(builder, polygon.links);
+
+      builder.element(KmlTag.extendedData, nest: () {
+        _writeExtendedElement(builder, GpxTag.comment, polygon.cmt);
+        _writeExtendedElement(builder, GpxTag.type, polygon.type);
+
+        _writeExtendedElement(builder, GpxTag.src, polygon.src);
+        _writeExtendedElement(builder, GpxTag.number, polygon.number);
+      });
+
+      builder.element(KmlTag.polygon, nest: () {
+        builder.element(KmlTag.outerBoundaryIs, nest: () {
+          builder.element(KmlTag.linearRing, nest: () {
+            _writeElement(
+                builder,
+                KmlTag.coordinates,
+                polygon.points
+                    .map((wpt) => [wpt.lon, wpt.lat].join(','))
+                    .join('\n'));
+          });
+        });
+      });
     });
   }
 
