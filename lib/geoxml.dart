@@ -15,3 +15,4 @@ export 'src/model/rte.dart';
 export 'src/model/trk.dart';
 export 'src/model/trkseg.dart';
 export 'src/model/wpt.dart';
+export 'src/model/polygon.dart';

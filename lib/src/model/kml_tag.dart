@@ -13,6 +13,18 @@ class KmlTag {
   static const ring = 'LinearRing';
   static const coordinates = 'coordinates';
 
+  static const polygon = 'Polygon';
+  static const outerBoundaryIs = 'outerBoundaryIs';
+  static const innerBoundaryIs = 'innerBoundaryIs';
+  static const linearRing = 'LinearRing';
+
+  static const style = 'Style';
+  static const polystyle = 'PolyStyle';
+  static const linestyle = 'LineStyle';
+  static const color = 'color';
+  static const width = 'width';
+  static const outline = 'outline';
+
   static const folder = 'Folder';
   static const gxTrack = 'gx:Track';
   static const gxCoord = 'gx:coord';
