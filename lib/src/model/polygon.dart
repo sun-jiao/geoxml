@@ -1,15 +1,15 @@
 import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
 import 'package:geoxml/src/model/kml_tag.dart';
 import 'package:quiver/core.dart';
 
+import '../tools/color_converter.dart';
 import 'geo_object.dart';
-import 'gpx_tag.dart';
 import 'link.dart';
-import 'trkseg.dart';
+import 'trk.dart';
 import 'wpt.dart';
 
-/// Polygon represents a simple polygon - an ordered list of points describing a shape.
+/// Polygon represents a simple polygon -
+/// an ordered list of points describing a shape.
 class Polygon implements GeoObject {
   /// Name of Polygon.
   @override
@@ -55,8 +55,8 @@ class Polygon implements GeoObject {
   /// continuous span of track data.
   List<Wpt> points;
 
-  Color fillColor;
-  Color outlineColor;
+  int fillColor;
+  int outlineColor;
 
   int outlineWidth;
 
@@ -71,13 +71,29 @@ class Polygon implements GeoObject {
       this.type,
       Map<String, String>? extensions,
       List<Wpt>? points,
-      Color fillColor = Colors.black,
-      this.outlineColor = Colors.black,
+      fillColor,
+      outlineColor,
       this.outlineWidth = 1})
       : links = links ?? [],
         extensions = extensions ?? <String, String>{},
-        fillColor = fillColor.withOpacity(0.8),
-        points = points ?? [];
+        points = points ?? [],
+        fillColor = _getIntColor(fillColor),
+        outlineColor = _getIntColor(outlineColor);
+
+  static int _getIntColor(color) {
+    if (color == null) {
+      return 0x000000;
+    } else {
+      switch (color.runtimeType) {
+        case num:
+          return (color as num).toInt();
+        case String:
+          return hexStringToInt(expandColorWithAlpha(color as String));
+        default:
+          return 0x00000000;
+      }
+    }
+  }
 
   @override
   // ignore: type_annotate_public_apis
