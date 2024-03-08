@@ -5,6 +5,7 @@ import 'package:xml/xml_events.dart';
 import 'model/copyright.dart';
 import 'model/email.dart';
 import 'model/geo_object.dart';
+import 'model/geo_style.dart';
 import 'model/geoxml.dart';
 import 'model/gpx_tag.dart';
 import 'model/kml_tag.dart';
@@ -35,7 +36,7 @@ class KmlReader {
 
   Future<GeoXml> _fromIterator(StreamIterator<XmlEvent> iterator) async {
     // ignore: avoid_as
-    final gpx = GeoXml();
+    final geoXml = GeoXml();
     String? kmlName;
     String? desc;
     Person? author;
@@ -62,39 +63,42 @@ class KmlReader {
             author = await _readPerson(iterator);
             break;
           case KmlTag.extendedData:
-            gpx.metadata = await _parseMetadata(iterator);
+            geoXml.metadata = await _parseMetadata(iterator);
             break;
           case KmlTag.placemark:
-            final item = await _readPlacemark(iterator, val.name);
+            final item = await _readPlacemark(iterator, val.name, geoXml);
             if (item is Wpt) {
-              gpx.wpts.add(item);
+              geoXml.wpts.add(item);
             } else if (item is Rte) {
-              gpx.rtes.add(item);
+              geoXml.rtes.add(item);
             }
             break;
           case KmlTag.folder:
-            gpx.trks.add(await _readFolder(iterator, val.name));
+            geoXml.trks.add(await _readFolder(iterator, val.name, geoXml));
+            break;
+          case KmlTag.style:
+            geoXml.styles.add(await _readStyle(iterator, val.name));
             break;
         }
       }
     }
 
     if (kmlName != null) {
-      gpx.metadata ??= Metadata();
-      gpx.metadata!.name = kmlName;
+      geoXml.metadata ??= Metadata();
+      geoXml.metadata!.name = kmlName;
     }
 
     if (author != null) {
-      gpx.metadata ??= Metadata();
-      gpx.metadata!.author = author;
+      geoXml.metadata ??= Metadata();
+      geoXml.metadata!.author = author;
     }
 
     if (desc != null) {
-      gpx.metadata ??= Metadata();
-      gpx.metadata!.desc = desc;
+      geoXml.metadata ??= Metadata();
+      geoXml.metadata!.desc = desc;
     }
 
-    return gpx;
+    return geoXml;
   }
 
   Future<Metadata> _parseMetadata(StreamIterator<XmlEvent> iterator) async {
@@ -133,9 +137,10 @@ class KmlReader {
   }
 
   Future<GeoObject> _readPlacemark(
-      StreamIterator<XmlEvent> iterator, String tagName) async {
+      StreamIterator<XmlEvent> iterator, String tagName, GeoXml geoXml) async {
     final item = GeoObject();
     final elm = iterator.current;
+    GeoStyle? style;
     DateTime? time;
     Wpt? ext;
     Wpt? wpt;
@@ -183,6 +188,20 @@ class KmlReader {
             case KmlTag.gxTrack:
               rte = await _readGxTrack(iterator, val.name);
               break;
+            case KmlTag.style:
+              style = await _readStyle(iterator, val.name);
+              break;
+            case KmlTag.styleUrl:
+              var styleUrl = await _readString(iterator, val.name);
+              if (styleUrl != null && style == null) {
+                if (styleUrl.startsWith('#')) {
+                  styleUrl = styleUrl.substring(1);
+                }
+
+                style = geoXml.styles.firstWhere(
+                        (element) => element.id == styleUrl);
+              }
+              break;
           }
         }
 
@@ -215,6 +234,10 @@ class KmlReader {
         wpt.number = ext.number;
       }
 
+      if (style != null) {
+        wpt.style = style;
+      }
+
       return wpt;
     } else if (rte is Rte) {
       rte.name = item.name;
@@ -233,14 +256,22 @@ class KmlReader {
         rte.number = ext.number;
       }
 
+      if (style != null) {
+        rte.style = style;
+      }
+
       return rte;
+    }
+
+    if (style != null) {
+      item.style = style;
     }
 
     return item;
   }
 
   Future<Trk> _readFolder(
-      StreamIterator<XmlEvent> iterator, String tagName) async {
+      StreamIterator<XmlEvent> iterator, String tagName, GeoXml geoXml) async {
     final trk = Trk();
     final elm = iterator.current;
     Wpt? ext;
@@ -270,7 +301,7 @@ class KmlReader {
               ext = await _readExtended(iterator);
               break;
             case KmlTag.placemark:
-              final item = await _readPlacemark(iterator, val.name);
+              final item = await _readPlacemark(iterator, val.name, geoXml);
               if (item is Wpt) {
                 if (trk.trksegs.isEmpty) {
                   trk.trksegs.add(Trkseg());
@@ -306,9 +337,9 @@ class KmlReader {
   }
 
   Future<int?> _readInt(
-      StreamIterator<XmlEvent> iterator, String tagName) async {
+      StreamIterator<XmlEvent> iterator, String tagName, [int radix=10]) async {
     final intString = await _readString(iterator, tagName);
-    return intString != null ? int.parse(intString) : null;
+    return intString != null ? int.parse(intString, radix: radix) : null;
   }
 
   Future<DateTime?> _readDateTime(
@@ -344,6 +375,15 @@ class KmlReader {
     }
 
     return string.trim();
+  }
+
+  Future<T?> _readEnum<T extends Enum>(
+      StreamIterator<XmlEvent> iterator, String tagName, List<T> values) async {
+    final name = await _readString(iterator, tagName);
+    if (name == null) {
+      return null;
+    }
+    return values.firstWhere((e) => e.name == name);
   }
 
   Future<T?> _readData<T>(
@@ -640,5 +680,243 @@ class KmlReader {
     }
 
     return email;
+  }
+
+  Future<GeoStyle> _readStyle(
+      StreamIterator<XmlEvent> iterator, String tagName) async {
+    final style = GeoStyle();
+    final elm = iterator.current;
+
+    if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
+      for (final attribute in elm.attributes) {
+        if (attribute.name == KmlTag.id) {
+          style.id = attribute.value;
+        }
+      }
+
+      while (await iterator.moveNext()) {
+        final val = iterator.current;
+
+        if (val is XmlStartElementEvent) {
+          switch (val.name) {
+            case KmlTag.lineStyle:
+              style.lineStyle = await _readLineStyle(iterator, val.name);
+              break;
+            case KmlTag.polyStyle:
+              style.polyStyle = await _readPolyStyle(iterator, val.name);
+              break;
+            case KmlTag.iconStyle:
+              style.iconStyle = await _readIconStyle(iterator, val.name);
+              break;
+            case KmlTag.labelStyle:
+              style.labelStyle = await _readLabelStyle(iterator, val.name);
+              break;
+            case KmlTag.balloonStyle:
+              style.balloonStyle = await _readBalloonStyle(iterator, val.name);
+              break;
+          }
+        }
+
+        if (val is XmlEndElementEvent && val.name == tagName) {
+          break;
+        }
+      }
+    }
+
+    return style;
+  }
+
+  Future<LineStyle> _readLineStyle(
+      StreamIterator<XmlEvent> iterator, String tagName) async {
+    final lineStyle = LineStyle();
+    final elm = iterator.current;
+    if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
+      while (await iterator.moveNext()) {
+        final val = iterator.current;
+        if (val is XmlStartElementEvent) {
+          switch (val.name) {
+            case KmlTag.color:
+              lineStyle.color = await _readInt(iterator, val.name, 16);
+              break;
+            case KmlTag.colorMode:
+              lineStyle.colorMode = await _readEnum(
+                  iterator, val.name, ColorMode.values);
+              break;
+            case KmlTag.width:
+              lineStyle.width = await _readDouble(iterator, val.name);
+
+          }
+        }
+        if (val is XmlEndElementEvent && val.name == tagName) {
+          break;
+        }
+      }
+    }
+    return lineStyle;
+  }
+
+  Future<PolyStyle> _readPolyStyle(
+      StreamIterator<XmlEvent> iterator, String tagName) async {
+    final polyStyle = PolyStyle();
+    final elm = iterator.current;
+    if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
+      while (await iterator.moveNext()) {
+        final val = iterator.current;
+        if (val is XmlStartElementEvent) {
+          switch (val.name) {
+            case KmlTag.color:
+              polyStyle.color = await _readInt(iterator, val.name, 16);
+              break;
+            case KmlTag.colorMode:
+              polyStyle.colorMode = await _readEnum(
+                  iterator, val.name, ColorMode.values);
+              break;
+            case KmlTag.fill:
+              polyStyle.fill = await _readInt(iterator, val.name, 16);
+              break;
+            case KmlTag.outline:
+              polyStyle.outline = await _readInt(iterator, val.name, 16);
+              break;
+
+          }
+        }
+        if (val is XmlEndElementEvent && val.name == tagName) {
+          break;
+        }
+      }
+    }
+    return polyStyle;
+  }
+
+  Future<IconStyle> _readIconStyle(
+      StreamIterator<XmlEvent> iterator, String tagName) async {
+    final iconStyle = IconStyle();
+    final elm = iterator.current;
+    if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
+      while (await iterator.moveNext()) {
+        final val = iterator.current;
+        if (val is XmlStartElementEvent) {
+          switch (val.name) {
+            case KmlTag.color:
+              iconStyle.color = await _readInt(iterator, val.name, 16);
+              break;
+            case KmlTag.colorMode:
+              iconStyle.colorMode = await _readEnum(
+                  iterator, val.name, ColorMode.values);
+              break;
+            case KmlTag.scale:
+              iconStyle.scale = await _readDouble(iterator, val.name);
+              break;
+            case KmlTag.heading:
+              iconStyle.heading = await _readDouble(iterator, val.name);
+              break;
+            case KmlTag.icon:
+              while (await iterator.moveNext()) {
+                final val = iterator.current;
+                if (val is XmlStartElementEvent && val.name == KmlTag.href) {
+                  iconStyle.iconUrl = await _readString(iterator, val.name);
+                }
+                if (val is XmlEndElementEvent && val.name == KmlTag.icon) {
+                  break;
+                }
+              }
+              break;
+            case KmlTag.hotSpot:
+              for (final attribute in val.attributes) {
+                switch (attribute.name) {
+                  case KmlTag.hotSpotX:
+                    iconStyle.x = double.tryParse(attribute.value);
+                    break;
+                  case KmlTag.hotSpotY:
+                    iconStyle.y = double.tryParse(attribute.value);
+                    break;
+                  case KmlTag.xunits:
+                    iconStyle.xunit = HotspotUnits.values.firstWhere(
+                            (element) => element.name == attribute.value);
+                    break;
+                  case KmlTag.yunits:
+                    iconStyle.yunit = HotspotUnits.values.firstWhere(
+                            (element) => element.name == attribute.value);
+                    break;
+                }
+              }
+          }
+        }
+        if (val is XmlEndElementEvent && val.name == tagName) {
+          break;
+        }
+      }
+    }
+    return iconStyle;
+  }
+
+  Future<LabelStyle> _readLabelStyle(
+      StreamIterator<XmlEvent> iterator, String tagName) async {
+    final labelStyle = LabelStyle();
+    final elm = iterator.current;
+    if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
+      while (await iterator.moveNext()) {
+        final val = iterator.current;
+        if (val is XmlStartElementEvent) {
+          switch (val.name) {
+            case KmlTag.color:
+              labelStyle.color = await _readInt(iterator, val.name, 16);
+              break;
+            case KmlTag.colorMode:
+              labelStyle.colorMode = await _readEnum(
+                  iterator, val.name, ColorMode.values);
+              break;
+            case KmlTag.scale:
+              labelStyle.scale = await _readDouble(iterator, val.name);
+              break;
+
+          }
+        }
+        if (val is XmlEndElementEvent && val.name == tagName) {
+          break;
+        }
+      }
+    }
+    return labelStyle;
+  }
+
+  Future<BalloonStyle> _readBalloonStyle(
+      StreamIterator<XmlEvent> iterator, String tagName) async {
+    final balloonStyle = BalloonStyle();
+    final elm = iterator.current;
+    if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
+      while (await iterator.moveNext()) {
+        final val = iterator.current;
+        if (val is XmlStartElementEvent) {
+          switch (val.name) {
+            case KmlTag.color:
+              balloonStyle.color = await _readInt(iterator, val.name, 16);
+              break;
+            case KmlTag.colorMode:
+              balloonStyle.colorMode = await _readEnum(
+                  iterator, val.name, ColorMode.values);
+              break;
+            case KmlTag.bgColor:
+              balloonStyle.bgColor = await _readInt(iterator, val.name, 16);
+              break;
+            case KmlTag.textColor:
+              balloonStyle.textColor = await _readInt(iterator, val.name, 16);
+              break;
+            case KmlTag.text:
+              balloonStyle.text = await _readString(iterator, val.name) ?? '';
+              break;
+            case KmlTag.displayMode:
+              balloonStyle.show =
+                  await _readString(iterator, val.name) == 'default';
+              break;
+
+          }
+        }
+        if (val is XmlEndElementEvent && val.name == tagName) {
+          break;
+        }
+      }
+    }
+    return balloonStyle;
   }
 }

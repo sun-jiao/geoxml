@@ -19,9 +19,31 @@ class KmlTag {
   static const linearRing = 'LinearRing';
 
   static const style = 'Style';
-  static const polystyle = 'PolyStyle';
-  static const linestyle = 'LineStyle';
+  static const styleUrl = 'styleUrl';
+  static const id = 'id';
+  static const styleMap = 'StyleMap';
+  static const polyStyle = 'PolyStyle';
+  static const lineStyle = 'LineStyle';
+  static const iconStyle = 'IconStyle';
+  static const labelStyle = 'LabelStyle';
+  static const balloonStyle = 'BalloonStyle';
   static const color = 'color';
+  static const colorMode = 'colorMode';
+  static const bgColor = 'bgColor';
+  static const textColor = 'textColor';
+  static const text = 'text';
+  static const displayMode = 'displayMode';
+  static const scale = 'scale';
+  static const heading = 'heading';
+  static const icon = 'Icon';
+  static const href = 'href';
+  static const hotSpot = 'hotSpot';
+  static const hotSpotX = 'x';
+  static const hotSpotY = 'y';
+  static const xunits = 'xunits';
+  static const yunits = 'yunits';
+  static const fill = 'fill';
+
   static const width = 'width';
   static const outline = 'outline';
 
