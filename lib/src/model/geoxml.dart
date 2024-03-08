@@ -5,6 +5,7 @@ import '../gpx_reader.dart';
 import '../gpx_writer.dart';
 import '../kml_reader.dart';
 import '../kml_writer.dart';
+import 'geo_style.dart';
 import 'metadata.dart';
 import 'rte.dart';
 import 'trk.dart';
@@ -34,6 +35,8 @@ class GeoXml {
   /// A list of tracks.
   List<Trk> trks = [];
 
+  List<GeoStyle> styles = [];
+
   /// You can add extend GPX by adding your own elements from another schema
   /// here.
   Map<String, String> extensions = {};
@@ -48,6 +51,7 @@ class GeoXml {
           const ListEquality().equals(other.wpts, wpts) &&
           const ListEquality().equals(other.rtes, rtes) &&
           const ListEquality().equals(other.trks, trks) &&
+          const ListEquality().equals(other.styles, styles) &&
           const MapEquality().equals(other.extensions, extensions);
     }
 
@@ -62,6 +66,7 @@ class GeoXml {
         wpts,
         rtes,
         trks,
+        styles,
         extensions
       ].join(",")}]";
 
@@ -74,7 +79,8 @@ class GeoXml {
         ...extensions.values,
         ...trks,
         ...rtes,
-        ...wpts
+        ...wpts,
+        ...styles
       ]);
 
   String toGpxString({bool pretty = false}) =>

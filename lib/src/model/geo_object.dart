@@ -1,3 +1,4 @@
+import 'geo_style.dart';
 import 'link.dart';
 
 class GeoObject {
@@ -27,6 +28,9 @@ class GeoObject {
   /// here.
   Map<String, String> extensions = {};
 
-  // Element tag.
+  /// Element tag.
   late String tag;
+
+  /// Kml style
+  GeoStyle? style;
 }

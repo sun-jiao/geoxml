@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:geoxml/src/model/geo_style.dart';
 import 'package:quiver/core.dart';
 
 import 'geo_object.dart';
@@ -49,6 +50,9 @@ class Rte implements GeoObject {
 
   /// A list of route points.
   List<Wpt> rtepts;
+
+  @override
+  GeoStyle? style;
 
   /// Construct a new [Rte] object.
   Rte(

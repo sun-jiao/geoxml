@@ -57,6 +57,10 @@ class KmlWriter {
           _writePoint(builder, KmlTag.placemark, wpt);
         }
 
+        // for (final polygon in gpx.polygons) {
+        //   _writePolygon(builder, polygon);
+        // }
+
         for (final rte in gpx.rtes) {
           _writeTrackRoute(builder, rte);
         }
@@ -184,6 +188,49 @@ class KmlWriter {
       }
     });
   }
+
+  // void _writePolygon(XmlBuilder builder, Polygon polygon) {
+  //   builder.element(KmlTag.placemark, nest: () {
+  //     _writeElement(builder, KmlTag.name, polygon.name);
+  //     _writeElement(builder, KmlTag.desc, polygon.desc);
+  //     _writeAtomLinks(builder, polygon.links);
+  //
+  //     // Style the polygon.
+  //     builder.element(KmlTag.style, nest: () {
+  //       builder.element(KmlTag.lineStyle, nest: () {
+  //         _writeElement(builder, KmlTag.color,
+  //             polygon.outlineColor.toRadixString(16));
+  //         _writeElement(builder, KmlTag.width, polygon.outlineWidth);
+  //       });
+  //       builder.element(KmlTag.polyStyle, nest: () {
+  //         _writeElement(
+  //             builder, KmlTag.color, polygon.fillColor.toRadixString(16));
+  //         _writeElement(builder, KmlTag.outline, 0);
+  //       });
+  //     });
+  //
+  //     builder.element(KmlTag.extendedData, nest: () {
+  //       _writeExtendedElement(builder, GpxTag.comment, polygon.cmt);
+  //       _writeExtendedElement(builder, GpxTag.type, polygon.type);
+  //
+  //       _writeExtendedElement(builder, GpxTag.src, polygon.src);
+  //       _writeExtendedElement(builder, GpxTag.number, polygon.number);
+  //     });
+  //
+  //     builder.element(KmlTag.polygon, nest: () {
+  //       builder.element(KmlTag.outerBoundaryIs, nest: () {
+  //         builder.element(KmlTag.linearRing, nest: () {
+  //           _writeElement(
+  //               builder,
+  //               KmlTag.coordinates,
+  //               polygon.points
+  //                   .map((wpt) => [wpt.lon, wpt.lat].join(','))
+  //                   .join('\n'));
+  //         });
+  //       });
+  //     });
+  //   });
+  // }
 
   void _writePoint(XmlBuilder builder, String tagName, Wpt wpt) {
     builder.element(tagName, nest: () {

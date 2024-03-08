@@ -7,6 +7,7 @@ export 'src/kml_writer.dart';
 export 'src/model/bounds.dart';
 export 'src/model/copyright.dart';
 export 'src/model/email.dart';
+export 'src/model/geo_style.dart';
 export 'src/model/geoxml.dart';
 export 'src/model/link.dart';
 export 'src/model/metadata.dart';

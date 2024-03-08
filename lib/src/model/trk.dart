@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:quiver/core.dart';
 
 import 'geo_object.dart';
+import 'geo_style.dart';
 import 'gpx_tag.dart';
 import 'link.dart';
 import 'trkseg.dart';
@@ -51,6 +52,9 @@ class Trk implements GeoObject {
   /// the GPS receiver was turned off, start a new Track Segment for each
   /// continuous span of track data.
   List<Trkseg> trksegs;
+
+  @override
+  GeoStyle? style;
 
   /// Construct a new [Trk] object.
   Trk(

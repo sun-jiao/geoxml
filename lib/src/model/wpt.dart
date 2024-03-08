@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:quiver/core.dart';
 
 import 'geo_object.dart';
+import 'geo_style.dart';
 import 'gpx_tag.dart';
 import 'link.dart';
 
@@ -84,6 +85,9 @@ class Wpt implements GeoObject {
 
   /// ID of DGPS station used in differential correction.
   int? dgpsid;
+
+  @override
+  GeoStyle? style;
 
   /// You can add extend GPX by adding your own elements from another schema
   /// here.
