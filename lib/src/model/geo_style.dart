@@ -40,7 +40,7 @@ class LineStyle extends ColorStyle {
   // ignore: type_annotate_public_apis
   bool operator ==(other) {
     if (other is LineStyle) {
-      return  other.color == super.color &&
+      return other.color == super.color &&
           other.colorMode == super.colorMode &&
           other.width == width;
     }
@@ -52,9 +52,7 @@ class LineStyle extends ColorStyle {
   String toString() => "LineStyle[${[width].join(",")}]";
 
   @override
-  int get hashCode => hashObjects([
-    width
-  ]);
+  int get hashCode => hashObjects([width]);
 }
 
 class PolyStyle extends ColorStyle {
@@ -65,10 +63,10 @@ class PolyStyle extends ColorStyle {
   // ignore: type_annotate_public_apis
   bool operator ==(other) {
     if (other is PolyStyle) {
-      return  other.color == super.color &&
-              other.colorMode == super.colorMode &&
-              other.fill == fill &&
-              other.outline == outline;
+      return other.color == super.color &&
+          other.colorMode == super.colorMode &&
+          other.fill == fill &&
+          other.outline == outline;
     }
 
     return false;
@@ -76,22 +74,28 @@ class PolyStyle extends ColorStyle {
 
   @override
   String toString() => "PolyStyle[${[
-    color, colorMode, fill, outline,].join(",")}]";
+        color,
+        colorMode,
+        fill,
+        outline,
+      ].join(",")}]";
 
   @override
   int get hashCode => hashObjects([
-    color,
-    colorMode,
-    fill,
-    outline,
-  ]);
+        color,
+        colorMode,
+        fill,
+        outline,
+      ]);
 }
 
 enum HotspotUnits {
   /// Fraction
   fraction('fraction'),
+
   /// Pixels offset from left or bottom
   pixels('pixels'),
+
   /// Pixels offset from right or top
   insetPixels('insetPixels');
 
@@ -113,15 +117,15 @@ class IconStyle extends ColorStyle {
   // ignore: type_annotate_public_apis
   bool operator ==(other) {
     if (other is IconStyle) {
-      return   other.color == super.color &&
+      return other.color == super.color &&
           other.colorMode == super.colorMode &&
           other.iconUrl == iconUrl &&
-              other.scale == scale &&
-              other.heading == heading &&
-              other.x == x &&
-              other.y == y &&
-              other.xunit == xunit &&
-              other.yunit == yunit;
+          other.scale == scale &&
+          other.heading == heading &&
+          other.x == x &&
+          other.y == y &&
+          other.xunit == xunit &&
+          other.yunit == yunit;
     }
 
     return false;
@@ -129,18 +133,25 @@ class IconStyle extends ColorStyle {
 
   @override
   String toString() => "IconStyle[${[
-    iconUrl, scale, heading, x, y, xunit, yunit,].join(",")}]";
+        iconUrl,
+        scale,
+        heading,
+        x,
+        y,
+        xunit,
+        yunit,
+      ].join(",")}]";
 
   @override
   int get hashCode => hashObjects([
-    iconUrl,
-    scale,
-    heading,
-    x,
-    y,
-    xunit,
-    yunit,
-  ]);
+        iconUrl,
+        scale,
+        heading,
+        x,
+        y,
+        xunit,
+        yunit,
+      ]);
 }
 
 class LabelStyle extends ColorStyle {
@@ -150,7 +161,7 @@ class LabelStyle extends ColorStyle {
   // ignore: type_annotate_public_apis
   bool operator ==(other) {
     if (other is LabelStyle) {
-      return   other.color == super.color &&
+      return other.color == super.color &&
           other.colorMode == super.colorMode &&
           other.scale == scale;
     }
@@ -163,8 +174,8 @@ class LabelStyle extends ColorStyle {
 
   @override
   int get hashCode => hashObjects([
-    scale,
-  ]);
+        scale,
+      ]);
 }
 
 class BalloonStyle extends ColorStyle {
@@ -177,28 +188,28 @@ class BalloonStyle extends ColorStyle {
   // ignore: type_annotate_public_apis
   bool operator ==(other) {
     if (other is BalloonStyle) {
-      return   other.color == super.color &&
+      return other.color == super.color &&
           other.colorMode == super.colorMode &&
           other.bgColor == bgColor &&
-              other.textColor == textColor &&
-              other.text == text &&
-              other.show == show;
+          other.textColor == textColor &&
+          other.text == text &&
+          other.show == show;
     }
 
     return false;
   }
 
   @override
-  String toString() => "BalloonStyle[${[
-    bgColor, textColor, text, show].join(",")}]";
+  String toString() =>
+      "BalloonStyle[${[bgColor, textColor, text, show].join(",")}]";
 
   @override
   int get hashCode => hashObjects([
-    bgColor,
-    textColor,
-    text,
-    show,
-  ]);
+        bgColor,
+        textColor,
+        text,
+        show,
+      ]);
 }
 
 class ListStyle {

@@ -198,8 +198,8 @@ class KmlReader {
                   styleUrl = styleUrl.substring(1);
                 }
 
-                style = geoXml.styles.firstWhere(
-                        (element) => element.id == styleUrl);
+                style = geoXml.styles
+                    .firstWhere((element) => element.id == styleUrl);
               }
               break;
           }
@@ -336,8 +336,8 @@ class KmlReader {
     return doubleString != null ? double.parse(doubleString) : null;
   }
 
-  Future<int?> _readInt(
-      StreamIterator<XmlEvent> iterator, String tagName, [int radix=10]) async {
+  Future<int?> _readInt(StreamIterator<XmlEvent> iterator, String tagName,
+      [int radix = 10]) async {
     final intString = await _readString(iterator, tagName);
     return intString != null ? int.parse(intString, radix: radix) : null;
   }
@@ -739,12 +739,11 @@ class KmlReader {
               lineStyle.color = await _readInt(iterator, val.name, 16);
               break;
             case KmlTag.colorMode:
-              lineStyle.colorMode = await _readEnum(
-                  iterator, val.name, ColorMode.values);
+              lineStyle.colorMode =
+                  await _readEnum(iterator, val.name, ColorMode.values);
               break;
             case KmlTag.width:
               lineStyle.width = await _readDouble(iterator, val.name);
-
           }
         }
         if (val is XmlEndElementEvent && val.name == tagName) {
@@ -768,8 +767,8 @@ class KmlReader {
               polyStyle.color = await _readInt(iterator, val.name, 16);
               break;
             case KmlTag.colorMode:
-              polyStyle.colorMode = await _readEnum(
-                  iterator, val.name, ColorMode.values);
+              polyStyle.colorMode =
+                  await _readEnum(iterator, val.name, ColorMode.values);
               break;
             case KmlTag.fill:
               polyStyle.fill = await _readInt(iterator, val.name, 16);
@@ -777,7 +776,6 @@ class KmlReader {
             case KmlTag.outline:
               polyStyle.outline = await _readInt(iterator, val.name, 16);
               break;
-
           }
         }
         if (val is XmlEndElementEvent && val.name == tagName) {
@@ -801,8 +799,8 @@ class KmlReader {
               iconStyle.color = await _readInt(iterator, val.name, 16);
               break;
             case KmlTag.colorMode:
-              iconStyle.colorMode = await _readEnum(
-                  iterator, val.name, ColorMode.values);
+              iconStyle.colorMode =
+                  await _readEnum(iterator, val.name, ColorMode.values);
               break;
             case KmlTag.scale:
               iconStyle.scale = await _readDouble(iterator, val.name);
@@ -832,11 +830,11 @@ class KmlReader {
                     break;
                   case KmlTag.xunits:
                     iconStyle.xunit = HotspotUnits.values.firstWhere(
-                            (element) => element.name == attribute.value);
+                        (element) => element.name == attribute.value);
                     break;
                   case KmlTag.yunits:
                     iconStyle.yunit = HotspotUnits.values.firstWhere(
-                            (element) => element.name == attribute.value);
+                        (element) => element.name == attribute.value);
                     break;
                 }
               }
@@ -863,13 +861,12 @@ class KmlReader {
               labelStyle.color = await _readInt(iterator, val.name, 16);
               break;
             case KmlTag.colorMode:
-              labelStyle.colorMode = await _readEnum(
-                  iterator, val.name, ColorMode.values);
+              labelStyle.colorMode =
+                  await _readEnum(iterator, val.name, ColorMode.values);
               break;
             case KmlTag.scale:
               labelStyle.scale = await _readDouble(iterator, val.name);
               break;
-
           }
         }
         if (val is XmlEndElementEvent && val.name == tagName) {
@@ -893,8 +890,8 @@ class KmlReader {
               balloonStyle.color = await _readInt(iterator, val.name, 16);
               break;
             case KmlTag.colorMode:
-              balloonStyle.colorMode = await _readEnum(
-                  iterator, val.name, ColorMode.values);
+              balloonStyle.colorMode =
+                  await _readEnum(iterator, val.name, ColorMode.values);
               break;
             case KmlTag.bgColor:
               balloonStyle.bgColor = await _readInt(iterator, val.name, 16);
@@ -909,7 +906,6 @@ class KmlReader {
               balloonStyle.show =
                   await _readString(iterator, val.name) == 'default';
               break;
-
           }
         }
         if (val is XmlEndElementEvent && val.name == tagName) {
