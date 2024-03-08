@@ -1,3 +1,8 @@
+## [2.5.3]
+
+* Add `Style` support for kml.
+* Update dependencies.
+
 ## [2.5.2]
 
 * Hide `_toGxString` from public access from outside.
