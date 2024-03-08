@@ -1,6 +1,10 @@
 import 'package:quiver/core.dart';
 
+/// implemented the style element of kml,
+/// Please note that gpx has no style information
 class GeoStyle {
+  /// a distinct id of a style, which makes it possible to reuse styles
+  /// unique in a kml document
   String? id;
   LineStyle? lineStyle;
   PolyStyle? polyStyle;

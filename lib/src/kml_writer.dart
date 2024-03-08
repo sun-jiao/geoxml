@@ -35,25 +35,25 @@ class KmlWriter {
   /// Convert Gpx into KML as XmlNode
   XmlNode asXml(GeoXml gpx) => _build(gpx);
 
-  XmlNode _build(GeoXml gpx) {
+  XmlNode _build(GeoXml geoXml) {
     final builder = XmlBuilder();
 
     builder.processing('xml', 'version="1.0" encoding="UTF-8"');
     builder.element(KmlTag.kml, nest: () {
       builder.attribute('xmlns', 'http://www.opengis.net/kml/2.2');
 
-      if (gpx.trks.any((trk) => trk.trksegs
+      if (geoXml.trks.any((trk) => trk.trksegs
           .expand((trkseg) => trkseg.trkpts)
           .every((element) => element.time != null))) {
         builder.attribute('xmlns:gx', 'http://www.google.com/kml/ext/2.2');
       }
 
       builder.element(KmlTag.document, nest: () {
-        if (gpx.metadata != null) {
-          _writeMetadata(builder, gpx.metadata!);
+        if (geoXml.metadata != null) {
+          _writeMetadata(builder, geoXml.metadata!);
         }
 
-        for (final wpt in gpx.wpts) {
+        for (final wpt in geoXml.wpts) {
           _writePoint(builder, KmlTag.placemark, wpt);
         }
 
@@ -61,11 +61,11 @@ class KmlWriter {
         //   _writePolygon(builder, polygon);
         // }
 
-        for (final rte in gpx.rtes) {
+        for (final rte in geoXml.rtes) {
           _writeTrackRoute(builder, rte);
         }
 
-        for (final trk in gpx.trks) {
+        for (final trk in geoXml.trks) {
           if (trk.trksegs
               .expand((trkseg) => trkseg.trkpts)
               .any((element) => element.time == null)) {

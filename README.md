@@ -19,6 +19,15 @@ And for KML, see https://developers.google.com/kml/ .
 
 The project is originally authored by @kb0 with others, thanks for their works.
 
+## Limitations
+
+This is just an initial version of the package. There are still some limitations:
+
+- No support for GPX 1.0.
+- Doesn't validate schema declarations.
+- Some KML elements and attributes are not implemented.
+- The conversion between GPX and KML is lossy. For example, GPX does not contain style information such as color, while KML can not tell the difference between routes and tracks. Converting a GPX to KML and then converting it back cannot obtain the original GPX.
+
 ## Getting Started
 
 In your dart/flutter project add the dependency:
@@ -26,7 +35,7 @@ In your dart/flutter project add the dependency:
 ```
  dependencies:
    ...
-   geoxml: ^2.5.2
+   geoxml: ^2.5.3
 ```
 
 ### Reading GPX
@@ -147,14 +156,6 @@ main() {
   print(kmlString);
 }
 ```
-
-## Limitations
-
-This is just an initial version of the package. There are still some limitations:
-
-- No support for GPX 1.0.
-- Doesn't validate schema declarations.
-- Only some common KML elements are supported.
 
 ## Features and bugs
 
