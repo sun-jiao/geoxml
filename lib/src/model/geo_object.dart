@@ -33,4 +33,17 @@ class GeoObject {
 
   /// Kml style
   GeoStyle? style;
+
+  bool? extrude;
+
+  AltitudeMode? altitudeMode;
+}
+
+
+enum AltitudeMode {
+  clampToGround,
+  relativeToGround,
+  absolute,
+  relativeToSeaFloor,
+  clampToSeaFloor,
 }

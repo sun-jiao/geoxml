@@ -52,6 +52,14 @@ class Rte implements GeoObject {
   List<Wpt> rtepts;
 
   @override
+  AltitudeMode? altitudeMode;
+
+  bool? tessellate;
+
+  @override
+  bool? extrude;
+
+  @override
   GeoStyle? style;
 
   /// Construct a new [Rte] object.
@@ -81,6 +89,10 @@ class Rte implements GeoObject {
           other.number == number &&
           other.type == type &&
           const MapEquality().equals(other.extensions, extensions) &&
+          other.style == style &&
+          other.extrude == extrude &&
+          other.tessellate == tessellate &&
+          other.altitudeMode == altitudeMode &&
           const ListEquality().equals(other.rtepts, rtepts);
     }
 
@@ -88,7 +100,16 @@ class Rte implements GeoObject {
   }
 
   @override
-  String toString() => "Rte[${[name, type, extensions, rtepts].join(",")}]";
+  String toString() => "Rte[${[
+    name,
+    type,
+    extensions,
+    style,
+    extrude,
+    tessellate,
+    altitudeMode,
+    rtepts,
+  ].join(",")}]";
 
   @override
   int get hashCode => hashObjects([

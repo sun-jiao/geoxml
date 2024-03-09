@@ -124,7 +124,7 @@ void main() {
 
     final kml = await KmlReader().fromString(xml);
 
-    expect(kml.rtes.length, 1);
-    expect(kml.rtes.first.rtepts.length, 7);
+    expect(kml.polygons.length, 1);
+    expect(kml.polygons.first.outerBoundaryIs.rtepts.length, 7);
   });
 }

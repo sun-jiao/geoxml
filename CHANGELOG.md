@@ -1,6 +1,7 @@
 ## [2.5.3]
 
 * Add `Style` support for kml.
+* Add `Polygon` support for kml. Polygon may previously be parsed as rte, the relevant code may need to be updated.
 * Update dependencies.
 
 ## [2.5.2]

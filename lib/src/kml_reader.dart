@@ -12,10 +12,12 @@ import 'model/kml_tag.dart';
 import 'model/link.dart';
 import 'model/metadata.dart';
 import 'model/person.dart';
+import 'model/polygon.dart';
 import 'model/rte.dart';
 import 'model/trk.dart';
 import 'model/trkseg.dart';
 import 'model/wpt.dart';
+import 'tools/bool_converter.dart';
 import 'tools/stream_converter.dart';
 
 /// Read Gpx from string
@@ -71,6 +73,8 @@ class KmlReader {
               geoXml.wpts.add(item);
             } else if (item is Rte) {
               geoXml.rtes.add(item);
+            } else if (item is Polygon) {
+              geoXml.polygons.add(item);
             }
             break;
           case KmlTag.folder:
@@ -142,9 +146,11 @@ class KmlReader {
     final elm = iterator.current;
     GeoStyle? style;
     DateTime? time;
+    bool? tessellate;
     Wpt? ext;
     Wpt? wpt;
     Rte? rte;
+    Polygon? polygon;
 
     if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
       while (await iterator.moveNext()) {
@@ -188,6 +194,32 @@ class KmlReader {
             case KmlTag.gxTrack:
               rte = await _readGxTrack(iterator, val.name);
               break;
+            case KmlTag.polygon:
+              polygon = Polygon();
+              break;
+            case KmlTag.extrude:
+              item.extrude =
+                  (await _readInt(iterator, val.name))?.toBool();
+              break;
+            case KmlTag.tessellate:
+              tessellate =
+                  (await _readInt(iterator, val.name))?.toBool();
+              break;
+            case KmlTag.altitudeMode:
+              item.altitudeMode =
+                  await _readEnum(iterator, val.name, AltitudeMode.values);
+              break;
+            case KmlTag.outerBoundaryIs:
+              polygon = polygon ?? Polygon();
+              polygon.outerBoundaryIs = Rte();
+              polygon.outerBoundaryIs.rtepts =
+                  await _readCoordinate(iterator, val.name);
+              break;
+            case KmlTag.innerBoundaryIs:
+              polygon = polygon ?? Polygon();
+              polygon.innerBoundaryIs.addAll((await _readCoordinates(iterator,
+                  val.name)).map((e) => Rte(rtepts: e)));
+              break;
             case KmlTag.style:
               style = await _readStyle(iterator, val.name);
               break;
@@ -215,6 +247,8 @@ class KmlReader {
       wpt.name = item.name;
       wpt.desc = item.desc;
       wpt.links = item.links;
+      wpt.extrude = item.extrude;
+      wpt.altitudeMode = item.altitudeMode;
       if (time != null) {
         wpt.time = time;
       }
@@ -234,15 +268,47 @@ class KmlReader {
         wpt.number = ext.number;
       }
 
-      if (style != null) {
-        wpt.style = style;
-      }
+      wpt.style = style;
 
       return wpt;
+    } else if (polygon is Polygon) {
+      polygon.name = item.name;
+      polygon.desc = item.desc;
+      polygon.links = item.links;
+      polygon.extrude = item.extrude;
+      polygon.tessellate = tessellate;
+      polygon.altitudeMode = item.altitudeMode;
+      if (time != null) {
+        for (final wpt in polygon.outerBoundaryIs.rtepts) {
+          wpt.time = time;
+        }
+      }
+
+      if (time != null) {
+        for (final rte in polygon.innerBoundaryIs) {
+          for (final wpt in rte.rtepts) {
+            wpt.time = time;
+          }
+        }
+      }
+
+      if (ext != null) {
+        polygon.src = ext.src;
+        polygon.cmt = ext.cmt;
+        polygon.type = ext.type;
+        polygon.number = ext.number;
+      }
+
+      polygon.style = style;
+
+      return polygon;
     } else if (rte is Rte) {
       rte.name = item.name;
       rte.desc = item.desc;
       rte.links = item.links;
+      rte.extrude = item.extrude;
+      rte.tessellate = tessellate;
+      rte.altitudeMode = item.altitudeMode;
       if (time != null) {
         for (final wpt in rte.rtepts) {
           wpt.time = time;
@@ -256,16 +322,12 @@ class KmlReader {
         rte.number = ext.number;
       }
 
-      if (style != null) {
-        rte.style = style;
-      }
+      rte.style = style;
 
       return rte;
     }
 
-    if (style != null) {
-      item.style = style;
-    }
+    item.style = style;
 
     return item;
   }
@@ -542,6 +604,34 @@ class KmlReader {
     return Rte(rtepts: wpts);
   }
 
+  Future<List<List<Wpt>>> _readCoordinates(
+      StreamIterator<XmlEvent> iterator, String tagName) async {
+    final coords = <List<Wpt>>[];
+    final elm = iterator.current;
+
+    if ((elm is XmlStartElementEvent) && !elm.isSelfClosing) {
+      while (await iterator.moveNext()) {
+        final val = iterator.current;
+
+        if (val is XmlStartElementEvent) {
+          switch (val.name) {
+            case KmlTag.altitudeMode:
+              break;
+            case KmlTag.coordinates:
+              coords.add(await _readCoordinate(iterator, val.name));
+              break;
+          }
+        }
+
+        if (val is XmlEndElementEvent && val.name == tagName) {
+          break;
+        }
+      }
+    }
+
+    return coords;
+  }
+
   Future<List<Wpt>> _readCoordinate(
       StreamIterator<XmlEvent> iterator, String tagName) async {
     final wpts = <Wpt>[];
@@ -771,10 +861,11 @@ class KmlReader {
                   await _readEnum(iterator, val.name, ColorMode.values);
               break;
             case KmlTag.fill:
-              polyStyle.fill = await _readInt(iterator, val.name);
+              polyStyle.fill = (await _readInt(iterator, val.name))?.toBool();
               break;
             case KmlTag.outline:
-              polyStyle.outline = await _readInt(iterator, val.name);
+              polyStyle.outline =
+                  (await _readInt(iterator, val.name))?.toBool();
               break;
           }
         }

@@ -11,13 +11,7 @@ import 'model/polygon.dart';
 import 'model/rte.dart';
 import 'model/trk.dart';
 import 'model/wpt.dart';
-
-/// KML 2.2 AltitudeMode values
-enum AltitudeMode {
-  absolute,
-  clampToGround,
-  relativeToGround,
-}
+import 'tools/bool_converter.dart';
 
 /// Convert Gpx into KML
 class KmlWriter {
@@ -234,7 +228,7 @@ class KmlWriter {
             _writeElement(
                 builder,
                 KmlTag.coordinates,
-                polygon.points
+                polygon.outerBoundaryIs.rtepts
                     .map((wpt) => [wpt.lon, wpt.lat].join(','))
                     .join('\n'));
           });
@@ -256,8 +250,9 @@ class KmlWriter {
       if (style.polyStyle != null) {
         builder.element(KmlTag.polyStyle, nest: () {
           _writeColorStyleElements(builder, style.polyStyle);
-          _writeElement(builder, KmlTag.fill, style.polyStyle?.fill);
-          _writeElement(builder, KmlTag.outline, style.polyStyle?.outline);
+          _writeElement(builder, KmlTag.fill, style.polyStyle?.fill?.toInt());
+          _writeElement(builder,
+              KmlTag.outline, style.polyStyle?.outline?.toInt());
         });
       }
 

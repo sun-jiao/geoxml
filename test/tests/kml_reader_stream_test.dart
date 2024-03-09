@@ -61,9 +61,12 @@ void main() {
     expect(kml.styles.length, 2);
     expect(kml.styles.first.id, equals('randomColorIcon'));
     expect(kml.styles.first.iconStyle?.x, 0.5);
-    expect(kml.rtes.length, 2);
-    expect(kml.rtes.last.style?.lineStyle?.color, 0xffffff00);
-    expect(kml.rtes.first.style?.polyStyle?.color, 0xfe00ffff);
+    expect(kml.rtes.length, 1);
+    expect(kml.rtes.first.style?.lineStyle?.color, 0xffffff00);
+    expect(kml.polygons.length, 1);
+    expect(kml.polygons.first.style?.polyStyle?.color, 0xfe00ffff);
+    expect(kml.polygons.first.outerBoundaryIs.rtepts.length, 97);
+    expect(kml.polygons.first.innerBoundaryIs.length, 2);
     expect(kml.wpts.length, 2);
     expect(kml.wpts.first.style, equals(kml.styles.first));
   });

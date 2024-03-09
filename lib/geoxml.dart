@@ -12,6 +12,7 @@ export 'src/model/geoxml.dart';
 export 'src/model/link.dart';
 export 'src/model/metadata.dart';
 export 'src/model/person.dart';
+export 'src/model/polygon.dart';
 export 'src/model/rte.dart';
 export 'src/model/trk.dart';
 export 'src/model/trkseg.dart';

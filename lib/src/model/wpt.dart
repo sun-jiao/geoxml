@@ -87,6 +87,12 @@ class Wpt implements GeoObject {
   int? dgpsid;
 
   @override
+  AltitudeMode? altitudeMode;
+
+  @override
+  bool? extrude;
+
+  @override
   GeoStyle? style;
 
   /// You can add extend GPX by adding your own elements from another schema
@@ -144,6 +150,9 @@ class Wpt implements GeoObject {
           other.pdop == pdop &&
           other.ageofdgpsdata == ageofdgpsdata &&
           other.dgpsid == dgpsid &&
+          other.style == style &&
+          other.extrude == extrude &&
+          other.altitudeMode == altitudeMode &&
           const MapEquality().equals(other.extensions, extensions);
     }
 
@@ -155,7 +164,18 @@ class Wpt implements GeoObject {
 
   @override
   String toString() =>
-      "Wpt[${[lat, lon, ele, time, name, src, extensions].join(",")}]";
+      "Wpt[${[
+        lat,
+        lon,
+        ele,
+        time,
+        name,
+        src,
+        style,
+        extrude,
+        altitudeMode,
+        extensions,
+      ].join(",")}]";
 
   @override
   int get hashCode => hashObjects([
@@ -179,6 +199,9 @@ class Wpt implements GeoObject {
         pdop,
         ageofdgpsdata,
         dgpsid,
+        style,
+        extrude,
+        altitudeMode,
         ...extensions.keys,
         ...extensions.values
       ]);

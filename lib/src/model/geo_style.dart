@@ -111,11 +111,11 @@ class LineStyle extends ColorStyle {
 /// like solid fences).
 class PolyStyle extends ColorStyle {
   /// Boolean value. Specifies whether to fill the polygon.
-  int? fill;
+  bool? fill;
 
   /// Boolean value. Specifies whether to outline the polygon.
   /// Polygon outlines use the current LineStyle.
-  int? outline;
+  bool? outline;
 
   @override
   // ignore: type_annotate_public_apis

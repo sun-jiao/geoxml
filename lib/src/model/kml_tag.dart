@@ -53,7 +53,6 @@ class KmlTag {
 
   static const extendedData = 'ExtendedData';
   static const data = 'Data';
-
   static const author = 'atom:author';
   static const authorName = 'atom:name';
   static const email = 'atom:email';

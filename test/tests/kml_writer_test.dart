@@ -3,6 +3,7 @@ library gpx.test.kml_writer_test;
 import 'dart:io';
 
 import 'package:geoxml/geoxml.dart';
+import 'package:geoxml/src/model/geo_object.dart';
 import 'package:test/test.dart';
 
 import '../tools/expect_xml.dart';

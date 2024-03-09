@@ -5,6 +5,7 @@ import '../gpx_reader.dart';
 import '../gpx_writer.dart';
 import '../kml_reader.dart';
 import '../kml_writer.dart';
+import 'geo_object.dart';
 import 'geo_style.dart';
 import 'metadata.dart';
 import 'polygon.dart';

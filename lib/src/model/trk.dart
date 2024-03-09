@@ -54,6 +54,14 @@ class Trk implements GeoObject {
   List<Trkseg> trksegs;
 
   @override
+  AltitudeMode? altitudeMode;
+
+  @override
+  bool? extrude;
+
+  bool? tessellate;
+
+  @override
   GeoStyle? style;
 
   /// Construct a new [Trk] object.
@@ -83,6 +91,10 @@ class Trk implements GeoObject {
           other.number == number &&
           other.type == type &&
           const MapEquality().equals(other.extensions, extensions) &&
+          other.style == style &&
+          other.extrude == extrude &&
+          other.tessellate == tessellate &&
+          other.altitudeMode == altitudeMode &&
           const ListEquality().equals(other.trksegs, trksegs);
     }
 
@@ -90,7 +102,16 @@ class Trk implements GeoObject {
   }
 
   @override
-  String toString() => "Trk[${[name, type, extensions, trksegs].join(",")}]";
+  String toString() => "Trk[${[
+    name,
+    type,
+    extensions,
+    style,
+    extrude,
+    tessellate,
+    altitudeMode,
+    trksegs,
+  ].join(",")}]";
 
   @override
   int get hashCode => hashObjects([
@@ -100,6 +121,10 @@ class Trk implements GeoObject {
         src,
         number,
         type,
+        style,
+        extrude,
+        tessellate,
+        altitudeMode,
         ...links,
         ...extensions.keys,
         ...extensions.values,
