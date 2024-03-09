@@ -295,8 +295,10 @@ class BalloonStyle {
   /// where alpha=0x7f, blue=0xff, green=0x00, and red=0x00. The default is
   /// opaque white (ffffffff).
   int? bgColor;
+
   /// Foreground color for text. The default is black (ff000000).
   int? textColor = 0xff000000;
+
   /// Text displayed in the balloon. If no text is specified, Google Earth
   /// draws the default balloon (with the Feature <name> in boldface, the
   /// Feature <description>, links for driving directions, a white background,
@@ -304,18 +306,19 @@ class BalloonStyle {
   /// specified).
   ///
   /// You can add entities to the <text> tag using the following format to
-  /// refer to a child element of Feature: $[name], $[description], $[address],
-  /// $[id], $[Snippet]. Google Earth looks in the current Feature for the
+  /// refer to a child element of Feature: name, description, address,
+  /// id, Snippet. Google Earth looks in the current Feature for the
   /// corresponding string entity and substitutes that information in the
   /// balloon. To include To here - From here driving directions in the balloon,
-  /// use the $[geDirections] tag. To prevent the driving directions links from
+  /// use the geDirections tag. To prevent the driving directions links from
   /// appearing in a balloon, include the <text> element with some content, or
-  /// with $[description] to substitute the basic Feature <description>.
+  /// with description to substitute the basic Feature <description>.
   ///
-  /// For example, in the following KML excerpt, $[name] and $[description]
+  /// For example, in the following KML excerpt, name and description
   /// fields will be replaced by the <name> and <description> fields found in
   /// the Feature elements that use this BalloonStyle:
   String text = '';
+
   /// If <displayMode> is default, Google Earth uses the information
   /// supplied in <text> to create a balloon . If <displayMode> is hide,
   /// Google Earth does not display the balloon. In Google Earth, clicking
@@ -337,7 +340,8 @@ class BalloonStyle {
   }
 
   @override
-  String toString() => "BalloonStyle[${[bgColor, textColor, text, show].join(",")}]";
+  String toString() =>
+      "BalloonStyle[${[bgColor, textColor, text, show].join(",")}]";
 
   @override
   int get hashCode => hashObjects([
@@ -348,8 +352,8 @@ class BalloonStyle {
       ]);
 }
 
-class ListStyle {
-  ListStyle() {
-    throw UnimplementedError();
-  }
-}
+// class ListStyle {
+//   ListStyle() {
+//     throw UnimplementedError();
+//   }
+// }
