@@ -163,8 +163,7 @@ class Wpt implements GeoObject {
       other.lat == lat && other.lon == lon && other.ele == ele;
 
   @override
-  String toString() =>
-      "Wpt[${[
+  String toString() => "Wpt[${[
         lat,
         lon,
         ele,

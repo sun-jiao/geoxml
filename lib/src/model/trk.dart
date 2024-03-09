@@ -103,15 +103,15 @@ class Trk implements GeoObject {
 
   @override
   String toString() => "Trk[${[
-    name,
-    type,
-    extensions,
-    style,
-    extrude,
-    tessellate,
-    altitudeMode,
-    trksegs,
-  ].join(",")}]";
+        name,
+        type,
+        extensions,
+        style,
+        extrude,
+        tessellate,
+        altitudeMode,
+        trksegs,
+      ].join(",")}]";
 
   @override
   int get hashCode => hashObjects([

@@ -198,12 +198,10 @@ class KmlReader {
               polygon = Polygon();
               break;
             case KmlTag.extrude:
-              item.extrude =
-                  (await _readInt(iterator, val.name))?.toBool();
+              item.extrude = (await _readInt(iterator, val.name))?.toBool();
               break;
             case KmlTag.tessellate:
-              tessellate =
-                  (await _readInt(iterator, val.name))?.toBool();
+              tessellate = (await _readInt(iterator, val.name))?.toBool();
               break;
             case KmlTag.altitudeMode:
               item.altitudeMode =
@@ -217,8 +215,9 @@ class KmlReader {
               break;
             case KmlTag.innerBoundaryIs:
               polygon = polygon ?? Polygon();
-              polygon.innerBoundaryIs.addAll((await _readCoordinates(iterator,
-                  val.name)).map((e) => Rte(rtepts: e)));
+              polygon.innerBoundaryIs.addAll(
+                  (await _readCoordinates(iterator, val.name))
+                      .map((e) => Rte(rtepts: e)));
               break;
             case KmlTag.style:
               style = await _readStyle(iterator, val.name);
@@ -978,12 +977,12 @@ class KmlReader {
         if (val is XmlStartElementEvent) {
           switch (val.name) {
             case KmlTag.bgColor:
-              balloonStyle.bgColor = await _readInt(iterator, val.name, 16)
-                  ?? balloonStyle.bgColor;
+              balloonStyle.bgColor = await _readInt(iterator, val.name, 16) ??
+                  balloonStyle.bgColor;
               break;
             case KmlTag.textColor:
-              balloonStyle.textColor = await _readInt(iterator, val.name, 16)
-                  ?? balloonStyle.textColor;
+              balloonStyle.textColor = await _readInt(iterator, val.name, 16) ??
+                  balloonStyle.textColor;
               break;
             case KmlTag.text:
               balloonStyle.text = await _readString(iterator, val.name) ?? '';

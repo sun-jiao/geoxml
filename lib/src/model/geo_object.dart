@@ -39,7 +39,6 @@ class GeoObject {
   AltitudeMode? altitudeMode;
 }
 
-
 enum AltitudeMode {
   clampToGround,
   relativeToGround,

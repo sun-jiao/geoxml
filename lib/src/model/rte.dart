@@ -101,15 +101,15 @@ class Rte implements GeoObject {
 
   @override
   String toString() => "Rte[${[
-    name,
-    type,
-    extensions,
-    style,
-    extrude,
-    tessellate,
-    altitudeMode,
-    rtepts,
-  ].join(",")}]";
+        name,
+        type,
+        extensions,
+        style,
+        extrude,
+        tessellate,
+        altitudeMode,
+        rtepts,
+      ].join(",")}]";
 
   @override
   int get hashCode => hashObjects([

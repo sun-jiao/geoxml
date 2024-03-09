@@ -65,22 +65,21 @@ class Polygon implements GeoObject {
   List<Rte> innerBoundaryIs;
 
   /// Construct a new [Trk] object.
-  Polygon(
-      {this.name,
-        this.cmt,
-        this.desc,
-        this.src,
-        List<Link>? links,
-        this.number,
-        this.type,
-        Map<String, String>? extensions,
-        this.extrude,
-        this.tessellate,
-        this.altitudeMode,
-        Rte? outerBoundaryIs,
-        List<Rte>? innerBoundaryIs,
-      })
-      : links = links ?? [],
+  Polygon({
+    this.name,
+    this.cmt,
+    this.desc,
+    this.src,
+    List<Link>? links,
+    this.number,
+    this.type,
+    Map<String, String>? extensions,
+    this.extrude,
+    this.tessellate,
+    this.altitudeMode,
+    Rte? outerBoundaryIs,
+    List<Rte>? innerBoundaryIs,
+  })  : links = links ?? [],
         extensions = extensions ?? <String, String>{},
         outerBoundaryIs = outerBoundaryIs ?? Rte(),
         innerBoundaryIs = innerBoundaryIs ?? [];
@@ -110,32 +109,32 @@ class Polygon implements GeoObject {
 
   @override
   String toString() => "Polygon[${[
-    name,
-    type,
-    extensions,
-    style,
-    extrude,
-    tessellate,
-    altitudeMode,
-    outerBoundaryIs,
-    innerBoundaryIs
-  ].join(",")}]";
+        name,
+        type,
+        extensions,
+        style,
+        extrude,
+        tessellate,
+        altitudeMode,
+        outerBoundaryIs,
+        innerBoundaryIs
+      ].join(",")}]";
 
   @override
   int get hashCode => hashObjects([
-    name,
-    cmt,
-    desc,
-    src,
-    number,
-    type,
-    extrude,
-    tessellate,
-    altitudeMode,
-    outerBoundaryIs,
-    ...links,
-    ...extensions.keys,
-    ...extensions.values,
-    ...innerBoundaryIs
-  ]);
+        name,
+        cmt,
+        desc,
+        src,
+        number,
+        type,
+        extrude,
+        tessellate,
+        altitudeMode,
+        outerBoundaryIs,
+        ...links,
+        ...extensions.keys,
+        ...extensions.values,
+        ...innerBoundaryIs
+      ]);
 }

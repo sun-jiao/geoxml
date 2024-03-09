@@ -120,8 +120,9 @@ class KmlWriter {
       _writeAtomLinks(builder, item.links);
 
       if (item.style != null) {
-        if (item.style!.id != null && item.style!.id!.isNotEmpty
-            && geoXml.styles.contains(item.style)) {
+        if (item.style!.id != null &&
+            item.style!.id!.isNotEmpty &&
+            geoXml.styles.contains(item.style)) {
           _writeElement(builder, KmlTag.styleUrl, '#${item.style!.id}');
         } else {
           _writeStyle(builder, item.style!);
@@ -206,8 +207,9 @@ class KmlWriter {
 
       // Style the polygon.
       if (polygon.style != null) {
-        if (polygon.style!.id != null && polygon.style!.id!.isNotEmpty
-            && geoXml.styles.contains(polygon.style)) {
+        if (polygon.style!.id != null &&
+            polygon.style!.id!.isNotEmpty &&
+            geoXml.styles.contains(polygon.style)) {
           _writeElement(builder, KmlTag.styleUrl, '#${polygon.style!.id}');
         } else {
           _writeStyle(builder, polygon.style!);
@@ -251,8 +253,8 @@ class KmlWriter {
         builder.element(KmlTag.polyStyle, nest: () {
           _writeColorStyleElements(builder, style.polyStyle);
           _writeElement(builder, KmlTag.fill, style.polyStyle?.fill?.toInt());
-          _writeElement(builder,
-              KmlTag.outline, style.polyStyle?.outline?.toInt());
+          _writeElement(
+              builder, KmlTag.outline, style.polyStyle?.outline?.toInt());
         });
       }
 
@@ -267,9 +269,9 @@ class KmlWriter {
           _writeElement(builder, KmlTag.scale, style.iconStyle?.scale);
           _writeElement(builder, KmlTag.heading, style.iconStyle?.heading);
           if (style.iconStyle?.x != null &&
-          style.iconStyle?.y != null &&
-          style.iconStyle?.xunit != null &&
-          style.iconStyle?.yunit != null){
+              style.iconStyle?.y != null &&
+              style.iconStyle?.xunit != null &&
+              style.iconStyle?.yunit != null) {
             builder.element(KmlTag.hotSpot, attributes: {
               KmlTag.hotSpotX: style.iconStyle!.x!.toString(),
               KmlTag.hotSpotY: style.iconStyle!.y!.toString(),
@@ -293,8 +295,7 @@ class KmlWriter {
               style.balloonStyle!.bgColor.toRadixString(16));
           _writeElement(builder, KmlTag.textColor,
               style.balloonStyle!.textColor.toRadixString(16));
-          _writeElement(builder, KmlTag.text,
-              style.balloonStyle!.text);
+          _writeElement(builder, KmlTag.text, style.balloonStyle!.text);
           _writeElement(builder, KmlTag.displayMode,
               style.balloonStyle!.show ? 'default' : 'hide');
         });
@@ -306,10 +307,8 @@ class KmlWriter {
     if (colorStyle == null) {
       return;
     }
-    _writeElement(builder,
-        KmlTag.color, colorStyle.color?.toRadixString(16));
-    _writeElement(builder,
-        KmlTag.colorMode, colorStyle.colorMode?.name);
+    _writeElement(builder, KmlTag.color, colorStyle.color?.toRadixString(16));
+    _writeElement(builder, KmlTag.colorMode, colorStyle.colorMode?.name);
   }
 
   void _writePoint(XmlBuilder builder, Wpt wpt, GeoXml geoXml) {
@@ -320,10 +319,11 @@ class KmlWriter {
       _writeElementWithTime(builder, wpt.time);
 
       _writeAtomLinks(builder, wpt.links);
-      
+
       if (wpt.style != null) {
-        if (wpt.style!.id != null && wpt.style!.id!.isNotEmpty
-            && geoXml.styles.contains(wpt.style)) {
+        if (wpt.style!.id != null &&
+            wpt.style!.id!.isNotEmpty &&
+            geoXml.styles.contains(wpt.style)) {
           _writeElement(builder, KmlTag.styleUrl, '#${wpt.style!.id}');
         } else {
           _writeStyle(builder, wpt.style!);
