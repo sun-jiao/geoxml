@@ -294,10 +294,10 @@ class BalloonStyle {
   /// overlay, you would specify the following: <bgColor>7fff0000</bgColor>,
   /// where alpha=0x7f, blue=0xff, green=0x00, and red=0x00. The default is
   /// opaque white (ffffffff).
-  int? bgColor;
+  int bgColor = 0xffffffff;
 
   /// Foreground color for text. The default is black (ff000000).
-  int? textColor = 0xff000000;
+  int textColor = 0xff000000;
 
   /// Text displayed in the balloon. If no text is specified, Google Earth
   /// draws the default balloon (with the Feature <name> in boldface, the

@@ -7,6 +7,7 @@ import '../kml_reader.dart';
 import '../kml_writer.dart';
 import 'geo_style.dart';
 import 'metadata.dart';
+import 'polygon.dart';
 import 'rte.dart';
 import 'trk.dart';
 import 'wpt.dart';
@@ -35,6 +36,8 @@ class GeoXml {
   /// A list of tracks.
   List<Trk> trks = [];
 
+  List<Polygon> polygons = [];
+
   List<GeoStyle> styles = [];
 
   /// You can add extend GPX by adding your own elements from another schema
@@ -51,6 +54,7 @@ class GeoXml {
           const ListEquality().equals(other.wpts, wpts) &&
           const ListEquality().equals(other.rtes, rtes) &&
           const ListEquality().equals(other.trks, trks) &&
+          const ListEquality().equals(other.polygons, polygons) &&
           const ListEquality().equals(other.styles, styles) &&
           const MapEquality().equals(other.extensions, extensions);
     }
@@ -66,6 +70,7 @@ class GeoXml {
         wpts,
         rtes,
         trks,
+        polygons,
         styles,
         extensions
       ].join(",")}]";
@@ -80,6 +85,7 @@ class GeoXml {
         ...trks,
         ...rtes,
         ...wpts,
+        ...polygons,
         ...styles
       ]);
 

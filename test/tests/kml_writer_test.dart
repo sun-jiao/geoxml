@@ -64,6 +64,15 @@ void main() {
         xml);
   });
 
+  // test('write styled kml', () async {
+  //   final kmlString = await File('test/assets/style_test.kml').readAsString();
+  //   final kml = await GeoXml.fromKmlString(kmlString);
+  //   final kmlOutput = KmlWriter().asString(kml, pretty: true);
+  //   print(kmlOutput);
+  //
+  //   expectXml(kmlOutput, kmlString);
+  // });
+
   test('write large kml', () async {
     final gpx = await GpxReader()
         .fromString(await File('test/assets/large.gpx').readAsString());

@@ -1,11 +1,13 @@
 import 'package:xml/xml.dart';
 
 import 'model/geo_object.dart';
+import 'model/geo_style.dart';
 import 'model/geoxml.dart';
 import 'model/gpx_tag.dart';
 import 'model/kml_tag.dart';
 import 'model/link.dart';
 import 'model/metadata.dart';
+import 'model/polygon.dart';
 import 'model/rte.dart';
 import 'model/trk.dart';
 import 'model/wpt.dart';
@@ -53,23 +55,27 @@ class KmlWriter {
           _writeMetadata(builder, geoXml.metadata!);
         }
 
-        for (final wpt in geoXml.wpts) {
-          _writePoint(builder, KmlTag.placemark, wpt);
+        for (final style in geoXml.styles) {
+          _writeStyle(builder, style);
         }
 
-        // for (final polygon in gpx.polygons) {
-        //   _writePolygon(builder, polygon);
-        // }
+        for (final wpt in geoXml.wpts) {
+          _writePoint(builder, wpt, geoXml);
+        }
+
+        for (final polygon in geoXml.polygons) {
+          _writePolygon(builder, polygon, geoXml);
+        }
 
         for (final rte in geoXml.rtes) {
-          _writeTrackRoute(builder, rte);
+          _writeTrackRoute(builder, rte, geoXml);
         }
 
         for (final trk in geoXml.trks) {
           if (trk.trksegs
               .expand((trkseg) => trkseg.trkpts)
               .any((element) => element.time == null)) {
-            _writeTrackRoute(builder, trk);
+            _writeTrackRoute(builder, trk, geoXml);
           } else {
             _writeTrack(builder, trk);
           }
@@ -113,11 +119,20 @@ class KmlWriter {
     });
   }
 
-  void _writeTrackRoute(XmlBuilder builder, GeoObject item) {
+  void _writeTrackRoute(XmlBuilder builder, GeoObject item, GeoXml geoXml) {
     builder.element(KmlTag.placemark, nest: () {
       _writeElement(builder, GpxTag.name, item.name);
       _writeElement(builder, GpxTag.desc, item.desc);
       _writeAtomLinks(builder, item.links);
+
+      if (item.style != null) {
+        if (item.style!.id != null && item.style!.id!.isNotEmpty
+            && geoXml.styles.contains(item.style)) {
+          _writeElement(builder, KmlTag.styleUrl, '#${item.style!.id}');
+        } else {
+          _writeStyle(builder, item.style!);
+        }
+      }
 
       builder.element(KmlTag.extendedData, nest: () {
         _writeExtendedElement(builder, GpxTag.comment, item.cmt);
@@ -189,57 +204,136 @@ class KmlWriter {
     });
   }
 
-  // void _writePolygon(XmlBuilder builder, Polygon polygon) {
-  //   builder.element(KmlTag.placemark, nest: () {
-  //     _writeElement(builder, KmlTag.name, polygon.name);
-  //     _writeElement(builder, KmlTag.desc, polygon.desc);
-  //     _writeAtomLinks(builder, polygon.links);
-  //
-  //     // Style the polygon.
-  //     builder.element(KmlTag.style, nest: () {
-  //       builder.element(KmlTag.lineStyle, nest: () {
-  //         _writeElement(builder, KmlTag.color,
-  //             polygon.outlineColor.toRadixString(16));
-  //         _writeElement(builder, KmlTag.width, polygon.outlineWidth);
-  //       });
-  //       builder.element(KmlTag.polyStyle, nest: () {
-  //         _writeElement(
-  //             builder, KmlTag.color, polygon.fillColor.toRadixString(16));
-  //         _writeElement(builder, KmlTag.outline, 0);
-  //       });
-  //     });
-  //
-  //     builder.element(KmlTag.extendedData, nest: () {
-  //       _writeExtendedElement(builder, GpxTag.comment, polygon.cmt);
-  //       _writeExtendedElement(builder, GpxTag.type, polygon.type);
-  //
-  //       _writeExtendedElement(builder, GpxTag.src, polygon.src);
-  //       _writeExtendedElement(builder, GpxTag.number, polygon.number);
-  //     });
-  //
-  //     builder.element(KmlTag.polygon, nest: () {
-  //       builder.element(KmlTag.outerBoundaryIs, nest: () {
-  //         builder.element(KmlTag.linearRing, nest: () {
-  //           _writeElement(
-  //               builder,
-  //               KmlTag.coordinates,
-  //               polygon.points
-  //                   .map((wpt) => [wpt.lon, wpt.lat].join(','))
-  //                   .join('\n'));
-  //         });
-  //       });
-  //     });
-  //   });
-  // }
+  void _writePolygon(XmlBuilder builder, Polygon polygon, GeoXml geoXml) {
+    builder.element(KmlTag.placemark, nest: () {
+      _writeElement(builder, KmlTag.name, polygon.name);
+      _writeElement(builder, KmlTag.desc, polygon.desc);
+      _writeAtomLinks(builder, polygon.links);
 
-  void _writePoint(XmlBuilder builder, String tagName, Wpt wpt) {
-    builder.element(tagName, nest: () {
+      // Style the polygon.
+      if (polygon.style != null) {
+        if (polygon.style!.id != null && polygon.style!.id!.isNotEmpty
+            && geoXml.styles.contains(polygon.style)) {
+          _writeElement(builder, KmlTag.styleUrl, '#${polygon.style!.id}');
+        } else {
+          _writeStyle(builder, polygon.style!);
+        }
+      }
+
+      builder.element(KmlTag.extendedData, nest: () {
+        _writeExtendedElement(builder, GpxTag.comment, polygon.cmt);
+        _writeExtendedElement(builder, GpxTag.type, polygon.type);
+
+        _writeExtendedElement(builder, GpxTag.src, polygon.src);
+        _writeExtendedElement(builder, GpxTag.number, polygon.number);
+      });
+
+      builder.element(KmlTag.polygon, nest: () {
+        builder.element(KmlTag.outerBoundaryIs, nest: () {
+          builder.element(KmlTag.linearRing, nest: () {
+            _writeElement(
+                builder,
+                KmlTag.coordinates,
+                polygon.points
+                    .map((wpt) => [wpt.lon, wpt.lat].join(','))
+                    .join('\n'));
+          });
+        });
+      });
+    });
+  }
+
+  void _writeStyle(XmlBuilder builder, GeoStyle style) {
+    builder.element(KmlTag.style,
+        attributes: style.id != null ? {KmlTag.id: style.id!} : {}, nest: () {
+      if (style.lineStyle != null) {
+        builder.element(KmlTag.lineStyle, nest: () {
+          _writeColorStyleElements(builder, style.lineStyle);
+          _writeElement(builder, KmlTag.width, style.lineStyle?.width);
+        });
+      }
+
+      if (style.polyStyle != null) {
+        builder.element(KmlTag.polyStyle, nest: () {
+          _writeColorStyleElements(builder, style.polyStyle);
+          _writeElement(builder, KmlTag.fill, style.polyStyle?.fill);
+          _writeElement(builder, KmlTag.outline, style.polyStyle?.outline);
+        });
+      }
+
+      if (style.iconStyle != null) {
+        builder.element(KmlTag.iconStyle, nest: () {
+          _writeColorStyleElements(builder, style.iconStyle);
+          if (style.iconStyle?.iconUrl != null) {
+            builder.element(KmlTag.icon, nest: () {
+              _writeElement(builder, KmlTag.href, style.iconStyle?.iconUrl);
+            });
+          }
+          _writeElement(builder, KmlTag.scale, style.iconStyle?.scale);
+          _writeElement(builder, KmlTag.heading, style.iconStyle?.heading);
+          if (style.iconStyle?.x != null &&
+          style.iconStyle?.y != null &&
+          style.iconStyle?.xunit != null &&
+          style.iconStyle?.yunit != null){
+            builder.element(KmlTag.hotSpot, attributes: {
+              KmlTag.hotSpotX: style.iconStyle!.x!.toString(),
+              KmlTag.hotSpotY: style.iconStyle!.y!.toString(),
+              KmlTag.xunits: style.iconStyle!.xunit!.name,
+              KmlTag.yunits: style.iconStyle!.yunit!.name,
+            });
+          }
+        });
+      }
+
+      if (style.labelStyle != null) {
+        builder.element(KmlTag.labelStyle, nest: () {
+          _writeColorStyleElements(builder, style.labelStyle);
+          _writeElement(builder, KmlTag.scale, style.labelStyle?.scale);
+        });
+      }
+
+      if (style.balloonStyle != null) {
+        builder.element(KmlTag.balloonStyle, nest: () {
+          _writeElement(builder, KmlTag.bgColor,
+              style.balloonStyle!.bgColor.toRadixString(16));
+          _writeElement(builder, KmlTag.textColor,
+              style.balloonStyle!.textColor.toRadixString(16));
+          _writeElement(builder, KmlTag.text,
+              style.balloonStyle!.text);
+          _writeElement(builder, KmlTag.displayMode,
+              style.balloonStyle!.show ? 'default' : 'hide');
+        });
+      }
+    });
+  }
+
+  void _writeColorStyleElements(XmlBuilder builder, ColorStyle? colorStyle) {
+    if (colorStyle == null) {
+      return;
+    }
+    _writeElement(builder,
+        KmlTag.color, colorStyle.color?.toRadixString(16));
+    _writeElement(builder,
+        KmlTag.colorMode, colorStyle.colorMode?.name);
+  }
+
+  void _writePoint(XmlBuilder builder, Wpt wpt, GeoXml geoXml) {
+    builder.element(KmlTag.placemark, nest: () {
       _writeElement(builder, KmlTag.name, wpt.name);
       _writeElement(builder, KmlTag.desc, wpt.desc);
 
       _writeElementWithTime(builder, wpt.time);
 
       _writeAtomLinks(builder, wpt.links);
+      
+      if (wpt.style != null) {
+        if (wpt.style!.id != null && wpt.style!.id!.isNotEmpty
+            && geoXml.styles.contains(wpt.style)) {
+          _writeElement(builder, KmlTag.styleUrl, '#${wpt.style!.id}');
+        } else {
+          _writeStyle(builder, wpt.style!);
+        }
+      }
 
       builder.element(KmlTag.extendedData, nest: () {
         _writeExtendedElement(builder, GpxTag.magVar, wpt.magvar);
