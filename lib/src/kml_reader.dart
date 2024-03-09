@@ -886,13 +886,6 @@ class KmlReader {
         final val = iterator.current;
         if (val is XmlStartElementEvent) {
           switch (val.name) {
-            case KmlTag.color:
-              balloonStyle.color = await _readInt(iterator, val.name, 16);
-              break;
-            case KmlTag.colorMode:
-              balloonStyle.colorMode =
-                  await _readEnum(iterator, val.name, ColorMode.values);
-              break;
             case KmlTag.bgColor:
               balloonStyle.bgColor = await _readInt(iterator, val.name, 16);
               break;
