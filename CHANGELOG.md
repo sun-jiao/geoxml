@@ -1,3 +1,7 @@
+## [2.6.1]
+
+* show AltitudeMode
+
 ## [2.6.0]
 
 * Add `Style` support for kml.
