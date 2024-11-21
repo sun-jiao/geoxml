@@ -140,6 +140,13 @@ class KmlReader {
     return metadata;
   }
 
+  String _convertHtmlToText(String input) {
+    input = input.replaceAll(RegExp(r'<br\s*/?>', caseSensitive: false), '\n');
+
+    final htmlTagRegex = RegExp(r'<[^>]*>');
+    return input.replaceAll(htmlTagRegex, '').trim();
+  }
+
   Future<GeoObject> _readPlacemark(
       StreamIterator<XmlEvent> iterator, String tagName, GeoXml geoXml) async {
     final item = GeoObject();
@@ -162,7 +169,8 @@ class KmlReader {
               item.name = await _readString(iterator, val.name);
               break;
             case KmlTag.desc:
-              item.desc = await _readString(iterator, val.name);
+              final rawDesc = await _readString(iterator, val.name);
+              item.desc = rawDesc != null ? _convertHtmlToText(rawDesc) : null;
               break;
             case GpxTag.desc:
               item.desc = await _readString(iterator, val.name);
@@ -229,8 +237,10 @@ class KmlReader {
                   styleUrl = styleUrl.substring(1);
                 }
 
-                style = geoXml.styles
-                    .firstWhere((element) => element.id == styleUrl);
+                style = geoXml.styles.firstWhere(
+                  (element) => element.id == styleUrl,
+                  orElse: GeoStyle.new,
+                );
               }
               break;
           }
