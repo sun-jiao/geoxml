@@ -1,3 +1,8 @@
+## [2.6.2]
+
+* fix null style
+* update dependencies
+
 ## [2.6.1]
 
 * show AltitudeMode

@@ -1,6 +1,6 @@
 name: geoxml
 description: Package for loading, manipulating, and saving GPS data in GPX and KML format.
-version: 2.6.1
+version: 2.6.2
 homepage: https://github.com/sun-jiao/geoxml/
 
 environment:
