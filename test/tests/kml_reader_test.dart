@@ -1,4 +1,4 @@
-library kml.test.kml_reader_test;
+library;
 
 import 'dart:io';
 

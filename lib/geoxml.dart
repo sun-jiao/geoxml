@@ -1,4 +1,4 @@
-library gpx;
+library;
 
 export 'src/gpx_reader.dart';
 export 'src/gpx_writer.dart';

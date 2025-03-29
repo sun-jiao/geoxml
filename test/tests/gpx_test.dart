@@ -1,4 +1,4 @@
-library gpx.test.gpx_test;
+library;
 
 import 'package:geoxml/geoxml.dart';
 import 'package:test/test.dart';

@@ -1,4 +1,4 @@
-library gpx.test.gpx_reader_test;
+library;
 
 import 'dart:io';
 

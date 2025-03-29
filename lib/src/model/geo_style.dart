@@ -56,12 +56,12 @@ abstract class ColorStyle {
   /// is aabbggrr, where aa=alpha (00 to ff); bb=blue (00 to ff); gg=green
   /// (00 to ff); rr=red (00 to ff). For example, if you want to apply a blue
   /// color with 50 percent opacity to an overlay, you would specify the
-  /// following: <color>7fff0000</color>, where alpha=0x7f, blue=0xff,
+  /// following: `<color>7fff0000</color>`, where alpha=0x7f, blue=0xff,
   /// green=0x00, and red=0x00.
   int? color;
 
-  /// Values for <colorMode> are normal (no effect) and random. A value of
-  /// random applies a random linear scale to the base <color> as follows.
+  /// Values for `<colorMode>` are normal (no effect) and random. A value of
+  /// random applies a random linear scale to the base `<color>` as follows.
   ///
   // * To achieve a truly random selection of colors, specify a base <color>
   //   of white (ffffffff).
@@ -167,13 +167,13 @@ enum HotspotUnits {
 }
 
 /// Specifies how icons for point Placemarks are drawn, both in the Places panel
-/// and in the 3D viewer of Google Earth. The <Icon> element specifies the icon
-/// image. The <scale> element specifies the x, y scaling of the icon. The color
-/// specified in the <color> element of <IconStyle> is blended with the color of
-/// the <Icon>.
+/// and in the 3D viewer of Google Earth. The `<Icon>` element specifies the
+/// icon image. The `<scale>` element specifies the x, y scaling of the icon.
+/// The color specified in the `<color>` element of `<IconStyle>` is blended
+/// with the color of the `<Icon>`.
 class IconStyle extends ColorStyle {
   /// An HTTP address or a local file specification used to load an icon.
-  /// It is a <href> element nested in <Icon>.
+  /// It is a `<href>` element nested in `<Icon>`.
   String? iconUrl;
 
   /// Resizes scale of the icon.
@@ -184,7 +184,7 @@ class IconStyle extends ColorStyle {
   double? heading;
 
   /// the following 4 filed are attributes of hotSpot element, for example:
-  /// <hotSpot x="0.5" y="0.5" xunits="fraction" yunits="fraction">
+  /// `<hotSpot x="0.5" y="0.5" xunits="fraction" yunits="fraction">`
 
   /// x - Either the number of pixels, a fractional component of the icon, or a
   /// pixel inset indicating the x component of a point on the icon.
@@ -251,7 +251,7 @@ class IconStyle extends ColorStyle {
       ]);
 }
 
-/// Specifies how the <name> of a Feature is drawn in the 3D viewer. A custom
+/// Specifies how the `<name>` of a Feature is drawn in the 3D viewer. A custom
 /// color, color mode, and scale for the label (name) can be specified.
 class LabelStyle extends ColorStyle {
   /// Resizes scale of the label.
@@ -281,9 +281,9 @@ class LabelStyle extends ColorStyle {
 }
 
 /// Specifies how the description balloon for placemarks is drawn.
-/// The <bgColor>, if specified, is used as the background color of the balloon.
-/// See <Feature> for a diagram illustrating how the default description balloon
-/// appears in Google Earth.
+/// The `<bgColor>`, if specified, is used as the background color of the
+/// balloon. See `<Feature>` for a diagram illustrating how the default
+/// description balloon appears in Google Earth.
 class BalloonStyle {
   /// Background color of the balloon (optional). Color and opacity (alpha)
   /// values are expressed in hexadecimal notation. The range of values for any
@@ -291,7 +291,7 @@ class BalloonStyle {
   /// where aa=alpha (00 to ff); bb=blue (00 to ff); gg=green (00 to ff); rr=red
   /// (00 to ff). For alpha, 00 is fully transparent and ff is fully opaque. For
   /// example, if you want to apply a blue color with 50 percent opacity to an
-  /// overlay, you would specify the following: <bgColor>7fff0000</bgColor>,
+  /// overlay, you would specify the following: `<bgColor>7fff0000</bgColor>`,
   /// where alpha=0x7f, blue=0xff, green=0x00, and red=0x00. The default is
   /// opaque white (ffffffff).
   int bgColor = 0xffffffff;
@@ -300,29 +300,29 @@ class BalloonStyle {
   int textColor = 0xff000000;
 
   /// Text displayed in the balloon. If no text is specified, Google Earth
-  /// draws the default balloon (with the Feature <name> in boldface, the
-  /// Feature <description>, links for driving directions, a white background,
+  /// draws the default balloon (with the Feature `<name>` in boldface, the
+  /// Feature `<description>`, links for driving directions, a white background,
   /// and a tail that is attached to the point coordinates of the Feature, if
   /// specified).
   ///
-  /// You can add entities to the <text> tag using the following format to
+  /// You can add entities to the `<text>` tag using the following format to
   /// refer to a child element of Feature: name, description, address,
   /// id, Snippet. Google Earth looks in the current Feature for the
   /// corresponding string entity and substitutes that information in the
   /// balloon. To include To here - From here driving directions in the balloon,
   /// use the geDirections tag. To prevent the driving directions links from
-  /// appearing in a balloon, include the <text> element with some content, or
-  /// with description to substitute the basic Feature <description>.
+  /// appearing in a balloon, include the `<text>` element with some content, or
+  /// with description to substitute the basic Feature `<description>`.
   ///
   /// For example, in the following KML excerpt, name and description
-  /// fields will be replaced by the <name> and <description> fields found in
-  /// the Feature elements that use this BalloonStyle:
+  /// fields will be replaced by the `<name>` and `<description>` fields found
+  /// in the Feature elements that use this BalloonStyle:
   String text = '';
 
-  /// If <displayMode> is default, Google Earth uses the information
-  /// supplied in <text> to create a balloon . If <displayMode> is hide,
+  /// If `<displayMode>` is default, Google Earth uses the information
+  /// supplied in `<text>` to create a balloon . If `<displayMode>` is hide,
   /// Google Earth does not display the balloon. In Google Earth, clicking
-  /// the List View icon for a Placemark whose balloon's <displayMode> is
+  /// the List View icon for a Placemark whose balloon's `<displayMode>` is
   /// hide causes Google Earth to fly to the Placemark.
   bool show = true;
 

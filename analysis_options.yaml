@@ -70,7 +70,7 @@ linter:
     - one_member_abstracts
     - only_throw_errors
     - overridden_fields
-    - package_api_docs
+#    - package_api_docs
     - package_names
     - package_prefixed_library_names
     # - parameter_assignments
@@ -134,7 +134,7 @@ linter:
     - unnecessary_parenthesis
     - unnecessary_statements
     - unnecessary_this
-    - unsafe_html
+#    - unsafe_html
     - unrelated_type_equality_checks
     - use_full_hex_values_for_flutter_colors
     - use_function_type_syntax_for_parameters

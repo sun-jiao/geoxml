@@ -1,4 +1,4 @@
-library gpx.test.all_test;
+library;
 
 import 'package:test/test.dart';
 
