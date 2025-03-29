@@ -237,10 +237,11 @@ class KmlReader {
                   styleUrl = styleUrl.substring(1);
                 }
 
-                style = geoXml.styles.firstWhere(
-                  (element) => element.id == styleUrl,
-                  orElse: GeoStyle.new,
-                );
+                // This allows to return null within `orElse`
+                style = geoXml.styles.cast<GeoStyle?>().firstWhere(
+                      (element) => element != null && element.id == styleUrl,
+                      orElse: () => null,
+                    );
               }
               break;
           }
